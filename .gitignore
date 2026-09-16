@@ -1,0 +1,12 @@
+# Mengabaikan folder hasil build
+target/
+*/target/
+
+# Mengabaikan file konfigurasi lokal IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Mengabaikan file sistem operasi
+.DS_Store
+Thumbs.db
