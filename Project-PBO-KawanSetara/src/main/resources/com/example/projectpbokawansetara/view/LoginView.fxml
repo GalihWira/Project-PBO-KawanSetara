@@ -6,4 +6,4 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.example.projectpbokawansetara.controller.LoginController">
 
-</Anch  orPane>
+</AnchorPane>
