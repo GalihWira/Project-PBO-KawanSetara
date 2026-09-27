@@ -2,31 +2,45 @@
 
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
-   <children>
-      <Label layoutX="87.0" layoutY="87.0" text="Email      :">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </Label>
-      <TextField fx:id="emailField" layoutX="223.0" layoutY="96.0" />
-      <Label layoutX="85.0" layoutY="141.0" text="Password:">
-         <font>
-            <Font size="29.0" />
-         </font>
-      </Label>
-      <Button layoutX="223.0" layoutY="209.0" mnemonicParsing="false" onAction="#handleLoginButton" text="Login" />
-      <PasswordField fx:id="passwordField" layoutX="223.0" layoutY="150.0" />
-      <Label fx:id="statusLabel" layoutX="165.0" layoutY="38.0" prefHeight="49.0" prefWidth="508.0">
-         <font>
-            <Font size="18.0" />
-         </font>
-      </Label>
-   </children>
-</AnchorPane>
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1">
+   <left>
+      <AnchorPane prefHeight="200.0" prefWidth="250.0" style="-fx-background-color: #abc4ff;" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="39.0" layoutY="29.0" text="Masuk ke KawanSetara">
+               <font>
+                  <Font name="Segoe UI Black" size="24.0" />
+               </font>
+            </Label>
+            <Label layoutX="39.0" layoutY="89.0" text="Username">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font></Label>
+            <Label layoutX="39.0" layoutY="143.0" text="Password">
+               <font>
+                  <Font name="Arial" size="24.0" />
+               </font>
+            </Label>
+            <TextField layoutX="163.0" layoutY="90.0" style="-fx-background-color: transparent; -fx-border-color: #a2a2a2; -fx-border-width: 0px 0px 1 0px;" />
+            <TextField layoutX="163.0" layoutY="145.0" style="-fx-background-color: transparent; -fx-border-color: #a2a2a2; -fx-border-width: 0px 0px 1px 0px;" />
+            <Button layoutX="92.0" layoutY="227.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" style="-fx-background-color: #abc4ff; -fx-text-fill: white; -fx-font-weight: bold;" text="Login">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+            <Button layoutX="93.0" layoutY="274.0" mnemonicParsing="false" prefHeight="31.0" prefWidth="166.0" style="-fx-background-color: #abc4ff; -fx-text-fill: white; -fx-font-weight: bold;" text="Cancel">
+               <font>
+                  <Font size="15.0" />
+               </font>
+            </Button>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>
