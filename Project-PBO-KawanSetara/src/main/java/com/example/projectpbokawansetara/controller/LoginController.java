@@ -4,26 +4,42 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.TextField;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 
 public class LoginController{
     @FXML
-    private TextField emailField;
+    private TextField nameField;
     @FXML
     private PasswordField passwordField;
     @FXML
     private Label statusLabel;
     @FXML
+    private Label usernameErrorLabel;
+    @FXML
+    private Label passwordErrorLabel;
+    @FXML
     public void handleLoginButton(ActionEvent event) {
-        String user = emailField.getText();
+        String user = nameField.getText();
         String password = passwordField.getText();
 
-        if(user.isEmpty() || password.isEmpty()){
-            statusLabel.setText("Email atau Password harus diisi");
-            statusLabel.setStyle("-fx-text-fill: red");
-        }else{
-            statusLabel.setText("Login Berhasil");
+        usernameErrorLabel.setText("");
+        passwordErrorLabel.setText("");
+        statusLabel.setText("");
+
+        boolean isValid = true;
+
+        if(user.isEmpty()){
+            usernameErrorLabel.setText("Username tidak boleh kosong");
+            usernameErrorLabel.setStyle("-fx-text-fill: red");
+            isValid = false;
+        }
+        if(password.isEmpty()){
+            passwordErrorLabel.setText("Password tidak boleh kosong");
+            passwordErrorLabel.setStyle("-fx-text-fill: red");
+            isValid = false;
+        }
+        if(isValid){
+            statusLabel.setText("Login berhasil");
             statusLabel.setStyle("-fx-text-fill: green");
         }
         System.out.println("Email: " + user);
