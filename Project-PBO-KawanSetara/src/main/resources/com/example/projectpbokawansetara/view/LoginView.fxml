@@ -1,79 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="650.0" prefWidth="1100.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
-   <left>
-      <VBox prefHeight="200.0" prefWidth="500.0" spacing="20.0" style="-fx-background-color: #DCE9F5;" BorderPane.alignment="TOP_CENTER">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
+   <center>
+      <HBox spacing="32.0" style="-fx-background-color: white;" BorderPane.alignment="CENTER">
          <padding>
-            <Insets bottom="30.0" left="30.0" right="30.0" top="30.0" />
+            <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
          <children>
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
+            <VBox prefWidth="620.0" style="-fx-background-color: #DCE9F5; -fx-background-radius: 12;" HBox.hgrow="NEVER">
                <children>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/logo.png" />
-                     </image>
-                  </ImageView>
-                  <VBox alignment="CENTER_LEFT" prefHeight="200.0">
+                  <StackPane prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                      <children>
-                        <Label style="-fx-text-fill: #1F4E8C;" text="KawanSetara">
-                           <font>
-                              <Font name="System Bold" size="26.0" />
-                           </font>
-                        </Label>
-                        <Label style="-fx-text-fill: #1F4E8C;" text=" Bersama Mewujudkan Kesetaraan">
-                           <font>
-                              <Font size="10.0" />
-                           </font>
-                        </Label>
+                        <ImageView fitHeight="768.0" fitWidth="620.0" pickOnBounds="true">
+                           <image>
+                              <Image url="@../../../../images/login-photo.jpg" />
+                           </image>
+                        </ImageView>
+                        <VBox alignment="BOTTOM_LEFT" prefHeight="200.0" prefWidth="100.0" spacing="6.0" style="-fx-background-color: rgba(0,0,0,0.35);">
+                           <opaqueInsets>
+                              <Insets />
+                           </opaqueInsets>
+                           <padding>
+                              <Insets bottom="32.0" left="32.0" right="32.0" top="32.0" />
+                           </padding>
+                           <children>
+                              <Label maxWidth="480.0" text="Lowongan dari perusahaan yang siap menyediakan akomodasi kerja." wrapText="true">
+                                 <styleClass>
+                                    <String fx:value="h2" />
+                                    <String fx:value="text-white" />
+                                 </styleClass>
+                              </Label>
+                              <Label text="128 lowongan aktif dari 36 perusahaan mitra di Bali">
+                                 <styleClass>
+                                    <String fx:value="body" />
+                                    <String fx:value="text-light" />
+                                 </styleClass>
+                              </Label>
+                           </children>
+                        </VBox>
                      </children>
-                  </VBox>
-               </children>
-            </HBox>
-            <ImageView fitHeight="300.0" fitWidth="440.0" pickOnBounds="true" preserveRatio="true" VBox.vgrow="ALWAYS" />
-            <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="10.0">
-               <children>
-                  <Hyperlink style="-fx-text-fill: #4A6A8A;" text="Syarat &amp; Ketentuan" />
-                  <Label style="-fx-text-fill: #4A6A8A;" text="|" />
-                  <Hyperlink style="-fx-text-fill: #4A6A8A;" text="Kebijakan Privasi" />
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </left>
-   <center>
-      <StackPane prefHeight="150.0" prefWidth="200.0" BorderPane.alignment="CENTER">
-         <children>
-            <VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" prefWidth="448.0" spacing="12.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.12), 12, 0, 0, 3);">
-               <padding>
-                  <Insets bottom="28.0" left="28.0" right="28.0" top="28.0" />
-               </padding>
-               <children>
-                  <Label text="Masuk Ke Akun KawanSetara" textAlignment="CENTER" wrapText="true">
-                     <font>
-                        <Font name="System Bold" size="22.0" />
-                     </font>
-                  </Label>
-                  <TextField />
-                  <PasswordField />
-                  <Hyperlink alignment="CENTER_RIGHT" maxWidth="1.7976931348623157E308" text="Lupa Kata Sandi?" />
+                  </StackPane>
                </children>
             </VBox>
+            <VBox alignment="TOP_CENTER" HBox.hgrow="ALWAYS">
+               <padding>
+                  <Insets bottom="24.0" left="16.0" right="16.0" top="24.0" />
+               </padding>
+               <children>
+                  <HBox alignment="CENTER_LEFT" spacing="8.0">
+                     <children>
+                        <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../../../images/logo.png" />
+                           </image>
+                        </ImageView>
+                        <Label styleClass="h2" text="KawanSetara" />
+                     </children>
+                  </HBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <VBox alignment="CENTER_LEFT" maxWidth="400.0" prefWidth="400.0">
+                     <children>
+                        <Label styleClass="h1" text="Masuk" />
+                        <Label styleClass="body" text="Selamat datang kembali di KawanSetara">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin></Label>
+                        <Label styleClass="label-sm" text="Email">
+                           <VBox.margin>
+                              <Insets top="28.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
+                           <VBox.margin>
+                              <Insets top="6.0" />
+                           </VBox.margin>
+                           <padding>
+                              <Insets left="12.0" right="12.0" />
+                           </padding>
+                           <children>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../images/icon_mail.png" />
+                                 </image>
+                              </ImageView>
+                              <TextField promptText="nama@gmail.com" style="-fx-background-color: trasnparent;" styleClass="body" HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Label minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin></Label>
+                        <Label styleClass="label-sm" text="Kata sandi">
+                           <VBox.margin>
+                              <Insets top="12.0" />
+                           </VBox.margin></Label>
+                        <HBox alignment="CENTER_LEFT" prefHeight="38.0" prefWidth="200.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
+                           <padding>
+                              <Insets left="12.0" right="12.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets top="6.0" />
+                           </VBox.margin>
+                           <children>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../images/icon_lock.png" />
+                                 </image>
+                              </ImageView>
+                              <PasswordField promptText="Masukkan kata sandi" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS" />
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../images/eye_off.png" />
+                                 </image>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ImageView>
+                           </children>
+                        </HBox>
+                        <Label minHeight="0.0" prefHeight="0.0" text="Label" visible="false">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin></Label>
+                        <HBox alignment="CENTER_LEFT">
+                           <children>
+                              <CheckBox mnemonicParsing="false" style="-fx-text-fill: #344054; -fx-font-size: 13px;" styleClass="body" text="Ingat saya" />
+                              <Region HBox.hgrow="ALWAYS" />
+                              <Hyperlink style="-fx-text-fill: #1F4E8C; -fx-border-color: transparent; -fx-padding: 0; -fx-font-size: 13px; -fx-font-weight: 600;" text="Lupa kata sandi?" />
+                           </children>
+                           <VBox.margin>
+                              <Insets top="12.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <Button maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 14px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Masuk">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                        </Button>
+                        <HBox alignment="CENTER" spacing="12.0">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <children>
+                              <Separator HBox.hgrow="ALWAYS" />
+                              <Label style="-fx-font-size: 12px; -fx-text-fill: #98A2B3;" styleClass="body" text="atau" />
+                              <Separator HBox.hgrow="ALWAYS" />
+                           </children>
+                        </HBox>
+                        <Button graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 14px; -fx-font-weight: 600; -fx-cursor: hand;" text="Masuk dengan Google">
+                           <VBox.margin>
+                              <Insets top="20.0" />
+                           </VBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../images/google.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <Button graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="38.0" style="-fx-background-color: #1877F2; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-radius: 8; -fx-font-weight: 600; -fx-cursor: hand;" text="Masuk dengan Facebook">
+                           <VBox.margin>
+                              <Insets top="12.0" />
+                           </VBox.margin>
+                           <graphic>
+                              <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../../images/facebook_white.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                        <HBox alignment="CENTER_LEFT" prefHeight="100.0" prefWidth="200.0" spacing="4.0">
+                           <VBox.margin>
+                              <Insets top="28.0" />
+                           </VBox.margin>
+                           <children>
+                              <Label style="-fx-font-size: 13px;" styleClass="body" text="Belum punya akun?" />
+                              <Hyperlink style="-fx-font-size: 13px;" text="Daftar sebagai pelamar" />
+                           </children>
+                        </HBox>
+                     </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                  </VBox>
+                  <Region prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  <HBox alignment="CENTER_LEFT" spacing="16.0">
+                     <children>
+                        <Label style="-fx-font-size: 12px;" styleClass="body" text="© 2026 KawanSetara" />
+                        <Label style="-fx-font-size: 12px;" styleClass="body" text="Bantuan" />
+                        <Label style="-fx-font-size: 12px;" styleClass="body" text="Kebijakan privasi" />
+                     </children>
+                  </HBox>
+               </children>
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </VBox>
          </children>
-      </StackPane>
+      </HBox>
    </center>
 </BorderPane>
