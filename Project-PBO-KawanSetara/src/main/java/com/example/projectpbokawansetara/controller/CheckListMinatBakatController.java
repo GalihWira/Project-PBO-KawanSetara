@@ -1,4 +1,4 @@
 package com.example.projectpbokawansetara.controller;
 
-public class DetailLowonganView {
+public class CheckListMinatBakatController {
 }
