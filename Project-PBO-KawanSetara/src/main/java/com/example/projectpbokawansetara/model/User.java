@@ -1,4 +1,4 @@
 package com.example.projectpbokawansetara.model;
 
-public class UserSession {
+public class User {
 }
