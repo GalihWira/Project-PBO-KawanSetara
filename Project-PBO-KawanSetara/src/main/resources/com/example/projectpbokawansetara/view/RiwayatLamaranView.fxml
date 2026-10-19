@@ -1,14 +1,54 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<VBox minWidth="220.0" prefWidth="220.0" spacing="4.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;" styleClass="sidebar">
+   <padding>
+      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
+   </padding>
+   <children>
+      <!-- 1. LOGO APLIKASI -->
+      <ImageView fitHeight="40.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../images/logo-kawansetara.png" />
+         </image>
+         <VBox.margin>
+            <Insets bottom="16.0" />
+         </VBox.margin>
+      </ImageView>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+      <!-- 2. TOMBOL-TOMBOL NAVIGASI MENU -->
+      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Beranda">
+         <toggleGroup>
+            <ToggleGroup fx:id="tgMenu" />
+         </toggleGroup>
+      </ToggleButton>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="CONTROLLER_NAME"
-            prefHeight="400.0" prefWidth="600.0">
+      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Cari Lowongan" toggleGroup="$tgMenu" />
 
-</AnchorPane>
+      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Riwayat Lamaran" toggleGroup="$tgMenu" />
+
+      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Checklist Minat &amp; Bakat" toggleGroup="$tgMenu" />
+
+      <!-- SPACER UNTUK MENDORONG PROFILE KE PALING BAWAH -->
+      <Region VBox.vgrow="ALWAYS" />
+
+      <!-- 3. PROFILE USER & TOMBOL KELUAR DI BAWAH -->
+      <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: #EAECF0 transparent transparent transparent; -fx-padding: 12 0 0 0;">
+         <children>
+            <ImageView fx:id="imgAvatar" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../../../images/avatar.jpeg" />
+               </image>
+            </ImageView>
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <Label fx:id="lblNamaUser" style="-fx-font-weight: bold;" text="Wayan Galih" />
+                  <Label fx:id="lblEmailUser" text="wayan.galih@gmail.com" textFill="#667085">
+                     <font>
+                        <Font size="10.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <Button fx:id="btnKeluar" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #667085;" styleClass="secondary" text="Keluar" />
+         </children>
+      </HBox>
+   </children>
+</VBox>

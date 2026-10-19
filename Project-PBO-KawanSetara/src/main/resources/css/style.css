@@ -1,0 +1,57 @@
+@font-face { src: url("../fonts/Poppins-Bold.ttf"); }
+@font-face { src: url("../fonts/Poppins-Regular.ttf"); }
+@font-face { src: url("../fonts/Poppins-SemiBold.ttf"); }
+.root { -fx-font-family: "Poppins"; }
+
+.h1 { -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #101828; }
+.h2 { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1F4E8C; }
+.body { -fx-font-size: 14px; -fx-text-fill: #667085; }
+.label-sm { -fx-font-size: 14px; -fx-font-weight: 600; -fx-text-fill: #344054; }
+.error { -fx-font-size: 12px; -fx-text-fill: #D93025; }
+
+.text-white { -fx-text-fill: white; }
+.text-light { -fx-text-fill: #E4E7EC; }
+
+.check-box > .box {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-border-radius: 4;
+}
+
+.check-box:selected > .box {
+    -fx-background-color: #1F4E8C;
+    -fx-border-color: #1F4E8C;
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: white;
+}
+
+.text-field,
+.password-field,
+.text-area,
+.date-picker,
+.combo-box {
+    -fx-focus-color: transparent;
+    -fx-faint-focus-color: transparent;
+}
+
+.date-picker > .text-field {
+    -fx-background-color: transparent;
+}
+
+.date-picker > .arrow-button,
+.combo-box > .arrow-button {
+    -fx-background-color: transparent;
+}
+
+.text-area {
+    -fx-background-color: transparent;
+    -fx-control-inner-background: white;
+}
+
+.text-area .content,
+.text-area .scroll-pane,
+.text-area .viewport {
+    -fx-background-color: white;
+}
