@@ -13,7 +13,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         // Tambahkan /view/ sebelum nama file FXML
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/RiwayatLamaranView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/DetailLowonganView.fxml"));
         
         Scene scene = new Scene(root);
         primaryStage.setTitle("KawanSetara");
