@@ -1,54 +1,328 @@
-<VBox minWidth="220.0" prefWidth="220.0" spacing="4.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;" styleClass="sidebar">
-   <padding>
-      <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
-   </padding>
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.RiwayatLamaranController">
    <children>
-      <!-- 1. LOGO APLIKASI -->
-      <ImageView fitHeight="40.0" fitWidth="120.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../../../images/logo-kawansetara.png" />
-         </image>
-         <VBox.margin>
-            <Insets bottom="16.0" />
-         </VBox.margin>
-      </ImageView>
-
-      <!-- 2. TOMBOL-TOMBOL NAVIGASI MENU -->
-      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Beranda">
-         <toggleGroup>
-            <ToggleGroup fx:id="tgMenu" />
-         </toggleGroup>
-      </ToggleButton>
-
-      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Cari Lowongan" toggleGroup="$tgMenu" />
-
-      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Riwayat Lamaran" toggleGroup="$tgMenu" />
-
-      <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;" styleClass="nav-item" text="Checklist Minat &amp; Bakat" toggleGroup="$tgMenu" />
-
-      <!-- SPACER UNTUK MENDORONG PROFILE KE PALING BAWAH -->
-      <Region VBox.vgrow="ALWAYS" />
-
-      <!-- 3. PROFILE USER & TOMBOL KELUAR DI BAWAH -->
-      <HBox alignment="CENTER_LEFT" spacing="8.0" style="-fx-border-color: #EAECF0 transparent transparent transparent; -fx-padding: 12 0 0 0;">
+      <HBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <ImageView fx:id="imgAvatar" fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../../../images/avatar.jpeg" />
-               </image>
-            </ImageView>
-            <VBox HBox.hgrow="ALWAYS">
+            <!-- SIDEBAR -->
+            <VBox minWidth="240.0" prefWidth="240.0" spacing="6.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;" styleClass="sidebar">
+               <padding>
+                  <Insets bottom="16.0" left="16.0" right="16.0" top="20.0" />
+               </padding>
                <children>
-                  <Label fx:id="lblNamaUser" style="-fx-font-weight: bold;" text="Wayan Galih" />
-                  <Label fx:id="lblEmailUser" text="wayan.galih@gmail.com" textFill="#667085">
-                     <font>
-                        <Font size="10.0" />
-                     </font>
-                  </Label>
+                  <!-- LOGO KAWANSETARA -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0">
+                     <children>
+                        <ImageView fitHeight="32.0" fitWidth="140.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/images/logo-kawansetara.png" />
+                           </image>
+                        </ImageView>
+                     </children>
+                     <VBox.margin>
+                        <Insets bottom="20.0" left="8.0" />
+                     </VBox.margin>
+                  </HBox>
+
+                  <!-- MENU ITEM DENGAN PATH FIX ABSOLUT -->
+                  <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 10 12; -fx-font-size: 13px;" text="   Beranda">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/icons/house.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                     <toggleGroup>
+                        <ToggleGroup fx:id="tgMenu" />
+                     </toggleGroup>
+                  </ToggleButton>
+
+                  <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 10 12; -fx-font-size: 13px;" text="   Cari lowongan" toggleGroup="$tgMenu">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/icons/search.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+
+                  <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" selected="true" style="-fx-background-color: #EBF3FA; -fx-text-fill: #1F4E8C; -fx-background-radius: 6; -fx-padding: 10 12; -fx-font-weight: bold; -fx-font-size: 13px;" text="   Riwayat lamaran" toggleGroup="$tgMenu">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/icons/clock-active.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+
+                  <ToggleButton alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 10 12; -fx-font-size: 13px;" text="   Checklist minat &amp; bakat" toggleGroup="$tgMenu">
+                     <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/icons/list-checks.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </ToggleButton>
+
+                  <Region VBox.vgrow="ALWAYS" />
+
+                  <!-- USER PROFILE & LOGOUT -->
+                  <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #EAECF0 transparent transparent transparent; -fx-padding: 14 0 0 0;">
+                     <children>
+                        <ImageView fx:id="imgAvatar" fitHeight="36.0" fitWidth="36.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@/com/example/projectpbokawansetara/images/avatar.jpeg" />
+                           </image>
+                        </ImageView>
+                        <VBox HBox.hgrow="ALWAYS">
+                           <children>
+                              <Label fx:id="lblNamaUser" style="-fx-font-weight: bold; -fx-font-size: 12px; -fx-text-fill: #101828;" text="Wayan Galih" />
+                              <Label fx:id="lblEmailUser" style="-fx-font-size: 11px;" text="wayan.galih@gmail.com" textFill="#667085" />
+                           </children>
+                        </VBox>
+                        <Button fx:id="btnKeluar" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;" text="">
+                           <graphic>
+                              <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@/com/example/projectpbokawansetara/icons/log-out.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
+                        </Button>
+                     </children>
+                  </HBox>
                </children>
             </VBox>
-            <Button fx:id="btnKeluar" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #667085;" styleClass="secondary" text="Keluar" />
+
+            <!-- KONTEN UTAMA -->
+            <VBox HBox.hgrow="ALWAYS">
+               <children>
+                  <!-- TOP HEADER -->
+                  <HBox alignment="CENTER_LEFT" minHeight="56.0" prefHeight="56.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                     <padding>
+                        <Insets bottom="12.0" left="32.0" right="32.0" top="12.0" />
+                     </padding>
+                     <children>
+                        <Label fx:id="lblBreadcrumb" style="-fx-text-fill: #101828; -fx-font-size: 14px;" text="Riwayat lamaran" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <TextField fx:id="txtCari" prefWidth="300.0" promptText="🔍  Cari lowongan atau perusahaan" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-padding: 6 12;" />
+                     </children>
+                  </HBox>
+
+                  <!-- SCROLLABLE TABEL RIWAYAT LAMARAN -->
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white; -fx-background: white;" VBox.vgrow="ALWAYS">
+                     <content>
+                        <VBox spacing="20.0" style="-fx-background-color: white;">
+                           <padding>
+                              <Insets bottom="32.0" left="32.0" right="32.0" top="28.0" />
+                           </padding>
+                           <children>
+                              <VBox spacing="4.0">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-font-size: 22px; -fx-text-fill: #101828;" text="Riwayat lamaran" />
+                                    <Label style="-fx-font-size: 13px;" text="Status diperbarui oleh perusahaan melalui admin KawanSetara." textFill="#667085" />
+                                 </children>
+                              </VBox>
+
+                              <!-- TABS FILTER -->
+                              <HBox spacing="20.0" style="-fx-border-color: transparent transparent #EAECF0 transparent; -fx-padding: 0 0 8 0;">
+                                 <children>
+                                    <Label style="-fx-font-weight: bold; -fx-text-fill: #1F4E8C; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0; -fx-padding: 0 0 8 0; -fx-cursor: hand;" text="Semua 6" />
+                                    <Label style="-fx-cursor: hand;" text="Diproses 2" textFill="#667085" />
+                                    <Label style="-fx-cursor: hand;" text="Ditinjau 1" textFill="#667085" />
+                                    <Label style="-fx-cursor: hand;" text="Diterima 1" textFill="#667085" />
+                                    <Label style="-fx-cursor: hand;" text="Ditolak 2" textFill="#667085" />
+                                 </children>
+                              </HBox>
+
+                              <!-- WIDGET TABEL RIWAYAT -->
+                              <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-border-radius: 12; -fx-background-radius: 12;">
+                                 <children>
+                                    <!-- HEADER TABEL -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-background-color: #F9FAFB; -fx-background-radius: 12 12 0 0; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <Label prefWidth="280.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Posisi" textFill="#667085" />
+                                          <Label prefWidth="120.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Lokasi" textFill="#667085" />
+                                          <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Jenis" textFill="#667085" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Tanggal lamar" textFill="#667085" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Status" textFill="#667085" />
+                                          <Label prefWidth="100.0" style="-fx-font-weight: bold; -fx-font-size: 12px;" text="Diperbarui" textFill="#667085" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Label prefWidth="110.0" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 1 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="SI" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Junior Web Developer" />
+                                                      <Label style="-fx-font-size: 11px;" text="PT Solusi Inklusif" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Remote" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Full time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="1 Okt 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Ditinjau" textFill="#2E90FA" />
+                                          <Label prefWidth="100.0" text="3 Okt" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 2 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="AD" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Staf Administrasi Data" />
+                                                      <Label style="-fx-font-size: 11px;" text="PT Arunika Data" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Denpasar" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Full time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="28 Sep 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Diproses" textFill="#F79009" />
+                                          <Label prefWidth="100.0" text="28 Sep" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 3 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="MN" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Operator Input Data" />
+                                                      <Label style="-fx-font-size: 11px;" text="PT Mitra Nusa Data" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Denpasar" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Full time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="24 Sep 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Diterima" textFill="#12B76A" />
+                                          <Label prefWidth="100.0" text="2 Okt" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 4 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="GK" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Desainer Grafis Junior" />
+                                                      <Label style="-fx-font-size: 11px;" text="Gerak Kreatif Studio" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Gianyar" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Full time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="20 Sep 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Ditolak" textFill="#F04438" />
+                                          <Label prefWidth="100.0" text="27 Sep" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 5 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="TI" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Customer Service Chat" />
+                                                      <Label style="-fx-font-size: 11px;" text="Tokobaik Indonesia" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Badung" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Part time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="12 Sep 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Diproses" textFill="#F79009" />
+                                          <Label prefWidth="100.0" text="12 Sep" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                    <!-- BARIS 6 -->
+                                    <HBox alignment="CENTER_LEFT" style="-fx-padding: 14 20; -fx-background-radius: 0 0 12 12;">
+                                       <children>
+                                          <HBox alignment="CENTER_LEFT" prefWidth="280.0" spacing="12.0">
+                                             <children>
+                                                <Label alignment="CENTER" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #F0F5FF; -fx-background-radius: 8; -fx-font-weight: bold; -fx-text-fill: #1F4E8C;" text="NR" />
+                                                <VBox alignment="CENTER_LEFT">
+                                                   <children>
+                                                      <Label style="-fx-font-weight: bold; -fx-text-fill: #101828; -fx-font-size: 13px;" text="Penerjemah BISINDO" />
+                                                      <Label style="-fx-font-size: 11px;" text="Hotel Nusa Rasa" textFill="#667085" />
+                                                   </children>
+                                                </VBox>
+                                             </children>
+                                          </HBox>
+                                          <Label prefWidth="120.0" text="Badung" textFill="#344054" />
+                                          <Label prefWidth="100.0" text="Part time" textFill="#344054" />
+                                          <Label prefWidth="130.0" text="2 Sep 2026" textFill="#344054" />
+                                          <Label prefWidth="130.0" style="-fx-font-weight: bold;" text="● Ditolak" textFill="#F04438" />
+                                          <Label prefWidth="100.0" text="10 Sep" textFill="#344054" />
+                                          <Region HBox.hgrow="ALWAYS" />
+                                          <Button mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-weight: bold; -fx-cursor: hand; -fx-font-size: 12px;" text="Lihat lowongan" />
+                                       </children>
+                                    </HBox>
+
+                                 </children>
+                              </VBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </children>
+            </VBox>
          </children>
       </HBox>
    </children>
-</VBox>
+</AnchorPane>
