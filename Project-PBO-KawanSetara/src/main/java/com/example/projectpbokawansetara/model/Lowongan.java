@@ -1,4 +1,4 @@
 package com.example.projectpbokawansetara.model;
 
-public class Lowongan {
+public class Lowongan   {
 }
