@@ -6,13 +6,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HelloApplication extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/RiwayatLamaranView.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/CariLowongan.fxml"));
         
         Scene scene = new Scene(root);
         primaryStage.setTitle("KawanSetara");
