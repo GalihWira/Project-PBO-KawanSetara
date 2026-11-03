@@ -1,6 +1,6 @@
-@font-face { src: url("../fonts/Poppins-Regular.ttf"); }
-@font-face { src: url("../fonts/Poppins-SemiBold.ttf"); }
-@font-face { src: url("../fonts/Poppins-Bold.ttf"); }
+@font-face { font-family: "Poppins"; font-weight: normal; font-style: normal; src: url("../fonts/Poppins-Regular.ttf"); }
+@font-face { font-family: "Poppins"; font-weight: 600; font-style: normal; src: url("../fonts/Poppins-SemiBold.ttf"); }
+@font-face { font-family: "Poppins"; font-weight: bold; font-style: normal; src: url("../fonts/Poppins-Bold.ttf"); }
 
 .root {
     -fx-font-family: "Poppins";
