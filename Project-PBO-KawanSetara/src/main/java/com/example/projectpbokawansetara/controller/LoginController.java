@@ -5,7 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.example.projectpbokawansetara.model.KoneksiDB;
+import com.example.projectpbokawansetara.dao.KoneksiDB;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

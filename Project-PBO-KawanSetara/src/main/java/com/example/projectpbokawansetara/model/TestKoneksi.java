@@ -3,6 +3,7 @@ package com.example.projectpbokawansetara.model;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.example.projectpbokawansetara.dao.KoneksiDB;
 public class TestKoneksi {
     public static void main(String[] args) {
         try(Connection conn = KoneksiDB.getConnection()){
