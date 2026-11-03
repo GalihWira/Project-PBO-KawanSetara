@@ -267,7 +267,7 @@
                         </HBox>
                         <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                             <children>
-                                <TableView fx:id="lowonganTable" fixedCellSize="48.0" style="-fx-background-color: transparent; -fx-border-color: transparent; -fx-font-size: 13px;" VBox.vgrow="ALWAYS">
+                                <TableView fx:id="lowonganTable" fixedCellSize="48.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
                                     <columns>
                                         <TableColumn fx:id="posisiColumn" prefWidth="240.0" text="Posisi" />
                                         <TableColumn fx:id="lokasiColumn" prefWidth="95.0" text="Lokasi" />
