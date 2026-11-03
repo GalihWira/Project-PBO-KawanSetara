@@ -1,9 +1,12 @@
 package com.example.projectpbokawansetara.controller;
 
+<<<<<<< HEAD
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
+=======
+>>>>>>> origin/staging
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -18,7 +21,6 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 public class DetailLowonganController {
-
     @FXML
     private ResourceBundle resources;
 
@@ -127,6 +129,7 @@ public class DetailLowonganController {
     void handleLamar(ActionEvent event) {
 
     }
+<<<<<<< HEAD
 
     @FXML
     void initialize() {
@@ -183,3 +186,6 @@ public class DetailLowonganController {
         }
     }
 }
+=======
+}
+>>>>>>> origin/staging
