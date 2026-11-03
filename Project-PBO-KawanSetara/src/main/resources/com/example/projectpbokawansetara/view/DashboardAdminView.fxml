@@ -1,14 +1,479 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import java.lang.*?>
-<?import java.util.*?>
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="com.example.projectpbokawansetara.controller.DashboardAdminController"
-            prefHeight="400.0" prefWidth="600.0">
-
-</AnchorPane>
+<BorderPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.DashboardAdminController">
+    <left>
+        <VBox minWidth="232.0" prefWidth="232.0" spacing="4.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;">
+            <padding>
+                <Insets bottom="16.0" left="10.0" right="10.0" top="20.0" />
+            </padding>
+            <children>
+                <HBox alignment="CENTER_LEFT" spacing="8.0">
+                    <VBox.margin>
+                        <Insets bottom="12.0" left="8.0" />
+                    </VBox.margin>
+                    <children>
+                        <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../images/logo.png" />
+                            </image>
+                        </ImageView>
+                        <Label style="-fx-font-size: 17px;" styleClass="h2" text="KawanSetara" />
+                    </children>
+                </HBox>
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 8 10 4 10;" text="UTAMA" />
+                <ToggleButton fx:id="dashboardMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 14px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Dashboard">
+                    <graphic>
+                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../images/house.png" />
+                            </image>
+                        </ImageView>
+                    </graphic>
+                    <toggleGroup>
+                        <ToggleGroup fx:id="adminMenuGroup" />
+                    </toggleGroup>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="LOWONGAN" />
+                <ToggleButton fx:id="lowonganMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/briefcase.png" />
+                                    </image>
+                                </ImageView>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Lowongan" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahLowonganMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="128" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <ToggleButton fx:id="perusahaanMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="▦" />
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Perusahaan" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahPerusahaanMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="36" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="DATA MASTER" />
+                <ToggleButton fx:id="itemChecklistMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/list-checks.png" />
+                                    </image>
+                                </ImageView>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Item checklist" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahChecklistMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="24" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <ToggleButton fx:id="jenisDisabilitasMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/accessibility.png" />
+                                    </image>
+                                </ImageView>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Jenis disabilitas" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahDisabilitasMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="5" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="PENGATURAN" />
+                <ToggleButton fx:id="akunAdminMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="⛉" />
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Akun admin" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahAdminMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="4" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
+                <Region VBox.vgrow="ALWAYS" />
+                <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #EAECF0 transparent transparent transparent;">
+                    <padding>
+                        <Insets left="6.0" top="14.0" />
+                    </padding>
+                    <children>
+                        <ImageView fx:id="avatarImage" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../../../../images/avatar.jpeg" />
+                            </image>
+                        </ImageView>
+                        <VBox HBox.hgrow="ALWAYS">
+                            <children>
+                                <Label fx:id="namaUserLabel" style="-fx-text-fill: #101828; -fx-font-size: 14px; -fx-font-weight: 600;" text="Made Satya" />
+                                <Label fx:id="peranUserLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Admin" />
+                            </children>
+                        </VBox>
+                        <Button fx:id="keluarButton" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;">
+                            <graphic>
+                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/log-out.png" />
+                                    </image>
+                                </ImageView>
+                            </graphic>
+                            <cursor>
+                                <Cursor fx:constant="HAND" />
+                            </cursor>
+                        </Button>
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </left>
+    <center>
+        <VBox style="-fx-background-color: white;">
+            <children>
+                <HBox alignment="CENTER_LEFT" minHeight="56.0" prefHeight="56.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                    <padding>
+                        <Insets left="24.0" right="24.0" />
+                    </padding>
+                    <children>
+                        <Label style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Dashboard" />
+                        <Region HBox.hgrow="ALWAYS" />
+                        <HBox alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="280.0" spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
+                            <padding>
+                                <Insets left="12.0" right="12.0" />
+                            </padding>
+                            <children>
+                                <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/icon_search.png" />
+                                    </image>
+                                </ImageView>
+                                <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari di panel admin" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS" />
+                            </children>
+                        </HBox>
+                    </children>
+                </HBox>
+                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white; -fx-background: white; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+                    <content>
+                        <VBox spacing="20.0" style="-fx-background-color: white;">
+                            <padding>
+                                <Insets bottom="32.0" left="32.0" right="32.0" top="28.0" />
+                            </padding>
+                            <children>
+                                <VBox spacing="4.0">
+                                    <children>
+                                        <Label style="-fx-font-size: 24px; -fx-text-fill: #101828;" styleClass="h2" text="Dashboard" />
+                                        <Label fx:id="tanggalLabel" style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="Kamis, 15 Oktober 2026" />
+                                    </children>
+                                </VBox>
+                                <HBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">
+                                    <children>
+                                        <VBox spacing="4.0" style="-fx-border-color: transparent #EAECF0 transparent transparent;" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0" />
+                                            </padding>
+                                            <children>
+                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Lowongan tersedia" />
+                                                <Label fx:id="lowonganTersediaLabel" style="-fx-text-fill: #101828; -fx-font-size: 22px; -fx-font-weight: 700;" text="112" />
+                                                <Label fx:id="lowonganTersediaInfoLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="+6 minggu ini" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="4.0" style="-fx-border-color: transparent #EAECF0 transparent transparent;" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0" />
+                                            </padding>
+                                            <children>
+                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Lamaran masuk" />
+                                                <Label fx:id="lamaranMasukLabel" style="-fx-text-fill: #101828; -fx-font-size: 22px; -fx-font-weight: 700;" text="74" />
+                                                <Label fx:id="lamaranMasukInfoLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="minggu ini, 19 belum ditinjau" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="4.0" style="-fx-border-color: transparent #EAECF0 transparent transparent;" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0" />
+                                            </padding>
+                                            <children>
+                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Perusahaan mitra" />
+                                                <Label fx:id="perusahaanMitraLabel" style="-fx-text-fill: #101828; -fx-font-size: 22px; -fx-font-weight: 700;" text="36" />
+                                                <Label fx:id="perusahaanMitraInfoLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="2 kontrak berakhir bulan ini" />
+                                            </children>
+                                        </VBox>
+                                        <VBox spacing="4.0" HBox.hgrow="ALWAYS">
+                                            <padding>
+                                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0" />
+                                            </padding>
+                                            <children>
+                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Pelamar terdaftar" />
+                                                <Label fx:id="pelamarTerdaftarLabel" style="-fx-text-fill: #101828; -fx-font-size: 22px; -fx-font-weight: 700;" text="1.284" />
+                                                <Label fx:id="pelamarTerdaftarInfoLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="+41 bulan ini" />
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                                <HBox spacing="20.0">
+                                    <children>
+                                        <VBox spacing="10.0" HBox.hgrow="ALWAYS">
+                                            <children>
+                                                <HBox alignment="CENTER_LEFT">
+                                                    <children>
+                                                        <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600;" text="Lamaran masuk terbaru" />
+                                                        <Region HBox.hgrow="ALWAYS" />
+                                                        <Hyperlink fx:id="lihatSemuaLink" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent;" text="Lihat semua" />
+                                                    </children>
+                                                </HBox>
+                                                <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">
+                                                    <children>
+                                                        <HBox alignment="CENTER_LEFT" prefHeight="40.0" spacing="12.0" style="-fx-background-color: #F9FAFB; -fx-background-radius: 8 8 0 0; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                            <padding>
+                                                                <Insets left="14.0" right="14.0" />
+                                                            </padding>
+                                                            <children>
+                                                                <Label prefWidth="200.0" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Pelamar" />
+                                                                <Label prefWidth="180.0" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Posisi" />
+                                                                <Label prefWidth="110.0" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Masuk" />
+                                                                <Label prefWidth="90.0" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Status" />
+                                                            </children>
+                                                        </HBox>
+                                                        <VBox fx:id="daftarLamaranBox">
+                                                            <children>
+                                                                <HBox fx:id="lamaran1Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran1InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="NA" />
+                                                                                <Label fx:id="lamaran1NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Ni Luh Putu Ayu" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran1PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Staf Administrasi Data" />
+                                                                                <Label fx:id="lamaran1PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="PT Arunika Data" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran1MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="15 Okt, 09.12" />
+                                                                        <Label fx:id="lamaran1StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Diproses" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox fx:id="lamaran2Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran2InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="KS" />
+                                                                                <Label fx:id="lamaran2NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Komang Adi Saputra" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran2PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Junior Web Developer" />
+                                                                                <Label fx:id="lamaran2PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="PT Solusi Inklusif" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran2MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="15 Okt, 08.40" />
+                                                                        <Label fx:id="lamaran2StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Diproses" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox fx:id="lamaran3Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran3InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="GP" />
+                                                                                <Label fx:id="lamaran3NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Gede Wira Pratama" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran3PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Customer Service Chat" />
+                                                                                <Label fx:id="lamaran3PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Tokobaik Indonesia" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran3MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="14 Okt, 16.05" />
+                                                                        <Label fx:id="lamaran3StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Ditinjau" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox fx:id="lamaran4Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran4InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="KW" />
+                                                                                <Label fx:id="lamaran4NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Kadek Sri Wahyuni" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran4PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Operator Input Data" />
+                                                                                <Label fx:id="lamaran4PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="PT Mitra Nusa Data" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran4MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="14 Okt, 11.27" />
+                                                                        <Label fx:id="lamaran4StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Diterima" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox fx:id="lamaran5Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran5InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="PD" />
+                                                                                <Label fx:id="lamaran5NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Putu Eka Darmawan" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran5PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Admin Media Sosial" />
+                                                                                <Label fx:id="lamaran5PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Yayasan Pelita Inklusi" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran5MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="13 Okt, 20.18" />
+                                                                        <Label fx:id="lamaran5StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Ditinjau" />
+                                                                    </children>
+                                                                </HBox>
+                                                                <HBox fx:id="lamaran6Item" alignment="CENTER_LEFT" prefHeight="48.0" spacing="12.0">
+                                                                    <padding>
+                                                                        <Insets left="14.0" right="14.0" />
+                                                                    </padding>
+                                                                    <children>
+                                                                        <HBox alignment="CENTER_LEFT" prefWidth="200.0" spacing="10.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran6InisialLabel" alignment="CENTER" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: #EEF4FB; -fx-background-radius: 14; -fx-text-fill: #1F4E8C; -fx-font-size: 11px; -fx-font-weight: 600;" text="ML" />
+                                                                                <Label fx:id="lamaran6NamaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Made Dwi Lestari" />
+                                                                            </children>
+                                                                        </HBox>
+                                                                        <VBox prefWidth="180.0">
+                                                                            <children>
+                                                                                <Label fx:id="lamaran6PosisiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Penerjemah BISINDO" />
+                                                                                <Label fx:id="lamaran6PerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Hotel Nusa Rasa" />
+                                                                            </children>
+                                                                        </VBox>
+                                                                        <Label fx:id="lamaran6MasukLabel" prefWidth="110.0" style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="13 Okt, 10.02" />
+                                                                        <Label fx:id="lamaran6StatusLabel" prefWidth="90.0" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="● Ditolak" />
+                                                                    </children>
+                                                                </HBox>
+                                                            </children>
+                                                        </VBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </VBox>
+                                        <VBox minWidth="300.0" prefWidth="300.0" spacing="10.0">
+                                            <children>
+                                                <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600; -fx-padding: 4 0 4 0;" text="Perlu ditindaklanjuti" />
+                                                <VBox fx:id="tindakLanjutBox" style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">
+                                                    <children>
+                                                        <HBox spacing="10.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                            <padding>
+                                                                <Insets bottom="12.0" left="14.0" right="14.0" top="12.0" />
+                                                            </padding>
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #F79009; -fx-font-size: 14px;" text="⚠" />
+                                                                <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Label fx:id="tindakLanjut1JudulLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="3 lowongan berakhir minggu ini" wrapText="true" />
+                                                                        <Label fx:id="tindakLanjut1DetailLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Perpanjang atau ubah status ke tidak tersedia" wrapText="true" />
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </HBox>
+                                                        <HBox spacing="10.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                                                            <padding>
+                                                                <Insets bottom="12.0" left="14.0" right="14.0" top="12.0" />
+                                                            </padding>
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="▦" />
+                                                                <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Label fx:id="tindakLanjut2JudulLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Kontrak Tokobaik Indonesia berakhir 31 Okt" wrapText="true" />
+                                                                        <Label fx:id="tindakLanjut2DetailLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="KTR/2026/002" wrapText="true" />
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </HBox>
+                                                        <HBox spacing="10.0">
+                                                            <padding>
+                                                                <Insets bottom="12.0" left="14.0" right="14.0" top="12.0" />
+                                                            </padding>
+                                                            <children>
+                                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="☰" />
+                                                                <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                                    <children>
+                                                                        <Label fx:id="tindakLanjut3JudulLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Item baru &quot;Analisis data&quot; belum dipakai" wrapText="true" />
+                                                                        <Label fx:id="tindakLanjut3DetailLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Tambahkan ke lowongan yang relevan" wrapText="true" />
+                                                                    </children>
+                                                                </VBox>
+                                                            </children>
+                                                        </HBox>
+                                                    </children>
+                                                </VBox>
+                                            </children>
+                                        </VBox>
+                                    </children>
+                                </HBox>
+                            </children>
+                        </VBox>
+                    </content>
+                </ScrollPane>
+            </children>
+        </VBox>
+    </center>
+</BorderPane>
