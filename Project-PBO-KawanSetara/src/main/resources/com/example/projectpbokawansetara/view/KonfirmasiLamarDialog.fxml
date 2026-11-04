@@ -10,22 +10,22 @@
 <?import javafx.scene.text.Text?>
 <?import javafx.scene.text.TextFlow?>
 
-<VBox prefWidth="420.0" spacing="16.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #EAECF0; -fx-border-radius: 8;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KonfirmasiLamarController">
+<VBox prefWidth="420.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #EAECF0; -fx-border-radius: 8;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KonfirmasiLamarController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
     <children>
         <HBox spacing="14.0">
             <children>
-                <Label alignment="CENTER" minHeight="32.0" minWidth="32.0" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #DCE9F5; -fx-background-radius: 16; -fx-text-fill: #1F4E8C; -fx-font-size: 14px;" text="➤" />
+                <Label alignment="CENTER" minHeight="32.0" minWidth="32.0" prefHeight="32.0" prefWidth="32.0" style="-fx-background-color: #DCE9F5; -fx-background-radius: 16; -fx-text-fill: #1F4E8C; -fx-font-size: 12px;" text="➤"/>
                 <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label fx:id="judulLabel" style="-fx-text-fill: #101828; -fx-font-size: 16px; -fx-font-weight: 600;" text="Kirim lamaran ke PT Arunika Data?" wrapText="true" />
+                        <Label fx:id="judulLabel" style="-fx-text-fill: #101828; -fx-font-size: 14px; -fx-font-weight: 600;" text="Kirim lamaran ke PT Arunika Data?" wrapText="true"/>
                         <TextFlow fx:id="pesanTextFlow" lineSpacing="3.0">
                             <children>
-                                <Text fill="#475467" style="-fx-font-size: 13px;" text="CV, ijazah, dan surat keterangan disabilitas dari profilmu akan dikirim untuk posisi " />
-                                <Text fx:id="posisiText" fill="#101828" style="-fx-font-size: 13px; -fx-font-weight: 600;" text="Staf Administrasi Data" />
-                                <Text fill="#475467" style="-fx-font-size: 13px;" text=". Status lamaran bisa dipantau di Riwayat lamaran." />
+                                <Text fill="#475467" style="-fx-font-size: 13px;" text="CV, ijazah, dan surat keterangan disabilitas dari profilmu akan dikirim untuk posisi "/>
+                                <Text fx:id="posisiText" fill="#101828" style="-fx-font-size: 13px; -fx-font-weight: 600;" text="Staf Administrasi Data"/>
+                                <Text fill="#475467" style="-fx-font-size: 13px;" text=". Status lamaran bisa dipantau di Riwayat lamaran."/>
                             </children>
                         </TextFlow>
                     </children>
@@ -34,15 +34,15 @@
         </HBox>
         <HBox alignment="CENTER_RIGHT" spacing="8.0">
             <children>
-                <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="batalButton" mnemonicParsing="false" prefHeight="36.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="batalButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
-                <Button fx:id="kirimLamaranButton" mnemonicParsing="false" prefHeight="36.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Kirim lamaran">
+                <Button fx:id="kirimLamaranButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Kirim lamaran">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
             </children>
