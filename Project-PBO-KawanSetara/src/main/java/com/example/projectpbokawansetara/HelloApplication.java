@@ -6,16 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.IOException;
-
 public class HelloApplication extends Application {
+
+    private static final String HALAMAN_AWAL = "LoginView.fxml";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        // Tambahkan /view/ sebelum nama file FXML
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/RiwayatLamaranView.fxml"));
-        
-        Scene scene = new Scene(root);
+        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/" + HALAMAN_AWAL));
+
+        Scene scene = new Scene(root, 1280, 800);
         primaryStage.setTitle("KawanSetara");
         primaryStage.setScene(scene);
         primaryStage.show();
