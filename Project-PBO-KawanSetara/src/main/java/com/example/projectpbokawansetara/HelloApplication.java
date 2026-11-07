@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/" + HALAMAN_AWAL));
 
-        Scene scene = new Scene(root, 1000, 640);
+        Scene scene = new Scene(root, 1280, 800);
         primaryStage.setTitle("KawanSetara");
         primaryStage.setScene(scene);
         primaryStage.show();
