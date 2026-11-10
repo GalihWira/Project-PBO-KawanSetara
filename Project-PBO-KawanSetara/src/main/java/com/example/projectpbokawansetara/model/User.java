@@ -13,11 +13,11 @@ public abstract class User {
         this.password = password;
     }
     public boolean login(String email, String password){
-        return this.email.equalsIgnoreCase(email) && password.equals(password);
+        return this.email.equalsIgnoreCase(email) && this.password.equals(password);
     }
     public abstract String tampilkanDashboard();
 
-    public int getIdPenggunaa(){return idPengguna;}
+    public int getIdPengguna(){return idPengguna;}
     public void setIdPengguna(int idPengguna){this.idPengguna = idPengguna;}
 
     public String getNama(){return nama;}
