@@ -12,7 +12,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaAkunAdminController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaAkunAdminController">
     <center>
         <VBox style="-fx-background-color: white;">
             <children>
@@ -52,17 +52,16 @@
                         </VBox>
                         <TableView fx:id="adminTable" fixedCellSize="40.0" prefHeight="245.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="adminColumn" prefWidth="260.0" text="Admin" />
-                                <TableColumn fx:id="dibuatColumn" prefWidth="120.0" text="Dibuat" />
-                                <TableColumn fx:id="terakhirMasukColumn" prefWidth="130.0" text="Terakhir masuk" />
-                                <TableColumn fx:id="statusColumn" prefWidth="100.0" text="Status" />
-                                <TableColumn fx:id="aksiColumn" prefWidth="60.0" sortable="false" />
+                                <TableColumn fx:id="namaColumn" prefWidth="300.0" text="Nama" />
+                                <TableColumn fx:id="emailColumn" prefWidth="360.0" text="Email" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                             </columnResizePolicy>
+                            <placeholder>
+                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Belum ada akun admin" />
+                            </placeholder>
                         </TableView>
-                        <Label styleClass="text-muted" text="ⓘ  Akun nonaktif tidak bisa masuk, tetapi riwayat perubahannya tetap tersimpan." />
                         <VBox styleClass="card">
                             <children>
                                 <Label styleClass="section-title" text="Peran akun">

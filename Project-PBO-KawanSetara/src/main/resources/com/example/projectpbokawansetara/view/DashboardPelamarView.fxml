@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.DashboardPelamarController">
+<BorderPane fx:id="mainBorderPane" prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.DashboardPelamarController">
     <left>
         <VBox minWidth="232.0" prefWidth="232.0" spacing="2.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;">
             <padding>
@@ -36,7 +36,7 @@
                         <Label style="-fx-font-size: 15px;" styleClass="h2" text="KawanSetara"/>
                     </children>
                 </HBox>
-                <ToggleButton fx:id="berandaMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Beranda">
+                <ToggleButton fx:id="berandaMenu" onAction="#handleBukaBeranda" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Beranda">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -51,7 +51,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="cariLowonganMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Cari lowongan" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="cariLowonganMenu" onAction="#handleBukaCariLowongan" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Cari lowongan" toggleGroup="$menuGroup">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -63,7 +63,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="riwayatMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="riwayatMenu" onAction="#handleBukaRiwayat" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$menuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
@@ -82,7 +82,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="checklistMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Checklist minat &amp; bakat" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="checklistMenu" onAction="#handleBukaChecklist" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Checklist minat &amp; bakat" toggleGroup="$menuGroup">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -111,7 +111,7 @@
                                 <Label fx:id="emailUserLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="wayan.galih@gmail.com"/>
                             </children>
                         </VBox>
-                        <Button fx:id="keluarButton" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;">
+                        <Button fx:id="keluarButton" onAction="#handleKeluar" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
@@ -148,7 +148,7 @@
                                         <Image url="@../../../../images/icon_search.png"/>
                                     </image>
                                 </ImageView>
-                                <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari lowongan atau perusahaan" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS"/>
+                                <TextField fx:id="cariField" onAction="#handleCari" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari lowongan atau perusahaan" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS"/>
                             </children>
                         </HBox>
                     </children>
@@ -177,7 +177,7 @@
                                                     <children>
                                                         <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600;" text="Rekomendasi untukmu"/>
                                                         <Region HBox.hgrow="ALWAYS"/>
-                                                        <Hyperlink fx:id="lihatSemuaLink" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Lihat semua"/>
+                                                        <Hyperlink fx:id="lihatSemuaLink" onAction="#handleBukaCariLowongan" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Lihat semua"/>
                                                     </children>
                                                 </HBox>
                                                 <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 10; -fx-border-radius: 10;">
@@ -195,7 +195,7 @@
                                                     <children>
                                                         <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600;" text="Lamaran terakhir"/>
                                                         <Region HBox.hgrow="ALWAYS"/>
-                                                        <Hyperlink fx:id="lihatRiwayatLink" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Riwayat"/>
+                                                        <Hyperlink fx:id="lihatRiwayatLink" onAction="#handleBukaRiwayat" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Riwayat"/>
                                                     </children>
                                                 </HBox>
                                                 <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 10; -fx-border-radius: 10;">
@@ -223,7 +223,7 @@
                                                             </children>
                                                         </HBox>
                                                         <Label fx:id="checklistInfoLabel" style="-fx-text-fill: #475467; -fx-font-size: 13px; -fx-line-spacing: 3;" text="Kamu sudah memilih 5 keahlian. Perbarui supaya rekomendasinya makin pas." wrapText="true"/>
-                                                        <Hyperlink fx:id="perbaruiChecklistLink" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Perbarui checklist"/>
+                                                        <Hyperlink fx:id="perbaruiChecklistLink" onAction="#handleBukaChecklist" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Perbarui checklist"/>
                                                     </children>
                                                 </VBox>
                                             </children>

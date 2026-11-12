@@ -9,7 +9,6 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -90,7 +89,7 @@
                 <HBox alignment="CENTER_LEFT" spacing="4.0">
                     <children>
                         <Label style="-fx-font-size: 13px;" styleClass="body" text="Sudah punya akun?"/>
-                        <Hyperlink fx:id="loginLink" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-padding: 0; -fx-border-color: transparent;" text="Masuk"/>
+                        <Hyperlink fx:id="loginLink" onAction="#handleMasuk" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-padding: 0; -fx-border-color: transparent;" text="Masuk"/>
                     </children>
                 </HBox>
             </children>
@@ -111,14 +110,14 @@
                         <HBox spacing="12.0">
                             <VBox.margin><Insets top="20.0"/></VBox.margin>
                             <children>
-                                <Button fx:id="googleButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #344054; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="Daftar dengan Google" HBox.hgrow="ALWAYS">
+                                <Button fx:id="googleButton" onAction="#handleLoginSosial" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #344054; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="Daftar dengan Google" HBox.hgrow="ALWAYS">
                                     <graphic>
                                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image><Image url="@../../../../images/google.png"/></image>
                                         </ImageView>
                                     </graphic>
                                 </Button>
-                                <Button fx:id="facebookButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1877F2; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Daftar dengan Facebook" HBox.hgrow="ALWAYS">
+                                <Button fx:id="facebookButton" onAction="#handleLoginSosial" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1877F2; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Daftar dengan Facebook" HBox.hgrow="ALWAYS">
                                     <graphic>
                                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                                             <image><Image url="@../../../../images/facebook_white.png"/></image>
@@ -205,7 +204,8 @@
                                                     <image><Image url="@../../../../images/icon_lock.png"/></image>
                                                 </ImageView>
                                                 <PasswordField fx:id="passwordField" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS"/>
-                                                <ImageView fx:id="togglePasswordIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                                                <TextField fx:id="passwordVisibleField" managed="false" visible="false" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS"/>
+                                                <ImageView fx:id="togglePasswordIcon" onMouseClicked="#handleTogglePassword" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                                     <image><Image url="@../../../../images/eye_off.png"/></image>
                                                 </ImageView>
                                             </children>
@@ -230,7 +230,8 @@
                                                     <image><Image url="@../../../../images/icon_lock.png"/></image>
                                                 </ImageView>
                                                 <PasswordField fx:id="confirmPasswordField" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS"/>
-                                                <ImageView fx:id="toggleConfirmPasswordIcon" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
+                                                <TextField fx:id="confirmPasswordVisibleField" managed="false" visible="false" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS"/>
+                                                <ImageView fx:id="toggleConfirmPasswordIcon" onMouseClicked="#handleToggleConfirmPassword" fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" style="-fx-cursor: hand;">
                                                     <image><Image url="@../../../../images/eye_off.png"/></image>
                                                 </ImageView>
                                             </children>
@@ -251,9 +252,9 @@
                             <children>
                                 <CheckBox fx:id="agreeCheckBox" mnemonicParsing="false"/>
                                 <Label style="-fx-font-size: 13px; -fx-text-fill: #344054;" styleClass="body" text="Saya menyetujui"/>
-                                <Hyperlink fx:id="termsLink" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-padding: 0; -fx-border-color: transparent;" text="Syarat layanan"/>
+                                <Hyperlink fx:id="termsLink" onAction="#handleBukaSyarat" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-padding: 0; -fx-border-color: transparent;" text="Syarat layanan"/>
                                 <Label style="-fx-font-size: 13px; -fx-text-fill: #344054;" styleClass="body" text="dan"/>
-                                <Hyperlink fx:id="privacyLink" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-padding: 0; -fx-border-color: transparent;" text="Kebijakan privasi"/>
+                                <Hyperlink fx:id="privacyLink" onAction="#handleBukaPrivasi" style="-fx-font-size: 13px; -fx-text-fill: #1F4E8C; -fx-padding: 0; -fx-border-color: transparent;" text="Kebijakan privasi"/>
                                 <Label style="-fx-font-size: 13px; -fx-text-fill: #344054;" styleClass="body" text="KawanSetara"/>
                             </children>
                         </HBox>
@@ -270,7 +271,7 @@
                         <HBox alignment="CENTER_RIGHT">
                             <VBox.margin><Insets top="16.0"/></VBox.margin>
                             <children>
-                                <Button fx:id="step1NextButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Lanjut"/>
+                                <Button fx:id="step1NextButton" onAction="#handleLanjutStep1" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Lanjut"/>
                             </children>
                         </HBox>
                     </children>
@@ -282,35 +283,6 @@
                             <VBox.margin><Insets top="4.0"/></VBox.margin>
                         </Label>
                         <Label styleClass="body" text="Dipakai perusahaan untuk menghubungi kamu.">
-                            <VBox.margin><Insets top="4.0"/></VBox.margin>
-                        </Label>
-                        <HBox alignment="CENTER_LEFT" spacing="12.0">
-                            <VBox.margin><Insets top="16.0"/></VBox.margin>
-                            <children>
-                                <StackPane fx:id="fotoCircle" maxHeight="60.0" maxWidth="60.0" minHeight="60.0" minWidth="60.0" prefHeight="60.0" prefWidth="60.0" style="-fx-background-color: #F2F4F7; -fx-border-color: #D0D5DD; -fx-background-radius: 30; -fx-border-radius: 30;">
-                                    <children>
-                                        <ImageView fx:id="fotoImageView" fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
-                                            <image><Image url="@../../../../images/icon_user.png"/></image>
-                                        </ImageView>
-                                    </children>
-                                </StackPane>
-                                <VBox spacing="4.0">
-                                    <children>
-                                        <Label styleClass="label-sm" text="Foto profil"/>
-                                        <Label style="-fx-font-size: 12px; -fx-text-fill: #667085;" styleClass="body" text="JPG atau PNG, maks. 1 MB"/>
-                                        <Button fx:id="pilihFotoButton" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih foto">
-                                            <VBox.margin><Insets top="4.0"/></VBox.margin>
-                                        </Button>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </HBox>
-                        <Label fx:id="fotoErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
-                            <graphic>
-                                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                                    <image><Image url="@../../../../images/icon_alert.png"/></image>
-                                </ImageView>
-                            </graphic>
                             <VBox.margin><Insets top="4.0"/></VBox.margin>
                         </Label>
                         <HBox fx:id="step2Alert" managed="false" spacing="10.0" style="-fx-background-color: #FEF3F2; -fx-border-color: #FDA29B; -fx-border-radius: 8; -fx-background-radius: 8;" visible="false">
@@ -359,7 +331,7 @@
                                 <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                                     <children>
                                         <Label styleClass="label-sm" text="Tanggal lahir"/>
-                                        <DatePicker fx:id="tanggalLahirPicker" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="hh/bb/tttt" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;"/>
+                                        <DatePicker fx:id="tanggalLahirPicker" onAction="#handleHitungUsia" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="hh/bb/tttt" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;"/>
                                         <Label fx:id="tanggalLahirErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
                                             <graphic>
                                                 <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
@@ -391,35 +363,14 @@
                             </graphic>
                             <VBox.margin><Insets top="4.0"/></VBox.margin>
                         </Label>
-                        <Label styleClass="label-sm" text="Alamat">
-                            <VBox.margin><Insets top="14.0"/></VBox.margin>
-                        </Label>
-                        <HBox alignment="TOP_LEFT" prefHeight="70.0" spacing="6.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
-                            <padding><Insets bottom="4.0" left="12.0" right="4.0" top="8.0"/></padding>
-                            <VBox.margin><Insets top="6.0"/></VBox.margin>
-                            <children>
-                                <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
-                                    <image><Image url="@../../../../images/icon_location.png"/></image>
-                                </ImageView>
-                                <TextArea fx:id="alamatArea" prefRowCount="2" promptText="Nama jalan, kecamatan, kabupaten, kode pos" style="-fx-background-color: transparent; -fx-control-inner-background: white; -fx-text-box-border: transparent; -fx-focus-color: transparent; -fx-faint-focus-color: transparent; -fx-background-insets: 0; -fx-background-radius: 0; -fx-padding: -4 0 0 0;" styleClass="body" wrapText="true" HBox.hgrow="ALWAYS"/>
-                            </children>
-                        </HBox>
-                        <Label fx:id="alamatErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
-                            <graphic>
-                                <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
-                                    <image><Image url="@../../../../images/icon_alert.png"/></image>
-                                </ImageView>
-                            </graphic>
-                            <VBox.margin><Insets top="4.0"/></VBox.margin>
-                        </Label>
                         <Region VBox.vgrow="ALWAYS"/>
                         <Separator/>
                         <HBox alignment="CENTER_LEFT">
                             <VBox.margin><Insets top="16.0"/></VBox.margin>
                             <children>
-                                <Button fx:id="step2BackButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="←  Kembali"/>
+                                <Button fx:id="step2BackButton" onAction="#handleKembaliStep1" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="←  Kembali"/>
                                 <Region HBox.hgrow="ALWAYS"/>
-                                <Button fx:id="step2NextButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Lanjut"/>
+                                <Button fx:id="step2NextButton" onAction="#handleLanjutStep2" mnemonicParsing="false" prefHeight="32.0" prefWidth="96.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Lanjut"/>
                             </children>
                         </HBox>
                     </children>
@@ -430,7 +381,7 @@
                         <Label styleClass="h1" text="Disabilitas &amp; dokumen">
                             <VBox.margin><Insets top="4.0"/></VBox.margin>
                         </Label>
-                        <Label maxWidth="560.0" styleClass="body" text="Boleh pilih lebih dari satu. Dokumen hanya dilihat perusahaan yang kamu lamar." wrapText="true">
+                        <Label maxWidth="560.0" styleClass="body" text="Pilih satu jenis disabilitas. Dokumen hanya dilihat perusahaan yang kamu lamar." wrapText="true">
                             <VBox.margin><Insets top="4.0"/></VBox.margin>
                         </Label>
                         <HBox fx:id="step3Alert" managed="false" spacing="10.0" style="-fx-background-color: #FEF3F2; -fx-border-color: #FDA29B; -fx-border-radius: 8; -fx-background-radius: 8;" visible="false">
@@ -451,24 +402,9 @@
                         <Label styleClass="label-sm" text="Jenis disabilitas">
                             <VBox.margin><Insets top="16.0"/></VBox.margin>
                         </Label>
-                        <HBox spacing="12.0">
+                        <ComboBox fx:id="disabilitasComboBox" maxWidth="1.7976931348623157E308" prefHeight="30.0" promptText="Pilih jenis disabilitas" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
                             <VBox.margin><Insets top="10.0"/></VBox.margin>
-                            <children>
-                                <VBox prefWidth="280.0" spacing="10.0">
-                                    <children>
-                                        <CheckBox fx:id="fisikCheckBox" mnemonicParsing="false" styleClass="body" text="Disabilitas fisik"/>
-                                        <CheckBox fx:id="runguWicaraCheckBox" mnemonicParsing="false" styleClass="body" text="Disabilitas sensorik rungu/wicara"/>
-                                        <CheckBox fx:id="mentalCheckBox" mnemonicParsing="false" styleClass="body" text="Disabilitas mental"/>
-                                    </children>
-                                </VBox>
-                                <VBox spacing="10.0" HBox.hgrow="ALWAYS">
-                                    <children>
-                                        <CheckBox fx:id="netraCheckBox" mnemonicParsing="false" styleClass="body" text="Disabilitas sensorik netra"/>
-                                        <CheckBox fx:id="intelektualCheckBox" mnemonicParsing="false" styleClass="body" text="Disabilitas intelektual"/>
-                                    </children>
-                                </VBox>
-                            </children>
-                        </HBox>
+                        </ComboBox>
                         <Label fx:id="disabilitasErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
                             <graphic>
                                 <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
@@ -493,7 +429,7 @@
                                         <Label fx:id="cvSizeLabel" managed="false" style="-fx-font-size: 11px; -fx-text-fill: #667085;" styleClass="body" visible="false"/>
                                     </children>
                                 </VBox>
-                                <Button fx:id="cvButton" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
+                                <Button fx:id="cvButton" onAction="#handlePilihCv" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
                             </children>
                         </HBox>
                         <Label fx:id="cvErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
@@ -520,7 +456,7 @@
                                         <Label fx:id="ijazahSizeLabel" managed="false" style="-fx-font-size: 11px; -fx-text-fill: #667085;" styleClass="body" visible="false"/>
                                     </children>
                                 </VBox>
-                                <Button fx:id="ijazahButton" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
+                                <Button fx:id="ijazahButton" onAction="#handlePilihIjazah" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
                             </children>
                         </HBox>
                         <Label fx:id="ijazahErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
@@ -547,7 +483,7 @@
                                         <Label fx:id="skdSizeLabel" managed="false" style="-fx-font-size: 11px; -fx-text-fill: #667085;" styleClass="body" visible="false"/>
                                     </children>
                                 </VBox>
-                                <Button fx:id="skdButton" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
+                                <Button fx:id="skdButton" onAction="#handlePilihSkd" mnemonicParsing="false" prefHeight="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 6; -fx-background-radius: 6; -fx-text-fill: #344054; -fx-font-weight: 600; -fx-cursor: hand;" text="Pilih file"/>
                             </children>
                         </HBox>
                         <Label fx:id="skdErrorLabel" graphicTextGap="4.0" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
@@ -563,9 +499,9 @@
                         <HBox alignment="CENTER_LEFT">
                             <VBox.margin><Insets top="16.0"/></VBox.margin>
                             <children>
-                                <Button fx:id="step3BackButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="←  Kembali"/>
+                                <Button fx:id="step3BackButton" onAction="#handleKembaliStep2" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="←  Kembali"/>
                                 <Region HBox.hgrow="ALWAYS"/>
-                                <Button fx:id="registerButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Buat akun"/>
+                                <Button fx:id="registerButton" onAction="#handleDaftar" mnemonicParsing="false" prefHeight="32.0" prefWidth="110.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Buat akun"/>
                             </children>
                         </HBox>
                     </children>

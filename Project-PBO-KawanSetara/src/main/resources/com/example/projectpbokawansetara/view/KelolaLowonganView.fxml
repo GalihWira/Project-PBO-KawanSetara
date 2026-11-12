@@ -17,7 +17,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaLowonganController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaLowonganController">
     <center>
         <VBox style="-fx-background-color: white;">
             <children>
@@ -57,7 +57,7 @@
                                     </children>
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button fx:id="tambahLowonganButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 18;" text="+  Tambah lowongan">
+                                <Button fx:id="tambahLowonganButton" onAction="#handleTambah" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 18;" text="+  Tambah lowongan">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
@@ -66,7 +66,7 @@
                         </HBox>
                         <HBox spacing="4.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
                             <children>
-                                <ToggleButton fx:id="semuaTab" mnemonicParsing="false" selected="true" style="-fx-background-color: transparent; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 6 4 10 4;" text="Semua 128">
+                                <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" style="-fx-background-color: transparent; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 6 4 10 4;" text="Semua 128">
                                     <toggleGroup>
                                         <ToggleGroup fx:id="statusTabGroup" />
                                     </toggleGroup>
@@ -74,12 +74,12 @@
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
                                 </ToggleButton>
-                                <ToggleButton fx:id="tersediaTab" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tersedia 112" toggleGroup="$statusTabGroup">
+                                <ToggleButton fx:id="tersediaTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tersedia 112" toggleGroup="$statusTabGroup">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
                                 </ToggleButton>
-                                <ToggleButton fx:id="tidakTersediaTab" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tidak tersedia 16" toggleGroup="$statusTabGroup">
+                                <ToggleButton fx:id="tidakTersediaTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tidak tersedia 16" toggleGroup="$statusTabGroup">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
@@ -101,22 +101,22 @@
                                         <TextField fx:id="cariPekerjaanField" promptText="Cari nama pekerjaan" style="-fx-background-color: transparent; -fx-font-size: 13px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS" />
                                     </children>
                                 </HBox>
-                                <ComboBox fx:id="perusahaanComboBox" prefHeight="30.0" prefWidth="145.0" promptText="Semua perusahaan" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
-                                <ComboBox fx:id="jenisComboBox" prefHeight="30.0" prefWidth="110.0" promptText="Semua jenis" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
-                                <ComboBox fx:id="lokasiComboBox" prefHeight="30.0" prefWidth="120.0" promptText="Semua lokasi" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
+                                <ComboBox fx:id="perusahaanComboBox" onAction="#handleFilter" prefHeight="30.0" prefWidth="145.0" promptText="Semua perusahaan" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
+                                <ComboBox fx:id="jenisComboBox" onAction="#handleFilter" prefHeight="30.0" prefWidth="110.0" promptText="Semua jenis" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
+                                <ComboBox fx:id="lokasiComboBox" onAction="#handleFilter" prefHeight="30.0" prefWidth="120.0" promptText="Semua lokasi" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;" />
                             </children>
                         </HBox>
                         <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;" VBox.vgrow="ALWAYS">
                             <children>
                                 <TableView fx:id="lowonganTable" fixedCellSize="40.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
                                     <columns>
-                                        <TableColumn fx:id="posisiColumn" prefWidth="240.0" text="Posisi" />
+                                        <TableColumn fx:id="posisiColumn" prefWidth="200.0" text="Posisi" />
+                                        <TableColumn fx:id="perusahaanColumn" prefWidth="140.0" text="Perusahaan" />
                                         <TableColumn fx:id="lokasiColumn" prefWidth="95.0" text="Lokasi" />
                                         <TableColumn fx:id="jenisColumn" prefWidth="90.0" text="Jenis" />
-                                        <TableColumn fx:id="durasiColumn" prefWidth="90.0" text="Durasi" />
                                         <TableColumn fx:id="gajiColumn" prefWidth="110.0" style="-fx-alignment: CENTER_RIGHT;" text="Gaji / bulan" />
                                         <TableColumn fx:id="pelamarColumn" prefWidth="80.0" style="-fx-alignment: CENTER_RIGHT;" text="Pelamar" />
-                                        <TableColumn fx:id="statusColumn" prefWidth="120.0" text="Status" />
+                                        <TableColumn fx:id="statusColumn" prefWidth="110.0" text="Status" />
                                         <TableColumn fx:id="aksiColumn" prefWidth="80.0" sortable="false" />
                                     </columns>
                                     <columnResizePolicy>
@@ -134,12 +134,12 @@
                                         <Label fx:id="infoTampilLabel" style="-fx-text-fill: #475467; -fx-font-size: 12px;" text="Menampilkan 1–8 dari 128" />
                                         <Region HBox.hgrow="ALWAYS" />
                                         <Label fx:id="infoHalamanLabel" style="-fx-text-fill: #475467; -fx-font-size: 12px;" text="Halaman 1 dari 16" />
-                                        <Button fx:id="sebelumnyaButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px;" text="‹">
+                                        <Button fx:id="sebelumnyaButton" onAction="#handleSebelumnya" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px;" text="‹">
                                             <cursor>
                                                 <Cursor fx:constant="HAND" />
                                             </cursor>
                                         </Button>
-                                        <Button fx:id="berikutnyaButton" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px;" text="›">
+                                        <Button fx:id="berikutnyaButton" onAction="#handleBerikutnya" mnemonicParsing="false" prefHeight="32.0" prefWidth="40.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px;" text="›">
                                             <cursor>
                                                 <Cursor fx:constant="HAND" />
                                             </cursor>
