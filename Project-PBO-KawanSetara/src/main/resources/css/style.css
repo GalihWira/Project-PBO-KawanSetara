@@ -1,22 +1,22 @@
-@font-face { font-family: "Poppins"; font-weight: normal; font-style: normal; src: url("../fonts/Poppins-Regular.ttf"); }
-@font-face { font-family: "Poppins"; font-weight: 600; font-style: normal; src: url("../fonts/Poppins-SemiBold.ttf"); }
-@font-face { font-family: "Poppins"; font-weight: bold; font-style: normal; src: url("../fonts/Poppins-Bold.ttf"); }
+@font-face { font-family: "Inter"; font-weight: normal; font-style: normal; src: url("../fonts/Inter_18pt-Regular.ttf"); }
+@font-face { font-family: "Inter"; font-weight: 600; font-style: normal; src: url("../fonts/Inter_18pt-SemiBold.ttf"); }
+@font-face { font-family: "Inter"; font-weight: bold; font-style: normal; src: url("../fonts/Inter_18pt-Bold.ttf"); }
 
 .root {
-    -fx-font-family: "Poppins";
+    -fx-font-family: "Inter";
     -fx-font-size: 13px;
     -fx-focus-color: transparent;
     -fx-faint-focus-color: transparent;
 }
 
-.h1 { -fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #101828; }
-.h2 { -fx-font-size: 20px; -fx-font-weight: bold; -fx-text-fill: #1F4E8C; }
-.page-title { -fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #101828; }
-.section-title { -fx-font-size: 15px; -fx-font-weight: 600; -fx-text-fill: #101828; }
-.body { -fx-font-size: 14px; -fx-text-fill: #667085; }
-.label-sm { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #344054; }
+.h1 { -fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #101828; }
+.h2 { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #1F4E8C; }
+.page-title { -fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #101828; }
+.section-title { -fx-font-size: 13px; -fx-font-weight: 600; -fx-text-fill: #101828; }
+.body { -fx-font-size: 12px; -fx-text-fill: #667085; }
+.label-sm { -fx-font-size: 12px; -fx-font-weight: 600; -fx-text-fill: #344054; }
 .text-muted { -fx-font-size: 12px; -fx-text-fill: #667085; }
-.text-faint { -fx-font-size: 12px; -fx-text-fill: #98A2B3; }
+.text-faint { -fx-font-size: 11px; -fx-text-fill: #98A2B3; }
 .text-white { -fx-text-fill: white; }
 .text-light { -fx-text-fill: #E4E7EC; }
 .error { -fx-font-size: 12px; -fx-text-fill: #D93025; }
@@ -33,14 +33,14 @@
     -fx-border-color: #D0D5DD;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
-    -fx-padding: 0 12;
+    -fx-padding: 0 10;
 }
-.input-box:focus-within { -fx-border-color: #1F4E8C; }
 .input-box .text-field,
 .input-box .password-field {
     -fx-background-color: transparent;
     -fx-background-insets: 0;
-    -fx-padding: 8 0;
+    -fx-padding: 5 0;
+    -fx-font-size: 12px;
     -fx-prompt-text-fill: #98A2B3;
 }
 
@@ -49,13 +49,14 @@
     -fx-border-color: #D0D5DD;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
+    -fx-font-size: 12px;
 }
 .combo-box > .arrow-button,
 .date-picker > .arrow-button { -fx-background-color: transparent; }
 .combo-box .list-cell { -fx-text-fill: #344054; -fx-padding: 0 0 0 10; }
 .date-picker > .text-field { -fx-background-color: transparent; }
 
-.text-area { -fx-background-color: transparent; -fx-control-inner-background: white; }
+.text-area { -fx-background-color: transparent; -fx-control-inner-background: white; -fx-font-size: 12px; }
 .text-area .content,
 .text-area .scroll-pane,
 .text-area .viewport { -fx-background-color: white; }
@@ -63,9 +64,10 @@
 .btn-primary {
     -fx-background-color: #1F4E8C;
     -fx-text-fill: white;
+    -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-background-radius: 8;
-    -fx-padding: 8 18;
+    -fx-padding: 6 14;
     -fx-cursor: hand;
 }
 .btn-primary:hover { -fx-background-color: #183E70; }
@@ -74,10 +76,11 @@
     -fx-background-color: white;
     -fx-border-color: #D0D5DD;
     -fx-text-fill: #344054;
+    -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-background-radius: 8;
     -fx-border-radius: 8;
-    -fx-padding: 8 16;
+    -fx-padding: 6 14;
     -fx-cursor: hand;
 }
 .btn-secondary:hover { -fx-background-color: #F9FAFB; }
@@ -85,9 +88,10 @@
 .btn-danger {
     -fx-background-color: #D92D20;
     -fx-text-fill: white;
+    -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-background-radius: 8;
-    -fx-padding: 8 18;
+    -fx-padding: 6 14;
     -fx-cursor: hand;
 }
 
@@ -104,9 +108,9 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-text-fill: #344054;
-    -fx-font-size: 14px;
-    -fx-pref-width: 40;
-    -fx-pref-height: 32;
+    -fx-font-size: 12px;
+    -fx-pref-width: 32;
+    -fx-pref-height: 28;
     -fx-cursor: hand;
 }
 .btn-page:disabled { -fx-opacity: 0.5; }
@@ -118,6 +122,7 @@
     -fx-cursor: hand;
 }
 
+.check-box { -fx-font-size: 12px; -fx-text-fill: #344054; }
 .check-box > .box {
     -fx-background-color: white;
     -fx-border-color: #D0D5DD;
@@ -140,7 +145,7 @@
     -fx-background-radius: 8;
     -fx-background-color: #EEF4FB;
     -fx-text-fill: #1F4E8C;
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-font-weight: 600;
     -fx-alignment: center;
 }
@@ -170,11 +175,11 @@
 .admin-table .filler {
     -fx-background-color: transparent;
     -fx-border-color: transparent;
-    -fx-size: 40px;
+    -fx-size: 34px;
 }
 .admin-table .column-header .label {
     -fx-text-fill: #667085;
-    -fx-font-size: 12px;
+    -fx-font-size: 11px;
     -fx-font-weight: normal;
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 0 0 10;
@@ -182,249 +187,14 @@
 .admin-table .table-row-cell {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-cell-size: 40px;
 }
-<<<<<<< HEAD
-
-.text-field,
-.password-field,
-.text-area,
-.date-picker,
-.combo-box {
-    -fx-focus-color: transparent;
-    -fx-faint-focus-color: transparent;
-}
-
-.date-picker > .text-field {
-    -fx-background-color: transparent;
-}
-
-.date-picker > .arrow-button,
-.combo-box > .arrow-button {
-    -fx-background-color: transparent;
-}
-
-.text-area {
-    -fx-background-color: transparent;
-    -fx-control-inner-background: white;
-}
-
-.text-area .content,
-.text-area .scroll-pane,
-.text-area .viewport {
-    -fx-background-color: white;
-}
-
-.page-title {
-    -fx-font-size: 22px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1F2937;
-}
-
-.page-subtitle {
-    -fx-font-size: 13px;
-    -fx-text-fill: #6B7280;
-}
-
-/* ===== Cari Lowongan: panel filter ===== */
-.cl-filter-title {
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #344054;
-}
-.cl-filter-option {
-    -fx-font-size: 12px;
-    -fx-text-fill: #344054;
-}
-.cl-filter-count {
-    -fx-font-size: 11px;
-    -fx-text-fill: #98A2B3;
-}
-.cl-input-box {
-    -fx-background-color: white;
-    -fx-border-color: #D0D5DD;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 0 10 0 10;
-}
-.cl-input-box .text-field {
-    -fx-background-color: transparent;
-    -fx-padding: 8 0 8 0;
-    -fx-font-size: 12px;
-}
-.cl-combo {
-    -fx-background-color: white;
-    -fx-border-color: #D0D5DD;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-font-size: 12px;
-}
-.cl-link {
-    -fx-text-fill: #1F4E8C;
-    -fx-font-size: 12px;
-    -fx-padding: 0;
-    -fx-border-color: transparent;
-}
-
-/* ===== Cari Lowongan: area hasil ===== */
-.cl-search-box {
-    -fx-background-color: white;
-    -fx-border-color: #D0D5DD;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-padding: 0 10 0 10;
-}
-.cl-search-box .text-field {
-    -fx-background-color: transparent;
-    -fx-padding: 9 0 9 0;
-    -fx-font-size: 12px;
-}
-.cl-sort-combo {
-    -fx-background-color: white;
-    -fx-border-color: #D0D5DD;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-font-size: 12px;
-}
-.cl-btn-primary {
-    -fx-background-color: #2F66B8;
-    -fx-text-fill: white;
-    -fx-font-size: 12px;
-    -fx-font-weight: 600;
-    -fx-background-radius: 6;
-    -fx-cursor: hand;
-}
-.cl-btn-primary:hover {
-    -fx-background-color: #1F4E8C;
-}
-.cl-summary-bold {
-    -fx-font-size: 11px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #344054;
-}
-.cl-summary {
-    -fx-font-size: 11px;
-    -fx-text-fill: #667085;
-}
-.cl-list-card {
-    -fx-background-color: white;
-    -fx-border-color: #E5E7EB;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
-}
-
-/* ===== Cari Lowongan: baris lowongan ===== */
-.cl-job-row {
-    -fx-padding: 12 16 12 16;
-    -fx-border-color: transparent transparent #E5E7EB transparent;
-    -fx-border-width: 0 0 1 0;
-}
-.cl-job-row:hover {
-    -fx-background-color: #F5F8FD;
-}
-.cl-job-row-selected {
-    -fx-background-color: #EAF0FA;
-}
-.cl-avatar {
-    -fx-background-radius: 8;
-    -fx-background-color: #E5EDF8;
-}
-.cl-avatar-text {
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #1F4E8C;
-}
-.cl-job-title {
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #101828;
-}
-.cl-job-company {
-    -fx-font-size: 11px;
-    -fx-text-fill: #667085;
-}
-.cl-job-meta {
-    -fx-font-size: 11px;
-    -fx-text-fill: #667085;
-}
-.cl-job-price {
-    -fx-font-size: 13px;
-    -fx-font-weight: 600;
-    -fx-text-fill: #101828;
-}
-.cl-job-time {
-    -fx-font-size: 10px;
-    -fx-text-fill: #98A2B3;
-}
-
-.cl-avatar-purple { -fx-background-color: #F1EDFE; }
-.cl-avatar-cyan   { -fx-background-color: #E6F9FB; }
-.cl-avatar-orange { -fx-background-color: #FEF1E4; }
-.cl-avatar-gray   { -fx-background-color: #F2F4F7; }
-.cl-avatar-green  { -fx-background-color: #E6F6EC; }
-
-/* ===== Cari Lowongan: pagination ===== */
-.cl-pagination {
-    -fx-padding: 12 12 12 12;
-}
-.cl-page-info {
-    -fx-font-size: 11px;
-    -fx-text-fill: #667085;
-}
-.cl-page-btn {
-    -fx-background-color: white;
-    -fx-border-color: #D0D5DD;
-    -fx-border-radius: 6;
-    -fx-background-radius: 6;
-    -fx-text-fill: #344054;
-    -fx-font-size: 14px;
-    -fx-padding: 0;
-    -fx-cursor: hand;
-}
-.cl-page-btn:hover {
-    -fx-background-color: #F3F4F6;
-}
-.cl-page-btn:disabled {
-    -fx-opacity: 0.5;
-}
-
-.cl-icon-search {
-    -fx-shape: "M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z";
-    -fx-background-color: #98A2B3;
-    -fx-min-width: 16;
-    -fx-pref-width: 16;
-    -fx-max-width: 16;
-    -fx-min-height: 16;
-    -fx-pref-height: 16;
-    -fx-max-height: 16;
-}
-
-.cl-search-box .text-field:focused,
-.cl-input-box .text-field:focused {
-    -fx-background-color: transparent;
-    -fx-background-insets: 0;
-}
-.cl-search-box:focus-within,
-.cl-input-box:focus-within {
-    -fx-border-color: #2F66B8;
-}
-
-.cl-combo .list-cell,
-.cl-sort-combo .list-cell {
-    -fx-text-fill: #344054;
-    -fx-font-size: 12px;
-    -fx-padding: 0 0 0 10;
-}
-.cl-combo,
-.cl-sort-combo {
-    -fx-pref-height: 32;
-=======
 .admin-table .table-row-cell:hover { -fx-background-color: #F9FAFB; }
 .admin-table .table-row-cell:selected { -fx-background-color: #F0F6FC; }
 .admin-table .table-cell {
     -fx-text-fill: #344054;
-    -fx-font-size: 13px;
+    -fx-font-size: 12px;
     -fx-alignment: CENTER_LEFT;
     -fx-padding: 0 10;
     -fx-border-color: transparent;
->>>>>>> origin/staging
 }

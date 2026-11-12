@@ -11,9 +11,9 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox prefWidth="360.0" spacing="16.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #EAECF0; -fx-border-radius: 8;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KeluarDialogController">
+<VBox prefWidth="360.0" spacing="10.0" style="-fx-background-color: white; -fx-background-radius: 8; -fx-border-color: #EAECF0; -fx-border-radius: 8;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KeluarDialogController">
     <padding>
-        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
     <children>
         <HBox spacing="14.0">
@@ -22,30 +22,30 @@
                     <children>
                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../images/log-out.png" />
+                                <Image url="@../../../../images/log-out.png"/>
                             </image>
                         </ImageView>
                     </children>
                 </StackPane>
                 <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                     <children>
-                        <Label fx:id="judulLabel" style="-fx-text-fill: #101828; -fx-font-size: 16px; -fx-font-weight: 600;" text="Keluar dari KawanSetara?" />
-                        <Label fx:id="pesanLabel" style="-fx-text-fill: #475467; -fx-font-size: 13px; -fx-line-spacing: 3;" text="Kamu perlu masuk lagi untuk melihat rekomendasi dan riwayat lamaran." wrapText="true" />
+                        <Label fx:id="judulLabel" style="-fx-text-fill: #101828; -fx-font-size: 14px; -fx-font-weight: 600;" text="Keluar dari KawanSetara?"/>
+                        <Label fx:id="pesanLabel" style="-fx-text-fill: #475467; -fx-font-size: 13px; -fx-line-spacing: 3;" text="Kamu perlu masuk lagi untuk melihat rekomendasi dan riwayat lamaran." wrapText="true"/>
                     </children>
                 </VBox>
             </children>
         </HBox>
         <HBox alignment="CENTER_RIGHT" spacing="8.0">
             <children>
-                <Region HBox.hgrow="ALWAYS" />
-                <Button fx:id="batalButton" mnemonicParsing="false" prefHeight="36.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="batalButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
-                <Button fx:id="keluarButton" mnemonicParsing="false" prefHeight="36.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Keluar">
+                <Button fx:id="keluarButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Keluar">
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
             </children>

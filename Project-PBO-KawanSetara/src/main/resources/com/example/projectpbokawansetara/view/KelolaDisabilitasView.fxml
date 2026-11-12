@@ -3,13 +3,9 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
-<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.control.ToggleGroup?>
@@ -18,161 +14,161 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<BorderPane prefHeight="800.0" prefWidth="1280.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaDisabilitasController">
+
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaDisabilitasController">
     <left>
-        <VBox minWidth="232.0" prefWidth="232.0" spacing="4.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;">
+        <VBox minWidth="232.0" prefWidth="232.0" spacing="2.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;">
             <padding>
-                <Insets bottom="16.0" left="10.0" right="10.0" top="20.0" />
+                <Insets bottom="16.0" left="10.0" right="10.0" top="20.0"/>
             </padding>
             <children>
                 <HBox alignment="CENTER_LEFT" spacing="8.0">
                     <VBox.margin>
-                        <Insets bottom="12.0" left="8.0" />
+                        <Insets bottom="12.0" left="8.0"/>
                     </VBox.margin>
                     <children>
                         <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../images/logo.png" />
+                                <Image url="@../../../../images/logo.png"/>
                             </image>
                         </ImageView>
-                        <Label style="-fx-font-size: 17px;" styleClass="h2" text="KawanSetara" />
+                        <Label style="-fx-font-size: 15px;" styleClass="h2" text="KawanSetara"/>
                     </children>
                 </HBox>
-                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 8 10 4 10;" text="UTAMA" />
-                <ToggleButton fx:id="dashboardMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 14px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Dashboard">
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 8 10 4 10;" text="UTAMA"/>
+                <ToggleButton fx:id="dashboardMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Dashboard">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../images/house.png" />
+                                <Image url="@../../../../images/house.png"/>
                             </image>
                         </ImageView>
                     </graphic>
                     <toggleGroup>
-                        <ToggleGroup fx:id="adminMenuGroup" />
+                        <ToggleGroup fx:id="adminMenuGroup"/>
                     </toggleGroup>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="LOWONGAN" />
-                <ToggleButton fx:id="lowonganMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="LOWONGAN"/>
+                <ToggleButton fx:id="lowonganMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../images/briefcase.png" />
+                                        <Image url="@../../../../images/briefcase.png"/>
                                     </image>
                                 </ImageView>
-                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Lowongan" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="jumlahLowonganMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="128" />
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Lowongan"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="jumlahLowonganMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="128"/>
                             </children>
                         </HBox>
                     </graphic>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="perusahaanMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <ToggleButton fx:id="perusahaanMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
-                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="▦" />
-                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Perusahaan" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="jumlahPerusahaanMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="36" />
+                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="▦"/>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Perusahaan"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="jumlahPerusahaanMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="36"/>
                             </children>
                         </HBox>
                     </graphic>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="DATA MASTER" />
-                <ToggleButton fx:id="itemChecklistMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="DATA MASTER"/>
+                <ToggleButton fx:id="itemChecklistMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../images/list-checks.png" />
+                                        <Image url="@../../../../images/list-checks.png"/>
                                     </image>
                                 </ImageView>
-                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Item checklist" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="jumlahChecklistMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="24" />
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Item checklist"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="jumlahChecklistMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="24"/>
                             </children>
                         </HBox>
                     </graphic>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="jenisDisabilitasMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <ToggleButton fx:id="jenisDisabilitasMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../images/accessibility.png" />
+                                        <Image url="@../../../../images/accessibility.png"/>
                                     </image>
                                 </ImageView>
-                                <Label style="-fx-text-fill: #1F4E8C; -fx-font-size: 14px; -fx-font-weight: 600;" text="Jenis disabilitas" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="jumlahDisabilitasMenuLabel" style="-fx-text-fill: #1F4E8C; -fx-font-size: 12px;" text="5" />
+                                <Label style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600;" text="Jenis disabilitas"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="jumlahDisabilitasMenuLabel" style="-fx-text-fill: #1F4E8C; -fx-font-size: 12px;" text="5"/>
                             </children>
                         </HBox>
                     </graphic>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="PENGATURAN" />
-                <ToggleButton fx:id="akunAdminMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="40.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="PENGATURAN"/>
+                <ToggleButton fx:id="akunAdminMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
-                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 14px;" text="⛉" />
-                                <Label style="-fx-text-fill: #344054; -fx-font-size: 14px;" text="Akun admin" />
-                                <Region HBox.hgrow="ALWAYS" />
-                                <Label fx:id="jumlahAdminMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="4" />
+                                <Label alignment="CENTER" minWidth="18.0" prefWidth="18.0" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="⛉"/>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Akun admin"/>
+                                <Region HBox.hgrow="ALWAYS"/>
+                                <Label fx:id="jumlahAdminMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="4"/>
                             </children>
                         </HBox>
                     </graphic>
                     <cursor>
-                        <Cursor fx:constant="HAND" />
+                        <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <Region VBox.vgrow="ALWAYS" />
+                <Region VBox.vgrow="ALWAYS"/>
                 <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #EAECF0 transparent transparent transparent;">
                     <padding>
-                        <Insets left="6.0" top="14.0" />
+                        <Insets left="6.0" top="14.0"/>
                     </padding>
                     <children>
                         <ImageView fx:id="avatarImage" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../images/avatar.jpeg" />
+                                <Image url="@../../../../images/avatar.jpeg"/>
                             </image>
                         </ImageView>
                         <VBox HBox.hgrow="ALWAYS">
                             <children>
-                                <Label fx:id="namaUserLabel" style="-fx-text-fill: #101828; -fx-font-size: 14px; -fx-font-weight: 600;" text="Made Satya" />
-                                <Label fx:id="peranUserLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Admin" />
+                                <Label fx:id="namaUserLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Made Satya"/>
+                                <Label fx:id="peranUserLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="Admin"/>
                             </children>
                         </VBox>
                         <Button fx:id="keluarButton" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;">
                             <graphic>
                                 <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../images/log-out.png" />
+                                        <Image url="@../../../../images/log-out.png"/>
                                     </image>
                                 </ImageView>
                             </graphic>
                             <cursor>
-                                <Cursor fx:constant="HAND" />
+                                <Cursor fx:constant="HAND"/>
                             </cursor>
                         </Button>
                     </children>
@@ -183,99 +179,99 @@
     <center>
         <VBox style="-fx-background-color: white;">
             <children>
-                <HBox alignment="CENTER_LEFT" minHeight="56.0" prefHeight="56.0" spacing="6.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
+                <HBox alignment="CENTER_LEFT" minHeight="48.0" prefHeight="48.0" spacing="6.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
                     <padding>
-                        <Insets left="24.0" right="24.0" />
+                        <Insets left="24.0" right="24.0"/>
                     </padding>
                     <children>
-                        <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Data master  /" />
-                        <Label style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Jenis disabilitas" />
-                        <Region HBox.hgrow="ALWAYS" />
+                        <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Data master  /"/>
+                        <Label style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Jenis disabilitas"/>
+                        <Region HBox.hgrow="ALWAYS"/>
                         <HBox alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="280.0" spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
                             <padding>
-                                <Insets left="12.0" right="12.0" />
+                                <Insets left="12.0" right="12.0"/>
                             </padding>
                             <children>
                                 <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
-                                        <Image url="@../../../../images/icon_search.png" />
+                                        <Image url="@../../../../images/icon_search.png"/>
                                     </image>
                                 </ImageView>
-                                <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari di panel admin" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS" />
+                                <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari di panel admin" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS"/>
                             </children>
                         </HBox>
                     </children>
                 </HBox>
-                <VBox spacing="16.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
+                <VBox spacing="10.0" style="-fx-background-color: white;" VBox.vgrow="ALWAYS">
                     <padding>
-                        <Insets bottom="28.0" left="32.0" right="32.0" top="28.0" />
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="20.0"/>
                     </padding>
                     <children>
                         <HBox alignment="CENTER_LEFT" spacing="10.0">
                             <children>
                                 <VBox spacing="4.0">
                                     <children>
-                                        <Label styleClass="page-title" text="Jenis disabilitas" />
-                                        <Label styleClass="body" text="Pilihan ini tampil di langkah 3 pendaftaran pelamar." />
+                                        <Label styleClass="page-title" text="Jenis disabilitas"/>
+                                        <Label styleClass="body" text="Pilihan ini tampil di langkah 3 pendaftaran pelamar."/>
                                     </children>
                                 </VBox>
-                                <Region HBox.hgrow="ALWAYS" />
+                                <Region HBox.hgrow="ALWAYS"/>
                             </children>
                         </HBox>
                         <VBox spacing="12.0" styleClass="card">
                             <padding>
-                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0" />
+                                <Insets bottom="18.0" left="20.0" right="20.0" top="18.0"/>
                             </padding>
                             <children>
-                                <Label fx:id="judulFormLabel" styleClass="label-sm" style="-fx-text-fill: #101828;" text="Tambah jenis disabilitas" />
+                                <Label fx:id="judulFormLabel" style="-fx-text-fill: #101828;" styleClass="label-sm" text="Tambah jenis disabilitas"/>
                                 <HBox alignment="TOP_LEFT" spacing="12.0">
                                     <children>
                                         <VBox prefWidth="280.0" spacing="6.0">
                                             <children>
-                                                <Label styleClass="label-sm" text="Nama jenis" />
-                                                <HBox fx:id="namaJenisBox" alignment="CENTER_LEFT" prefHeight="36.0" spacing="8.0" styleClass="input-box">
+                                                <Label styleClass="label-sm" text="Nama jenis"/>
+                                                <HBox fx:id="namaJenisBox" alignment="CENTER_LEFT" prefHeight="30.0" spacing="8.0" styleClass="input-box">
                                                     <children>
                                                         <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
                                                             <image>
-                                                                <Image url="@../../../../images/accessibility.png" />
+                                                                <Image url="@../../../../images/accessibility.png"/>
                                                             </image>
                                                         </ImageView>
-                                                        <TextField fx:id="namaJenisField" promptText="Contoh: Disabilitas ganda" HBox.hgrow="ALWAYS" />
+                                                        <TextField fx:id="namaJenisField" promptText="Contoh: Disabilitas ganda" HBox.hgrow="ALWAYS"/>
                                                     </children>
                                                 </HBox>
-                                                <Label fx:id="namaJenisErrorLabel" managed="false" styleClass="error" text="Nama jenis disabilitas wajib diisi" visible="false" />
+                                                <Label fx:id="namaJenisErrorLabel" managed="false" styleClass="error" text="Nama jenis disabilitas wajib diisi" visible="false"/>
                                             </children>
                                         </VBox>
                                         <VBox spacing="6.0" HBox.hgrow="ALWAYS">
                                             <children>
-                                                <Label styleClass="label-sm" text="Deskripsi" />
-                                                <HBox alignment="CENTER_LEFT" prefHeight="36.0" spacing="8.0" styleClass="input-box">
+                                                <Label styleClass="label-sm" text="Deskripsi"/>
+                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="8.0" styleClass="input-box">
                                                     <children>
-                                                        <TextField fx:id="deskripsiField" promptText="Penjelasan singkat untuk pelamar" HBox.hgrow="ALWAYS" />
+                                                        <TextField fx:id="deskripsiField" promptText="Penjelasan singkat untuk pelamar" HBox.hgrow="ALWAYS"/>
                                                     </children>
                                                 </HBox>
                                             </children>
                                         </VBox>
                                         <VBox spacing="6.0">
                                             <children>
-                                                <Label styleClass="label-sm" text=" " />
-                                                <Button fx:id="tambahButton" mnemonicParsing="false" prefHeight="36.0" styleClass="btn-primary" text="Tambah" />
+                                                <Label styleClass="label-sm" text=" "/>
+                                                <Button fx:id="tambahButton" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="Tambah"/>
                                             </children>
                                         </VBox>
                                     </children>
                                 </HBox>
                             </children>
                         </VBox>
-                        <TableView fx:id="disabilitasTable" fixedCellSize="48.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
+                        <TableView fx:id="disabilitasTable" fixedCellSize="40.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
                             <columns>
-                                <TableColumn fx:id="idColumn" prefWidth="80.0" text="ID" />
-                                <TableColumn fx:id="namaColumn" prefWidth="260.0" text="Nama jenis" />
-                                <TableColumn fx:id="deskripsiColumn" prefWidth="360.0" text="Deskripsi" />
-                                <TableColumn fx:id="pelamarColumn" prefWidth="90.0" style="-fx-alignment: CENTER_RIGHT;" text="Pelamar" />
-                                <TableColumn fx:id="aksiColumn" prefWidth="90.0" sortable="false" />
+                                <TableColumn fx:id="idColumn" prefWidth="80.0" text="ID"/>
+                                <TableColumn fx:id="namaColumn" prefWidth="260.0" text="Nama jenis"/>
+                                <TableColumn fx:id="deskripsiColumn" prefWidth="360.0" text="Deskripsi"/>
+                                <TableColumn fx:id="pelamarColumn" prefWidth="90.0" style="-fx-alignment: CENTER_RIGHT;" text="Pelamar"/>
+                                <TableColumn fx:id="aksiColumn" prefWidth="90.0" sortable="false"/>
                             </columns>
                             <columnResizePolicy>
-                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
+                                <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
                             </columnResizePolicy>
                         </TableView>
                     </children>
