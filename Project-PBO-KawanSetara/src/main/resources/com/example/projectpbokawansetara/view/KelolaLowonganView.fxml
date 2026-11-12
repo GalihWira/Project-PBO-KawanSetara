@@ -57,7 +57,7 @@
                                     </children>
                                 </VBox>
                                 <Region HBox.hgrow="ALWAYS" />
-                                <Button fx:id="tambahLowonganButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 18;" text="+  Tambah lowongan">
+                                <Button fx:id="tambahLowonganButton" mnemonicParsing="false" onAction="#handleTambahLowongan" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 18;" text="+  Tambah lowongan">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>

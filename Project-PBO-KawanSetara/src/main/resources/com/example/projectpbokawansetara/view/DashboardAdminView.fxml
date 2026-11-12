@@ -37,7 +37,7 @@
                     </children>
                 </HBox>
                 <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 8 10 4 10;" text="UTAMA" />
-                <ToggleButton fx:id="dashboardMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Dashboard">
+                <ToggleButton fx:id="dashboardMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleDashboardMenu" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Dashboard">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -290,7 +290,7 @@
                                         </VBox>
                                         <VBox minWidth="260.0" prefWidth="260.0" spacing="10.0">
                                             <children>
-                                                <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600;" text="Perlu ditindaklanjuti" />
+                                                <Label style="-fx-text-fill: #101828; -fx-font-size: 12; -fx-font-weight: 600;" text="Perlu ditindaklanjuti" />
                                                 <VBox fx:id="tindakLanjutBox" style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;" />
                                                 <Label fx:id="tindakLanjutKosongLabel" managed="false" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Tidak ada yang perlu ditindaklanjuti" visible="false" wrapText="true" />
                                             </children>

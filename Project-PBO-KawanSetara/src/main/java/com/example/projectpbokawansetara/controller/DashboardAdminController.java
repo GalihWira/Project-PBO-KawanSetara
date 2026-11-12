@@ -2,6 +2,7 @@ package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -15,6 +16,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.Node;
 
 public class DashboardAdminController {
 
@@ -114,28 +116,38 @@ public class DashboardAdminController {
     @FXML
     private Label tindakLanjutKosongLabel;
 
+    @FXML 
+    void handleDashboardMenu(ActionEvent event){
+        setMenuAktif(dashboardMenu);
+        mainBorderPane.setCenter(kontenDashboardAwal);
+    }
     @FXML
     void handleBukaLowongan(MouseEvent event) {
+        setMenuAktif(lowonganMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
     }
 
     @FXML
     void handleBukaPerusahaan(MouseEvent event) {
+        setMenuAktif(perusahaanMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaPerusahaanView.fxml");
     }
 
     @FXML
     void handleBukaItemChecklist(MouseEvent event) {
+        setMenuAktif(itemChecklistMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaChecklistView.fxml");
     }
 
     @FXML 
     void handleKelolaDisabilitas(MouseEvent event){
+        setMenuAktif(jenisDisabilitasMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaDisabilitasView.fxml");
     }
 
     @FXML 
     void handleKelolaAkunAdmin(MouseEvent event){
+        setMenuAktif(akunAdminMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaAkunAdminView.fxml");
     }
 
@@ -148,6 +160,36 @@ public class DashboardAdminController {
             e.printStackTrace();
         }
     }
+
+    private Node kontenDashboardAwal;
+    @FXML
+    public void initialize() {
+        kontenDashboardAwal = mainBorderPane.getCenter();
+    }
+
+    private void setMenuAktif(ToggleButton menuAktif) {
+    ToggleButton[] semuaMenu = {
+        dashboardMenu,
+        lowonganMenu,
+        perusahaanMenu,
+        itemChecklistMenu,
+        jenisDisabilitasMenu,
+        akunAdminMenu
+    };
+
+    for (ToggleButton menu : semuaMenu) {
+        if (menu != null) {
+            menu.setStyle("-fx-background-color: transparent; -fx-background-radius: 8;");
+        }
+    }
+
+    if (menuAktif != null) {
+        menuAktif.setStyle("-fx-background-color: #E2ECF7; -fx-background-radius: 8;");
+    }
 }
+
+
+}
+
 
 
