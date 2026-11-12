@@ -198,3 +198,9 @@
     -fx-padding: 0 10;
     -fx-border-color: transparent;
 }
+
+.toggle-button:selected {
+    -fx-background-color: #DCE9F5;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+}

@@ -72,7 +72,7 @@
                                         <Image url="@../../../../images/Riwayat.png"/>
                                     </image>
                                 </ImageView>
-                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Riwayat lamaran"/>
+                                <Label fx:id="riwayatMenuLabel" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Riwayat lamaran"/>
                                 <Region HBox.hgrow="ALWAYS"/>
                                 <Label fx:id="jumlahRiwayatLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;"/>
                             </children>
