@@ -13,7 +13,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaDisabilitasController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaDisabilitasController">
     <center>
         <VBox style="-fx-background-color: white;">
             <children>
@@ -64,7 +64,7 @@
                                 <Label fx:id="judulFormLabel" style="-fx-text-fill: #101828;" styleClass="label-sm" text="Tambah jenis disabilitas" />
                                 <HBox alignment="TOP_LEFT" spacing="12.0">
                                     <children>
-                                        <VBox prefWidth="280.0" spacing="6.0">
+                                        <VBox prefWidth="360.0" spacing="6.0">
                                             <children>
                                                 <Label styleClass="label-sm" text="Nama jenis" />
                                                 <HBox fx:id="namaJenisBox" alignment="CENTER_LEFT" prefHeight="30.0" spacing="8.0" styleClass="input-box">
@@ -80,20 +80,10 @@
                                                 <Label fx:id="namaJenisErrorLabel" managed="false" styleClass="error" text="Nama jenis disabilitas wajib diisi" visible="false" />
                                             </children>
                                         </VBox>
-                                        <VBox spacing="6.0" HBox.hgrow="ALWAYS">
-                                            <children>
-                                                <Label styleClass="label-sm" text="Deskripsi" />
-                                                <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="8.0" styleClass="input-box">
-                                                    <children>
-                                                        <TextField fx:id="deskripsiField" promptText="Penjelasan singkat untuk pelamar" HBox.hgrow="ALWAYS" />
-                                                    </children>
-                                                </HBox>
-                                            </children>
-                                        </VBox>
                                         <VBox spacing="6.0">
                                             <children>
                                                 <Label styleClass="label-sm" text=" " />
-                                                <Button fx:id="tambahButton" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="Tambah" />
+                                                <Button fx:id="tambahButton" onAction="#handleTambah" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="Tambah" />
                                             </children>
                                         </VBox>
                                     </children>
@@ -103,9 +93,8 @@
                         <TableView fx:id="disabilitasTable" fixedCellSize="40.0" styleClass="admin-table" VBox.vgrow="ALWAYS">
                             <columns>
                                 <TableColumn fx:id="idColumn" prefWidth="80.0" text="ID" />
-                                <TableColumn fx:id="namaColumn" prefWidth="260.0" text="Nama jenis" />
-                                <TableColumn fx:id="deskripsiColumn" prefWidth="360.0" text="Deskripsi" />
-                                <TableColumn fx:id="pelamarColumn" prefWidth="90.0" style="-fx-alignment: CENTER_RIGHT;" text="Pelamar" />
+                                <TableColumn fx:id="namaColumn" prefWidth="560.0" text="Nama jenis" />
+                                <TableColumn fx:id="pelamarColumn" prefWidth="110.0" style="-fx-alignment: CENTER_RIGHT;" text="Pelamar" />
                                 <TableColumn fx:id="aksiColumn" prefWidth="90.0" sortable="false" />
                             </columns>
                             <columnResizePolicy>

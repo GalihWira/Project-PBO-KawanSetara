@@ -3,12 +3,10 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextField?>
-<?import javafx.scene.control.ToggleButton?>
-<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
@@ -17,117 +15,6 @@
 <?import javafx.scene.layout.VBox?>
 
 <BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.DetailLowonganController">
-   <left>
-      <VBox minWidth="232.0" prefWidth="232.0" spacing="2.0" style="-fx-background-color: #F8FAFC; -fx-border-color: transparent #EAECF0 transparent transparent;">
-         <padding>
-            <Insets bottom="16.0" left="10.0" right="10.0" top="20.0"/>
-         </padding>
-         <children>
-            <HBox alignment="CENTER_LEFT" spacing="8.0">
-               <VBox.margin>
-                  <Insets bottom="16.0" left="8.0"/>
-               </VBox.margin>
-               <children>
-                  <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/logo.png"/>
-                     </image>
-                  </ImageView>
-                  <Label style="-fx-font-size: 15px;" styleClass="h2" text="KawanSetara"/>
-               </children>
-            </HBox>
-            <ToggleButton fx:id="berandaMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Beranda">
-               <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/house.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
-               <toggleGroup>
-                  <ToggleGroup fx:id="menuGroup"/>
-               </toggleGroup>
-               <cursor>
-                  <Cursor fx:constant="HAND"/>
-               </cursor>
-            </ToggleButton>
-            <ToggleButton fx:id="cariLowonganMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Cari lowongan" toggleGroup="$menuGroup">
-               <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/search.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND"/>
-               </cursor>
-            </ToggleButton>
-            <ToggleButton fx:id="riwayatMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$menuGroup">
-               <graphic>
-                  <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
-                     <children>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../images/Riwayat.png"/>
-                           </image>
-                        </ImageView>
-                        <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Riwayat lamaran"/>
-                        <Region HBox.hgrow="ALWAYS"/>
-                        <Label fx:id="jumlahRiwayatLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;"/>
-                     </children>
-                  </HBox>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND"/>
-               </cursor>
-            </ToggleButton>
-            <ToggleButton fx:id="checklistMenu" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Checklist minat &amp; bakat" toggleGroup="$menuGroup">
-               <graphic>
-                  <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/list-checks.png"/>
-                     </image>
-                  </ImageView>
-               </graphic>
-               <cursor>
-                  <Cursor fx:constant="HAND"/>
-               </cursor>
-            </ToggleButton>
-            <Region VBox.vgrow="ALWAYS"/>
-            <HBox alignment="CENTER_LEFT" spacing="10.0" style="-fx-border-color: #EAECF0 transparent transparent transparent;">
-               <padding>
-                  <Insets left="6.0" top="14.0"/>
-               </padding>
-               <children>
-                  <ImageView fx:id="avatarImage" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../../../images/avatar.jpeg"/>
-                     </image>
-                  </ImageView>
-                  <VBox HBox.hgrow="ALWAYS">
-                     <children>
-                        <Label fx:id="namaUserLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="Wayan Galih"/>
-                        <Label fx:id="emailUserLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="wayan.galih@gmail.com"/>
-                     </children>
-                  </VBox>
-                  <Button fx:id="keluarButton" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 4;">
-                     <graphic>
-                        <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../images/log-out.png"/>
-                           </image>
-                        </ImageView>
-                     </graphic>
-                     <cursor>
-                        <Cursor fx:constant="HAND"/>
-                     </cursor>
-                  </Button>
-               </children>
-            </HBox>
-         </children>
-      </VBox>
-   </left>
    <center>
       <VBox style="-fx-background-color: white;">
          <children>
@@ -138,22 +25,9 @@
                <children>
                   <HBox alignment="CENTER_LEFT" spacing="4.0">
                      <children>
-                        <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 13px;" text="Cari lowongan /"/>
+                        <Hyperlink fx:id="kembaliLink" onAction="#handleKembali" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Cari lowongan"/>
+                        <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 13px;" text="/"/>
                         <Label fx:id="breadcrumbLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Staf Administrasi Data"/>
-                     </children>
-                  </HBox>
-                  <Region HBox.hgrow="ALWAYS"/>
-                  <HBox alignment="CENTER_LEFT" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="280.0" spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
-                     <padding>
-                        <Insets left="12.0" right="12.0"/>
-                     </padding>
-                     <children>
-                        <ImageView fitHeight="15.0" fitWidth="15.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../../images/icon_search.png"/>
-                           </image>
-                        </ImageView>
-                        <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari lowongan atau perusahaan" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS"/>
                      </children>
                   </HBox>
                </children>
@@ -178,7 +52,7 @@
                                     <HBox>
                                        <children>
                                           <Label fx:id="perusahaanLabel" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px;" text="PT Arunika Data"/>
-                                          <Label fx:id="subjudulLabel" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text=" · Denpasar, Bali · Diunggah 2 hari lalu"/>
+                                          <Label fx:id="subjudulLabel" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text=" · Denpasar, Bali"/>
                                        </children>
                                     </HBox>
                                     <HBox spacing="10.0">
@@ -188,15 +62,6 @@
                                                 <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
                                                    <image>
                                                       <Image url="@../../../../images/briefcase.png"/>
-                                                   </image>
-                                                </ImageView>
-                                             </graphic>
-                                          </Label>
-                                          <Label fx:id="tagDurasiLabel" graphicTextGap="6.0" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="6 bulan">
-                                             <graphic>
-                                                <ImageView fitHeight="14.0" fitWidth="14.0" pickOnBounds="true" preserveRatio="true">
-                                                   <image>
-                                                      <Image url="@../../../../images/clock.png"/>
                                                    </image>
                                                 </ImageView>
                                              </graphic>
@@ -224,7 +89,7 @@
                                  </children>
                               </VBox>
                               <Region HBox.hgrow="ALWAYS"/>
-                              <Button fx:id="lamarButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 20;" text="Lamar Pekerjaan">
+                              <Button fx:id="lamarButton" onAction="#handleLamar" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 20;" text="Lamar Pekerjaan">
                                  <cursor>
                                     <Cursor fx:constant="HAND"/>
                                  </cursor>
@@ -243,13 +108,7 @@
                                           <Insets top="12.0"/>
                                        </VBox.margin>
                                     </Label>
-                                    <VBox fx:id="persyaratanBox" spacing="6.0">
-                                       <children>
-                                          <Label style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="•  Pendidikan minimal SMA/SMK sederajat" wrapText="true"/>
-                                          <Label style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="•  Terbiasa memakai Microsoft Excel (rumus dasar, filter, pivot sederhana)" wrapText="true"/>
-                                          <Label style="-fx-text-fill: #475467; -fx-font-size: 13px;" text="•  Teliti dan bisa bekerja dengan target harian" wrapText="true"/>
-                                       </children>
-                                    </VBox>
+                                    <VBox fx:id="persyaratanBox" spacing="6.0"/>
                                     <HBox alignment="CENTER_LEFT">
                                        <VBox.margin>
                                           <Insets top="12.0"/>
@@ -286,13 +145,6 @@
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" style="-fx-border-color: transparent transparent #F2F4F7 transparent; -fx-padding: 0 0 8 0;">
                                              <children>
-                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Durasi kerja"/>
-                                                <Region HBox.hgrow="ALWAYS"/>
-                                                <Label fx:id="durasiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="6 bulan"/>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" style="-fx-border-color: transparent transparent #F2F4F7 transparent; -fx-padding: 0 0 8 0;">
-                                             <children>
                                                 <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Gaji"/>
                                                 <Region HBox.hgrow="ALWAYS"/>
                                                 <Label fx:id="gajiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Rp4.000.000 / bulan"/>
@@ -303,13 +155,6 @@
                                                 <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Lokasi"/>
                                                 <Region HBox.hgrow="ALWAYS"/>
                                                 <Label fx:id="lokasiLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Denpasar, Bali"/>
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" style="-fx-border-color: transparent transparent #F2F4F7 transparent; -fx-padding: 0 0 8 0;">
-                                             <children>
-                                                <Label style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Dibuka"/>
-                                                <Region HBox.hgrow="ALWAYS"/>
-                                                <Label fx:id="dibukaLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="13 Okt 2026"/>
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT">
@@ -327,7 +172,7 @@
                                        </padding>
                                        <children>
                                           <Label fx:id="kartuPerusahaanLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="PT Arunika Data"/>
-                                          <Label fx:id="alamatPerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Jl. Teuku Umar No. 88, Denpasar. Kontrak kemitraan KTR/2025/014." wrapText="true"/>
+                                          <Label fx:id="alamatPerusahaanLabel" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="Jl. Teuku Umar No. 88, Denpasar." wrapText="true"/>
                                        </children>
                                     </VBox>
                                  </children>

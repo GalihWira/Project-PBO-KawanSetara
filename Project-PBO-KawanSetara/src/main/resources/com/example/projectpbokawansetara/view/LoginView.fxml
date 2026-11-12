@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
    <center>
       <HBox spacing="24.0" style="-fx-background-color: white;">
          <padding>
@@ -106,6 +106,7 @@
                                  <image><Image url="@../../../../images/icon_lock.png" /></image>
                               </ImageView>
                               <PasswordField fx:id="passwordField" promptText="Masukkan kata sandi" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS" />
+                              <TextField fx:id="passwordVisibleField" managed="false" promptText="Masukkan kata sandi" style="-fx-background-color: transparent;" styleClass="body" visible="false" HBox.hgrow="ALWAYS" />
                               <ImageView fx:id="togglePasswordIcon" fitHeight="20.0" fitWidth="20.0" onMouseClicked="#handleTogglePassword" pickOnBounds="true" preserveRatio="true">
                                  <image><Image url="@../../../../images/eye_off.png" /></image>
                                  <cursor><Cursor fx:constant="HAND" /></cursor>

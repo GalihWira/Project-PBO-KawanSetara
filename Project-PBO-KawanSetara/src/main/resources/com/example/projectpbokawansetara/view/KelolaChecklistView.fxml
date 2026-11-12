@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/26" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaChecklistController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.KelolaChecklistController">
     <center>
         <VBox style="-fx-background-color: white;">
             <children>
@@ -74,7 +74,7 @@
                                                         <TextField fx:id="cariItemField" promptText="Cari item" HBox.hgrow="ALWAYS" />
                                                     </children>
                                                 </HBox>
-                                                <ComboBox fx:id="filterKategoriComboBox" prefHeight="30.0" prefWidth="168.0" promptText="Semua kategori" />
+                                                <ComboBox fx:id="filterKategoriComboBox" onAction="#handleFilter" prefHeight="30.0" prefWidth="168.0" promptText="Semua kategori" />
                                                 <Region HBox.hgrow="ALWAYS" />
                                                 <Label fx:id="ringkasanLabel" styleClass="text-muted" text="24 item · 4 kategori" />
                                             </children>
@@ -147,7 +147,7 @@
                                                 <Label fx:id="kategoriErrorLabel" managed="false" styleClass="error" text="Kategori wajib dipilih" visible="false" wrapText="true" />
                                             </children>
                                         </VBox>
-                                        <Button fx:id="tambahButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="+  Tambah ke checklist" />
+                                        <Button fx:id="tambahButton" onAction="#handleTambah" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="+  Tambah ke checklist" />
                                         <VBox fx:id="previewBox" managed="false" spacing="8.0" visible="false">
                                             <children>
                                                 <Label styleClass="label-sm" text="Tampilan di checklist pelamar" />
