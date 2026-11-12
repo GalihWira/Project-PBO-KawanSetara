@@ -8,7 +8,7 @@ import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
 
-    private static final String HALAMAN_AWAL = "LoginView.fxml";
+    private static final String HALAMAN_AWAL = "DashboardAdminView.fxml";
 
     @Override
     public void start(Stage primaryStage) throws Exception {
