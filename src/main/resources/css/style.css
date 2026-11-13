@@ -325,3 +325,232 @@
 .informasi-gaji {
     -fx-alignment: center-right;
 }
+
+.halaman-checklist {
+    -fx-background-color: white;
+}
+
+.scroll-checklist {
+    -fx-background-color: white;
+    -fx-background: white;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+}
+
+.scroll-checklist > .viewport {
+    -fx-background-color: white;
+}
+
+.topbar {
+    -fx-background-color: white;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+}
+
+.topbar-judul {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #101828;
+}
+
+.search-box {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+}
+
+.search-field {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding: 0;
+    -fx-font-size: 12px;
+    -fx-prompt-text-fill: #98A2B3;
+}
+
+.judul-halaman {
+    -fx-font-size: 19px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.subjudul-halaman {
+    -fx-font-size: 12px;
+    -fx-text-fill: #667085;
+}
+
+.checklist-kosong {
+    -fx-text-fill: #667085;
+    -fx-font-size: 12px;
+    -fx-alignment: center;
+    -fx-padding: 24;
+}
+
+.kartu-daftar {
+    -fx-background-color: white;
+    -fx-border-color: #EAECF0;
+    -fx-border-radius: 10;
+    -fx-background-radius: 10;
+}
+
+.baris-pemisah {
+    -fx-border-color: #EAECF0 transparent transparent transparent;
+    -fx-border-width: 1 0 0 0;
+}
+
+.kategori-nama {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.kategori-jumlah {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+.keahlian-baru {
+    -fx-font-size: 10px;
+    -fx-text-fill: #2B6CB0;
+}
+
+.checkbox-keahlian {
+    -fx-font-size: 12px;
+    -fx-text-fill: #101828;
+    -fx-graphic-text-gap: 8;
+}
+
+.checkbox-keahlian > .box {
+    -fx-background-color: white;
+    -fx-background-insets: 0;
+    -fx-background-radius: 4;
+    -fx-border-color: #D0D5DD;
+    -fx-border-radius: 4;
+    -fx-border-width: 1.2;
+    -fx-padding: 3;
+}
+
+.checkbox-keahlian:selected > .box {
+    -fx-background-color: #2B6CB0;
+    -fx-border-color: #2B6CB0;
+}
+
+.checkbox-keahlian:selected > .box > .mark {
+    -fx-background-color: white;
+}
+
+.checkbox-keahlian.checkbox-error > .box {
+    -fx-border-color: #D92D20;
+}
+
+.jumlah-dipilih {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.jumlah-dipilih-error {
+    -fx-text-fill: #D92D20;
+}
+
+.status-perubahan {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+.banner-error {
+    -fx-background-color: #FEF3F2;
+    -fx-border-color: #FDA29B;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.banner-error .label {
+    -fx-text-fill: #B42318;
+}
+
+.banner-sukses {
+    -fx-background-color: #ECFDF3;
+    -fx-border-color: #ABEFC6;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.banner-sukses .label {
+    -fx-text-fill: #027A48;
+}
+
+.banner-judul {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+}
+
+.banner-detail {
+    -fx-font-size: 12px;
+}
+
+.tombol-batal {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-text-fill: #344054;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 18;
+    -fx-cursor: hand;
+}
+
+.tombol-batal:hover {
+    -fx-background-color: #F9FAFB;
+}
+
+.tombol-simpan {
+    -fx-background-color: #2B6CB0;
+    -fx-background-radius: 8;
+    -fx-text-fill: white;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 20;
+    -fx-cursor: hand;
+}
+
+.tombol-simpan:hover {
+    -fx-background-color: #245A94;
+}
+
+/* Dashboard Pelamar */
+.toggle-button.menu-dashboard {
+    -fx-background-color: transparent;
+    -fx-text-fill: #344054;
+    -fx-background-radius: 8;
+    -fx-padding: 0 12;
+    -fx-cursor: hand;
+}
+
+.toggle-button.menu-dashboard:hover {
+    -fx-background-color: #F2F4F7;
+}
+
+.toggle-button.menu-dashboard.menu-aktif {
+    -fx-background-color: #DCE9F5;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+}
+
+.menu-label {
+    -fx-text-fill: #344054;
+}
+
+.menu-label-aktif {
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+}
+
+/* Login dan Pesan Validasi */
+.pesan-error {
+    -fx-text-fill: #F04438;
+}
+
+.pesan-info {
+    -fx-text-fill: #475467;
+}

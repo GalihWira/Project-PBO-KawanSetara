@@ -1,10 +1,16 @@
 package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
+import java.sql.SQLException;
+
+import com.example.projectpbokawansetara.dao.UserDAO;
+import com.example.projectpbokawansetara.model.Session;
+import com.example.projectpbokawansetara.model.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -14,11 +20,10 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent; 
-import javafx.scene.Node;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
 public class LoginController {
+    private final UserDAO userDAO = new UserDAO();
 
     @FXML
     private Label emailErrorLabel;
@@ -65,40 +70,60 @@ public class LoginController {
         sembunyikanPesan (loginMessageLabel);
     }
 
-    @FXML 
-    private void handleLogin(ActionEvent event){
-        sembunyikanPesan (emailErrorLabel);
-        sembunyikanPesan (passwordErrorLabel);
-        sembunyikanPesan (loginMessageLabel);
+    @FXML
+    private void handleLogin(ActionEvent event) {
+        sembunyikanPesan(emailErrorLabel);
+        sembunyikanPesan(passwordErrorLabel);
+        sembunyikanPesan(loginMessageLabel);
 
-        String email = emailField.getText();
-        String password = passwordField.getText();
+        String email = emailField.getText().trim();
+        String password = passwordTerlihat
+            ? passwordAsli
+            : passwordField.getText();
 
-        if(passwordTerlihat){
-            password = passwordAsli;
-        } 
-
-        if(email.isEmpty()){
-            tampilkanPesan (emailErrorLabel, "Email Wajib Diisi !", "#F04438");
-
+        if (email.isEmpty()) {
+            tampilkanPesan(emailErrorLabel, "Email Wajib Diisi!", 	"pesan-error");
             return;
         }
 
-        if(password.isEmpty()){
-            tampilkanPesan (passwordErrorLabel, "Kata Sandi Wajib Diisi!", "#F04438");
-
+        if (password.isEmpty()) {
+            tampilkanPesan(passwordErrorLabel, "Kata Sandi Wajib Diisi!", 	"pesan-error");
             return;
         }
 
-        if(password.length() < 6){
-            tampilkanPesan (passwordErrorLabel, "Kata Sandi Minimal 6 Karakter!", "#F04438");
-
+        if (password.length() < 6) {
+            tampilkanPesan(passwordErrorLabel, "Kata Sandi Minimal 6 Karakter!", 	"pesan-error");
             return;
         }
 
-        tampilkanPesan (loginMessageLabel, "Login Sudah Berhasil Dilakukan!", "#12B76A");
+        try {
+            User user = userDAO.cekLogin(email, password);
 
-        pindahHalaman(event,"/com/example/projectpbokawansetara/view/DashboardPelamarView.fxml");
+            if (user == null) {
+                tampilkanPesan(
+                    loginMessageLabel,
+                    "Email atau kata sandi salah!",
+                    	"pesan-error"
+                );
+                return;
+            }
+
+            Session.login(user);
+
+            String lokasiFxml =
+                "/com/example/projectpbokawansetara/view/"
+                + user.tampilkanDashboard();
+
+            pindahHalaman(event, lokasiFxml);
+
+        } catch (SQLException e) {
+            tampilkanPesan(
+                loginMessageLabel,
+                "Terjadi kesalahan saat menghubungkan database!",
+                	"pesan-error"
+            );
+            e.printStackTrace();
+        }
     }
 
     @FXML
@@ -119,7 +144,7 @@ public class LoginController {
 
     @FXML 
     private void handleForgotPassword (ActionEvent event){
-        tampilkanPesan(loginMessageLabel, "Maaf, Lupa Kata Sandi Saat Ini Belum Tersedia ...", "#475467");
+        tampilkanPesan(loginMessageLabel, "Maaf, Lupa Kata Sandi Saat Ini Belum Tersedia ...", 	"pesan-error");
     }
 
     @FXML
@@ -129,17 +154,21 @@ public class LoginController {
 
     @FXML 
     private void handleGoogleLogin(ActionEvent event){
-        tampilkanPesan(loginMessageLabel, "Maaf, Login Google Saat Ini Belum Tersedia ...", "#475467");        
+        tampilkanPesan(loginMessageLabel, "Maaf, Login Google Saat Ini Belum Tersedia ...", 	"pesan-error");        
     }
 
     @FXML 
     private void handleFacebookLogin(ActionEvent event){
-        tampilkanPesan(loginMessageLabel, "Maaf, Login Facebook Saat Ini Belum Tersedia ...", "#475467");        
+        tampilkanPesan(loginMessageLabel, "Maaf, Login Facebook Saat Ini Belum Tersedia ...", 	"pesan-error");        
     }
 
-    private void tampilkanPesan (Label label, String pesan, String warna){
+    private void tampilkanPesan(Label label, String pesan, String styleClass) {
         label.setText(pesan);
-        label.setStyle ("-fx-text-fill: " + warna + ";");
+        label.getStyleClass().removeAll(
+            "pesan-error",
+            "pesan-info"
+        );
+        label.getStyleClass().add(styleClass);
         label.setPrefHeight(-1);
         label.setVisible(true);
     }
@@ -160,7 +189,7 @@ public class LoginController {
             stage.setTitle("Beranda - KawanSetara");
             stage.show();
         } catch (IOException | NullPointerException e){
-            tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", "#F04438");
+            tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", 	"pesan-error");
             e.printStackTrace();
         }
     }

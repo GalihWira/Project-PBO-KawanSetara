@@ -1,96 +1,212 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.CheckListMinatBakatController">
+<BorderPane
+    prefHeight="640.0"
+    prefWidth="1000.0"
+    styleClass="halaman-checklist"
+    stylesheets="@../../../../css/style.css"
+    xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.example.projectpbokawansetara.controller.CheckListMinatBakatController">
+
     <center>
-        <VBox style="-fx-background-color: white;">
-            <children>
-                <HBox alignment="CENTER_LEFT" minHeight="48.0" prefHeight="48.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
-                    <padding>
-                        <Insets left="24.0" right="24.0"/>
-                    </padding>
-                    <children>
-                        <Label style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Checklist minat &amp; bakat"/>
-                    </children>
-                </HBox>
-                <ScrollPane fitToWidth="true" hbarPolicy="NEVER" style="-fx-background-color: white; -fx-background: white; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
-                    <content>
-                        <VBox style="-fx-background-color: white;">
-                            <padding>
-                                <Insets bottom="24.0" left="24.0" right="24.0" top="20.0"/>
-                            </padding>
-                            <children>
-                                <Label style="-fx-font-size: 18px; -fx-text-fill: #101828; -fx-font-weight: bold;" styleClass="h2" text="Checklist minat &amp; bakat"/>
-                                <Label style="-fx-font-size: 13px;" styleClass="body" text="Centang keahlian yang kamu kuasai. Daftar item dikelola oleh admin KawanSetara." wrapText="true">
-                                    <VBox.margin>
-                                        <Insets top="4.0"/>
-                                    </VBox.margin>
-                                </Label>
-                                <HBox fx:id="errorBanner" managed="false" spacing="10.0" style="-fx-background-color: #FEF3F2; -fx-border-color: #FDA29B; -fx-background-radius: 8; -fx-border-radius: 8;" visible="false">
-                                    <VBox.margin>
-                                        <Insets top="22.0"/>
-                                    </VBox.margin>
-                                    <padding>
-                                        <Insets bottom="12.0" left="14.0" right="14.0" top="12.0"/>
-                                    </padding>
-                                    <children>
-                                        <ImageView fitHeight="16.0" fitWidth="16.0" pickOnBounds="true" preserveRatio="true">
-                                            <image>
-                                                <Image url="@../../../../images/icon_alert.png"/>
-                                            </image>
-                                        </ImageView>
-                                        <VBox spacing="2.0">
-                                            <children>
-                                                <Label fx:id="pesanErrorLabel" style="-fx-text-fill: #B42318; -fx-font-size: 13px; -fx-font-weight: 600;" text="Pilih minimal 1 keahlian sebelum menyimpan" wrapText="true"/>
-                                                <Label fx:id="detailErrorLabel" style="-fx-text-fill: #B42318; -fx-font-size: 13px;" text="Rekomendasi lowongan dihitung dari keahlian yang kamu centang." wrapText="true"/>
-                                            </children>
-                                        </VBox>
-                                    </children>
-                                </HBox>
-                                <VBox fx:id="kategoriContainer" style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">
-                                    <VBox.margin>
-                                        <Insets top="22.0"/>
-                                    </VBox.margin>
-                                    <children>
-                                        <Label fx:id="checklistKosongLabel" managed="false" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #667085; -fx-font-size: 13px; -fx-alignment: center; -fx-padding: 32;" text="Belum ada item checklist dari admin" visible="false"/>
-                                    </children>
-                                </VBox>
-                                <HBox alignment="CENTER_LEFT" spacing="8.0">
-                                    <VBox.margin>
-                                        <Insets top="16.0"/>
-                                    </VBox.margin>
-                                    <children>
-                                        <Label fx:id="jumlahDipilihLabel" style="-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 600;" text="8 keahlian dipilih"/>
-                                        <Label fx:id="statusPerubahanLabel" style="-fx-text-fill: #667085; -fx-font-size: 13px;" text="· ada perubahan yang belum disimpan"/>
-                                        <Region HBox.hgrow="ALWAYS"/>
-                                        <Button fx:id="batalkanButton" onAction="#handleBatalkan" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batalkan perubahan">
-                                            <cursor>
-                                                <Cursor fx:constant="HAND"/>
-                                            </cursor>
-                                        </Button>
-                                        <Button fx:id="simpanButton" onAction="#handleSimpan" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 18;" text="Simpan checklist">
-                                            <cursor>
-                                                <Cursor fx:constant="HAND"/>
-                                            </cursor>
-                                        </Button>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </VBox>
-                    </content>
-                </ScrollPane>
-            </children>
+        <VBox styleClass="halaman-checklist">
+
+            <HBox
+                alignment="CENTER_LEFT"
+                minHeight="48.0"
+                prefHeight="48.0"
+                maxHeight="48.0"
+                styleClass="topbar">
+
+                <padding>
+                    <Insets left="24.0" right="24.0"/>
+                </padding>
+
+                <children>
+                    <Label styleClass="topbar-judul" text="Checklist minat &amp; bakat"/>
+
+                    <Region HBox.hgrow="ALWAYS"/>
+
+                    <HBox
+                        alignment="CENTER_LEFT"
+                        minWidth="268.0"
+                        prefWidth="268.0"
+                        maxWidth="268.0"
+                        minHeight="30.0"
+                        prefHeight="30.0"
+                        maxHeight="30.0"
+                        spacing="2.0"
+                        styleClass="search-box">
+
+                        <padding>
+                            <Insets left="9.0" right="12.0"/>
+                        </padding>
+
+                        <children>
+                            <SVGPath
+                                content="M15.5 14h-.79l-.28-.27A6.47 6.47 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+                                fill="#667085"
+                                scaleX="0.7"
+                                scaleY="0.7"/>
+
+                            <TextField
+                                fx:id="pencarianField"
+                                promptText="Cari keahlian..."
+                                styleClass="search-field"
+                                HBox.hgrow="ALWAYS"/>
+                        </children>
+                    </HBox>
+                </children>
+            </HBox>
+
+            <ScrollPane
+                fitToWidth="true"
+                hbarPolicy="NEVER"
+                styleClass="scroll-checklist"
+                VBox.vgrow="ALWAYS">
+
+                <content>
+                    <VBox styleClass="halaman-checklist">
+
+                        <padding>
+                            <Insets bottom="24.0" left="32.0" right="32.0" top="26.0"/>
+                        </padding>
+
+                        <children>
+
+                            <Label styleClass="judul-halaman" text="Checklist minat &amp; bakat"/>
+
+                            <Label
+                                styleClass="subjudul-halaman"
+                                text="Centang keahlian yang kamu kuasai. Daftar item dikelola oleh admin KawanSetara."
+                                wrapText="true">
+                                <VBox.margin>
+                                    <Insets top="4.0"/>
+                                </VBox.margin>
+                            </Label>
+
+                            <HBox
+                                fx:id="errorBanner"
+                                alignment="CENTER_LEFT"
+                                managed="false"
+                                spacing="10.0"
+                                styleClass="banner-error"
+                                visible="false">
+
+                                <VBox.margin>
+                                    <Insets top="20.0"/>
+                                </VBox.margin>
+
+                                <padding>
+                                    <Insets bottom="11.0" left="14.0" right="14.0" top="11.0"/>
+                                </padding>
+
+                                <children>
+                                    <ImageView
+                                        fitHeight="16.0"
+                                        fitWidth="16.0"
+                                        pickOnBounds="true"
+                                        preserveRatio="true"
+                                        HBox.hgrow="NEVER">
+                                        <image>
+                                            <Image url="@../../../../images/icon_alert.png"/>
+                                        </image>
+                                    </ImageView>
+
+                                    <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <Label
+                                                fx:id="pesanErrorLabel"
+                                                styleClass="banner-judul"
+                                                text="Pilih minimal 1 keahlian sebelum menyimpan"
+                                                wrapText="true"/>
+
+                                            <Label
+                                                fx:id="detailErrorLabel"
+                                                styleClass="banner-detail"
+                                                text="Rekomendasi lowongan dihitung dari keahlian yang kamu centang."
+                                                wrapText="true"/>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+
+                            <VBox
+                                fx:id="kategoriContainer"
+                                styleClass="halaman-checklist">
+
+                                <VBox.margin>
+                                    <Insets top="16.0"/>
+                                </VBox.margin>
+
+                                <children>
+                                    <Label
+                                        fx:id="checklistKosongLabel"
+                                        managed="false"
+                                        maxWidth="1.7976931348623157E308"
+                                        styleClass="checklist-kosong"
+                                        text="Belum ada item checklist dari admin"
+                                        visible="false"/>
+                                </children>
+                            </VBox>
+
+                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+
+                                <VBox.margin>
+                                    <Insets top="16.0"/>
+                                </VBox.margin>
+
+                                <children>
+                                    <Label
+                                        fx:id="jumlahDipilihLabel"
+                                        styleClass="jumlah-dipilih"
+                                        text="0 keahlian dipilih"/>
+
+                                    <Label
+                                        fx:id="statusPerubahanLabel"
+                                        managed="false"
+                                        styleClass="status-perubahan"
+                                        text="· ada perubahan yang belum disimpan"
+                                        visible="false"/>
+
+                                    <Region HBox.hgrow="ALWAYS"/>
+
+                                    <Button
+                                        fx:id="batalkanButton"
+                                        mnemonicParsing="false"
+                                        onAction="#handleBatalkan"
+                                        prefHeight="34.0"
+                                        styleClass="tombol-batal"
+                                        text="Batalkan perubahan"/>
+
+                                    <Button
+                                        fx:id="simpanButton"
+                                        mnemonicParsing="false"
+                                        onAction="#handleSimpan"
+                                        prefHeight="34.0"
+                                        styleClass="tombol-simpan"
+                                        text="Simpan checklist"/>
+                                </children>
+                            </HBox>
+
+                        </children>
+                    </VBox>
+                </content>
+            </ScrollPane>
         </VBox>
     </center>
 </BorderPane>
