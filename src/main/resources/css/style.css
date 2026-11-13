@@ -204,3 +204,124 @@
     -fx-text-fill: #1F4E8C;
     -fx-font-weight: 600;
 }
+
+.kartu-lowongan {
+    -fx-background-color: white;
+    -fx-padding: 12;
+    -fx-spacing: 6;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-cursor: hand;
+}
+
+.kartu-lowongan:hover {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: transparent transparent #D0D5DD transparent;
+}
+
+.nama-lowongan {
+    -fx-font-size: 15px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.perusahaan-lowongan {
+    -fx-font-size: 12px;
+    -fx-text-fill: #667085;
+}
+
+.info-lowongan {
+    -fx-spacing: 12;
+}
+
+.lokasi-lowongan {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+.gaji-lowongan {
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1570EF;
+}
+
+.jenis-lowongan {
+    -fx-background-color: #EEF4FF;
+    -fx-text-fill: #175CD3;
+    -fx-padding: 5 10;
+    -fx-background-radius: 6;
+    -fx-font-size: 10px;
+}
+
+
+.kartu-lowongan-horizontal {
+    -fx-background-color: white;
+    -fx-padding: 16;
+    -fx-spacing: 16;
+    -fx-alignment: CENTER_LEFT;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-cursor: hand;
+}
+
+.kartu-lowongan-horizontal:hover {
+    -fx-background-color: #F8FAFC;
+    -fx-border-color: transparent transparent #D0D5DD transparent;
+}
+
+.avatar-lowongan {
+    -fx-background-color: #EEF4FB;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-alignment: center;
+    -fx-min-width: 52px;
+    -fx-pref-width: 52px;
+    -fx-min-height: 52px;
+    -fx-pref-height: 52px;
+    -fx-background-radius: 8;
+}
+
+.identitas-lowongan,
+.kolom-lowongan {
+    -fx-spacing: 6;
+    -fx-alignment: CENTER_LEFT;
+}
+
+.nama-lowongan {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.perusahaan-lowongan {
+    -fx-font-size: 12px;
+    -fx-text-fill: #667085;
+}
+
+.jenis-lowongan {
+    -fx-background-color: #EEF4FF;
+    -fx-text-fill: #175CD3;
+    -fx-padding: 5 10;
+    -fx-background-radius: 6;
+    -fx-font-size: 10px;
+}
+
+.detail-lowongan {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+.nilai-kecocokan {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #12B76A;
+}
+
+.gaji-lowongan {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #1570EF;
+}
+
+.informasi-gaji {
+    -fx-alignment: center-right;
+}

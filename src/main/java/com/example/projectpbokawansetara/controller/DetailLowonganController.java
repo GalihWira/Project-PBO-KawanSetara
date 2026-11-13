@@ -1,124 +1,183 @@
 package com.example.projectpbokawansetara.controller;
 
-import java.net.URL;
-import java.util.ResourceBundle;
+import java.text.NumberFormat;
+import java.util.Locale;
+
+import com.example.projectpbokawansetara.model.Lowongan;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class DetailLowonganController {
-    @FXML
-    private ResourceBundle resources;
 
     @FXML
-    private URL location;
+    private Hyperlink kembaliLink;
 
     @FXML
-    private Button btnKeluar;
+    private Label breadcrumbLabel;
 
     @FXML
-    private Button btnLamar;
+    private ImageView logoPerusahaanImage;
 
     @FXML
-    private ImageView imgAvatar;
+    private Label namaPekerjaanLabel;
 
     @FXML
-    private ImageView imgLogoPerusahaan;
+    private Label perusahaanLabel;
 
     @FXML
-    private Label lblAlamatPerusahaan;
+    private Label subjudulLabel;
 
     @FXML
-    private Label lblBreadcrumb;
+    private Label tagJenisLabel;
 
     @FXML
-    private Label lblDeskripsi;
+    private Label tagGajiLabel;
 
     @FXML
-    private Label lblDibuka;
+    private Label tagAksesLabel;
 
     @FXML
-    private Label lblDurasi;
+    private Button lamarButton;
 
     @FXML
-    private Label lblEmailUser;
+    private Label deskripsiLabel;
 
     @FXML
-    private Label lblGaji;
+    private VBox persyaratanBox;
 
     @FXML
-    private Label lblJenis;
+    private Label jumlahCocokLabel;
 
     @FXML
-    private Label lblJumlahCocok;
+    private VBox keahlianBox;
 
     @FXML
-    private Label lblKartuPerusahaan;
+    private Label statusLabel;
 
     @FXML
-    private Label lblLokasi;
+    private Label jenisLabel;
 
     @FXML
-    private Label lblNamaPekerjaan;
+    private Label gajiLabel;
 
     @FXML
-    private Label lblNamaUser;
+    private Label lokasiLabel;
 
     @FXML
-    private Label lblPelamar;
+    private Label pelamarLabel;
 
     @FXML
-    private Label lblPerusahaan;
+    private Label kartuPerusahaanLabel;
 
     @FXML
-    private Label lblStatus;
+    private Label alamatPerusahaanLabel;
+
+    private Lowongan lowongan;
+    private Runnable aksiKembali;
+
+    public void setLowongan(Lowongan lowongan) {
+        this.lowongan = lowongan;
+        tampilkanDetail();
+    }
+
+    public void setAksiKembali(Runnable aksiKembali) {
+        this.aksiKembali = aksiKembali;
+    }
+
+    private void tampilkanDetail() {
+        if (lowongan == null) {
+            return;
+        }
+
+        String namaPerusahaan = lowongan.getPerusahaan() != null
+                ? lowongan.getPerusahaan().getNamaPerusahaan()
+                : "Perusahaan";
+
+        String lokasi = lowongan.getLokasi() != null
+                ? lowongan.getLokasi()
+                : "Lokasi belum tersedia";
+
+        String jenis = lowongan.getJenisLowongan() != null
+                ? lowongan.getJenisLowongan()
+                : "-";
+
+        String gaji = formatRupiah(lowongan.getGaji());
+
+        namaPekerjaanLabel.setText(lowongan.getNamaPekerjaan());
+        breadcrumbLabel.setText(lowongan.getNamaPekerjaan());
+
+        perusahaanLabel.setText(namaPerusahaan);
+        subjudulLabel.setText(" · " + lokasi);
+
+        tagJenisLabel.setText(jenis);
+        tagGajiLabel.setText(gaji + "/bulan");
+        tagAksesLabel.setText("Informasi aksesibilitas belum tersedia");
+
+        deskripsiLabel.setText(
+                lowongan.getDeskripsi() != null
+                        ? lowongan.getDeskripsi()
+                        : "Deskripsi belum tersedia."
+        );
+
+        statusLabel.setText(
+                lowongan.getStatus().equalsIgnoreCase("tersedia")
+                        ? "● Tersedia"
+                        : "● Tidak tersedia"
+        );
+
+        jenisLabel.setText(jenis);
+        gajiLabel.setText(gaji + " / bulan");
+        lokasiLabel.setText(lokasi);
+
+        kartuPerusahaanLabel.setText(namaPerusahaan);
+
+        alamatPerusahaanLabel.setText(
+                lowongan.getPerusahaan() != null
+                        && lowongan.getPerusahaan().getAlamat() != null
+                        ? lowongan.getPerusahaan().getAlamat()
+                        : "Alamat belum tersedia"
+        );
+
+        pelamarLabel.setText("-");
+        jumlahCocokLabel.setText("-");
+
+        persyaratanBox.getChildren().clear();
+        persyaratanBox.getChildren().add(
+                new Label("Informasi persyaratan belum tersedia.")
+        );
+
+        keahlianBox.getChildren().clear();
+        keahlianBox.getChildren().add(
+                new Label("Informasi keahlian belum tersedia.")
+        );
+    }
+
+    private String formatRupiah(double nominal) {
+        NumberFormat format = NumberFormat.getCurrencyInstance(
+                new Locale("id", "ID")
+        );
+
+        format.setMaximumFractionDigits(0);
+        format.setMinimumFractionDigits(0);
+
+        return format.format(nominal);
+    }
 
     @FXML
-    private Label lblSubjudul;
+    private void handleKembali(ActionEvent event) {
+        if (aksiKembali != null) {
+            aksiKembali.run();
+        }
+    }
 
     @FXML
-    private Label lblTagAkses;
-
-    @FXML
-    private Label lblTagDurasi;
-
-    @FXML
-    private Label lblTagGaji;
-
-    @FXML
-    private Label lblTagJenis;
-
-    @FXML
-    private ToggleGroup tgMenu;
-
-    @FXML
-    private TextField txtCari;
-
-    @FXML
-    private VBox vbKeahlian;
-
-    @FXML
-    private Label vbPersyaratan;
-
-    @FXML
-    private Label vbPersyaratan1;
-
-    @FXML
-    private Label vbPersyaratan11;
-
-        private static final String MENU_AKTIF =
-        "-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-background-radius: 6; -fx-padding: 8 12;";
-    private static final String MENU_BIASA =
-        "-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 6; -fx-padding: 8 12;";
-
-    @FXML
-    void handleLamar(ActionEvent event) {
+    private void handleLamar(ActionEvent event) {
 
     }
 }

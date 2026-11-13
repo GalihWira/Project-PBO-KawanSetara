@@ -3,6 +3,7 @@ package com.example.projectpbokawansetara.controller;
 import java.io.IOException;
 
 import com.example.projectpbokawansetara.helper.DialogHelper;
+import com.example.projectpbokawansetara.model.Lowongan;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -16,7 +17,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 public class DashboardPelamarController {
-
+    private Node halamanCariLowongan;
     @FXML
     private BorderPane mainBorderPane;
 
@@ -85,34 +86,6 @@ public class DashboardPelamarController {
                 "Apakah kamu yakin ingin keluar dari akun KawanSetara?");
     }
 
-    private void tampilkanHalaman(String namaFile) {
-        try {
-            String lokasi = "/com/example/projectpbokawansetara/view/" + namaFile;
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasi));
-            Parent halaman = loader.load();
-
-            BorderPane halamanBorder = (BorderPane) halaman;
-            mainBorderPane.setCenter(halamanBorder.getCenter());
-
-            switch (namaFile) {
-                case "CariLowonganView.fxml":
-                    aturMenuAktif(cariLowonganMenu);
-                    break;
-                case "RiwayatLamaranView.fxml":
-                    aturMenuAktif(riwayatMenu);
-                    break;
-                case "CheckListMinatBakatView.fxml":
-                    aturMenuAktif(checklistMenu);
-                    break;
-            }
-
-        } catch (IOException | NullPointerException e) {
-            System.err.println("Gagal membuka halaman: " + namaFile);
-            e.printStackTrace();
-        }
-    }
-
     private void aturMenuAktif(ToggleButton menuAktif) {
         String styleAktif =
             "-fx-background-color: #DCE9F5;" +
@@ -140,4 +113,78 @@ public class DashboardPelamarController {
                         : "-fx-text-fill: #344054;"
         );
     }
+
+    private void tampilkanHalaman(String namaFile) {
+        try {
+            String lokasi = "/com/example/projectpbokawansetara/view/" + namaFile;
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasi));
+            Parent halaman = loader.load();
+
+            BorderPane halamanBorder = (BorderPane) halaman;
+
+            switch (namaFile) {
+                case "CariLowonganView.fxml":
+                    halamanCariLowongan = halamanBorder.getCenter();
+
+                    CariLowonganController controller = loader.getController();
+                    controller.setDashboardController(this);
+                    break;
+
+                case "RiwayatLamaranView.fxml":
+                    break;
+
+                case "CheckListMinatBakatView.fxml":
+                    break;
+            }
+
+            mainBorderPane.setCenter(halamanBorder.getCenter());
+
+            switch (namaFile) {
+                case "CariLowonganView.fxml":
+                    aturMenuAktif(cariLowonganMenu);
+                    break;
+                case "RiwayatLamaranView.fxml":
+                    aturMenuAktif(riwayatMenu);
+                    break;
+                case "CheckListMinatBakatView.fxml":
+                    aturMenuAktif(checklistMenu);
+                    break;
+            }
+
+        } catch (IOException | NullPointerException e) {
+            System.err.println("Gagal membuka halaman: " + namaFile);
+            e.printStackTrace();
+        }
+    }
+
+    public void bukaDetailLowongan(Lowongan lowongan) {
+        try {
+            String lokasi = "/com/example/projectpbokawansetara/view/DetailLowonganView.fxml";
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasi));
+            Parent halaman = loader.load();
+
+            DetailLowonganController controller = loader.getController();
+
+            controller.setLowongan(lowongan);
+            controller.setAksiKembali(this::kembaliKeCariLowongan);
+
+            BorderPane halamanBorder = (BorderPane) halaman;
+            mainBorderPane.setCenter(halamanBorder.getCenter());
+
+        } catch (IOException | NullPointerException e) {
+            System.err.println("Gagal membuka detail lowongan.");
+            e.printStackTrace();
+        }
+    }
+
+    private void kembaliKeCariLowongan() {
+        if (halamanCariLowongan != null) {
+            mainBorderPane.setCenter(halamanCariLowongan);
+            aturMenuAktif(cariLowonganMenu);
+        }
+    }
+
+    
 }
