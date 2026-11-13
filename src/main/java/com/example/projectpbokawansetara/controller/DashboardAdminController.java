@@ -16,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
@@ -119,36 +118,37 @@ public class DashboardAdminController {
     private Label tindakLanjutKosongLabel;
 
     @FXML 
-    void handleDashboardMenu(ActionEvent event){
+    void handleDashboardMenu(ActionEvent event) {
         setMenuAktif(dashboardMenu);
         mainBorderPane.setCenter(kontenDashboardAwal);
     }
+
     @FXML
-    void handleBukaLowongan(MouseEvent event) {
+    void handleBukaLowongan(ActionEvent event) {
         setMenuAktif(lowonganMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
     }
 
     @FXML
-    void handleBukaPerusahaan(MouseEvent event) {
+    void handleBukaPerusahaan(ActionEvent event) {
         setMenuAktif(perusahaanMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaPerusahaanView.fxml");
     }
 
     @FXML
-    void handleBukaItemChecklist(MouseEvent event) {
+    void handleBukaItemChecklist(ActionEvent event) {
         setMenuAktif(itemChecklistMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaChecklistView.fxml");
     }
 
-    @FXML 
-    void handleKelolaDisabilitas(MouseEvent event){
+    @FXML
+    void handleKelolaDisabilitas(ActionEvent event) {
         setMenuAktif(jenisDisabilitasMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaDisabilitasView.fxml");
     }
 
-    @FXML 
-    void handleKelolaAkunAdmin(MouseEvent event){
+    @FXML
+    void handleKelolaAkunAdmin(ActionEvent event) {
         setMenuAktif(akunAdminMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaAkunAdminView.fxml");
     }
