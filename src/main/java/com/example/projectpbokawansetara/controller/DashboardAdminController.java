@@ -2,9 +2,12 @@ package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
 
+import com.example.projectpbokawansetara.helper.DialogHelper;
+
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
@@ -16,7 +19,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.Node;
 
 public class DashboardAdminController {
 
@@ -150,6 +152,14 @@ public class DashboardAdminController {
         setMenuAktif(akunAdminMenu);
         gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaAkunAdminView.fxml");
     }
+
+    @FXML
+    void handleKeluar(ActionEvent event) {
+        DialogHelper.tampilkanDialogKeluar(
+                keluarButton.getScene().getWindow(),
+                "Kamu perlu masuk lagi untuk mengelola data lowongan dan pelamar.");
+    }
+
 
     private void gantiKontenTengah(String pathFXML) {
         try {
