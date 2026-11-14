@@ -84,6 +84,10 @@ public class LoginController {
             return;
         }
 
+        if (!email.endsWith("@gmail.com")){
+            tampilkanPesan (emailErrorLabel, "Format Penulisan Email Tidak Sesuai!", "#F04438");
+        }
+
         if(password.isEmpty()){
             tampilkanPesan (passwordErrorLabel, "Kata Sandi Wajib Diisi!", "#F04438");
 
@@ -159,7 +163,7 @@ public class LoginController {
             stage.setScene(new Scene(root, 1280, 800));
             stage.setTitle("Beranda - KawanSetara");
             stage.show();
-        } catch (IOException | NullPointerException e){
+        } catch (IOException e){
             tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", "#F04438");
             e.printStackTrace();
         }
