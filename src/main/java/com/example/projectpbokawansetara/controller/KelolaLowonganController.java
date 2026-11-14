@@ -111,4 +111,9 @@ public class KelolaLowonganController {
         }
 
 }
+
+@FXML
+void handleTambah(javafx.event.ActionEvent event) {
+    System.out.println("Tambah Lowongan");
+}
 }
