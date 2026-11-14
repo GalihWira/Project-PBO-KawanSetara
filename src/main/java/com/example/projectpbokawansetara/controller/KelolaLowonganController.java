@@ -5,6 +5,7 @@ import java.io.IOException;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
@@ -15,7 +16,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-import javafx.scene.Node;
 
 public class KelolaLowonganController {
 
@@ -92,8 +92,23 @@ public class KelolaLowonganController {
     private ToggleButton tidakTersediaTab;
 
     @FXML
-    void handleTambahLowongan(ActionEvent event){
+    void handleTambah(ActionEvent event){
         pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormLowonganView.fxml");
+    }
+    
+    @FXML
+    void handleFilter(ActionEvent event) {
+        // nanti diisi: filter tabel
+    }
+
+    @FXML
+    void handleSebelumnya(ActionEvent event) {
+        // nanti diisi: halaman tabel sebelumnya
+    }
+
+    @FXML
+    void handleBerikutnya(ActionEvent event) {
+        // nanti diisi: halaman tabel berikutnya
     }
 
     void pindahHalaman(ActionEvent event, String fxmlPath) {
