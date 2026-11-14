@@ -83,7 +83,7 @@
                     <VBox styleClass="halaman-checklist">
 
                         <padding>
-                            <Insets bottom="24.0" left="32.0" right="32.0" top="26.0"/>
+                            <Insets bottom="24.0" left="24.0" right="24.0" top="20.0"/>
                         </padding>
 
                         <children>
