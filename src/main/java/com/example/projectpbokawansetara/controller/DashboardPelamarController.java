@@ -87,31 +87,25 @@ public class DashboardPelamarController {
     }
 
     private void aturMenuAktif(ToggleButton menuAktif) {
-        String styleAktif =
-            "-fx-background-color: #DCE9F5;" +
-            "-fx-text-fill: #1F4E8C;" +
-            "-fx-font-weight: 600;" +
-            "-fx-background-radius: 8;" +
-            "-fx-padding: 0 12;";
+        ToggleButton[] daftarMenu = {
+            berandaMenu,
+            cariLowonganMenu,
+            riwayatMenu,
+            checklistMenu
+        };
 
-        String styleTidakAktif =
-                "-fx-background-color: transparent;" +
-                "-fx-text-fill: #344054;" +
-                "-fx-background-radius: 8;" +
-                "-fx-padding: 0 12;";
-
-        berandaMenu.setStyle(styleTidakAktif);
-        cariLowonganMenu.setStyle(styleTidakAktif);
-        riwayatMenu.setStyle(styleTidakAktif);
-        checklistMenu.setStyle(styleTidakAktif);
+        for (ToggleButton menu : daftarMenu) {
+            menu.getStyleClass().remove("menu-aktif");
+        }
 
         menuAktif.setSelected(true);
-        menuAktif.setStyle(styleAktif);
-        riwayatMenuLabel.setStyle(
-                menuAktif == riwayatMenu
-                        ? "-fx-text-fill: #1F4E8C; -fx-font-weight: 600;"
-                        : "-fx-text-fill: #344054;"
-        );
+        menuAktif.getStyleClass().add("menu-aktif");
+
+        riwayatMenuLabel.getStyleClass().remove("menu-label-aktif");
+
+        if (menuAktif == riwayatMenu) {
+            riwayatMenuLabel.getStyleClass().add("menu-label-aktif");
+        }
     }
 
     private void tampilkanHalaman(String namaFile) {

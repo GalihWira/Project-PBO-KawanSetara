@@ -129,3 +129,38 @@ INSERT INTO Lowongan_Keahlian (id_lowongan, id_keahlian) VALUES
 INSERT INTO Lamaran (id_pelamar, id_lowongan, tanggal_lamar) VALUES
 (1, 1, CURDATE());
 
+CREATE TABLE KategoriKeahlian (
+    id_kategori INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kategori VARCHAR(100) NOT NULL
+);
+
+ALTER TABLE Keahlian
+ADD COLUMN id_kategori INT;
+
+ALTER TABLE Keahlian
+ADD CONSTRAINT fk_keahlian_kategori
+FOREIGN KEY (id_kategori)
+REFERENCES KategoriKeahlian(id_kategori);
+
+INSERT INTO KategoriKeahlian (nama_kategori) VALUES
+('Administrasi'),
+('Desain'),
+('Teknologi'),
+('Komunikasi'),
+('Kreativitas'),
+('Keuangan');
+
+UPDATE Keahlian SET id_kategori = 1 WHERE id_keahlian = 1;
+UPDATE Keahlian SET id_kategori = 2 WHERE id_keahlian = 2;
+UPDATE Keahlian SET id_kategori = 3 WHERE id_keahlian = 3;
+UPDATE Keahlian SET id_kategori = 4 WHERE id_keahlian = 4;
+UPDATE Keahlian SET id_kategori = 5 WHERE id_keahlian = 5;
+UPDATE Keahlian SET id_kategori = 6 WHERE id_keahlian = 6;
+
+SELECT 
+    KategoriKeahlian.nama_kategori,
+    Keahlian.id_keahlian,
+    Keahlian.nama_keahlian
+FROM Keahlian
+JOIN KategoriKeahlian
+ON Keahlian.id_kategori = KategoriKeahlian.id_kategori;
