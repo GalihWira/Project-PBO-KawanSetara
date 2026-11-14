@@ -92,10 +92,10 @@ public class KelolaLowonganController {
     private ToggleButton tidakTersediaTab;
 
     @FXML
-    void handleTambah(ActionEvent event){
+    void handleTambah(ActionEvent event) {
         pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormLowonganView.fxml");
     }
-    
+
     @FXML
     void handleFilter(ActionEvent event) {
         // nanti diisi: filter tabel
@@ -125,5 +125,5 @@ public class KelolaLowonganController {
             e.printStackTrace();
         }
 
-}
+    }
 }
