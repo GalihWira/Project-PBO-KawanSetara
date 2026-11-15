@@ -1,22 +1,18 @@
 package com.example.projectpbokawansetara;
 
+import com.example.projectpbokawansetara.helper.SceneManager;
+
 import javafx.application.Application;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 public class HelloApplication extends Application {
 
-    private static final String HALAMAN_AWAL = "DashboardAdminView.fxml";
+    private static final String HALAMAN_AWAL = "LoginView.fxml";
 
     @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/com/example/projectpbokawansetara/view/" + HALAMAN_AWAL));
-
-        Scene scene = new Scene(root, 1280, 800);
-        primaryStage.setTitle("KawanSetara");
-        primaryStage.setScene(scene);
+    public void start(Stage primaryStage) {
+        SceneManager.setStage(primaryStage);
+        SceneManager.pindah(HALAMAN_AWAL, "Masuk - KawanSetara");
         primaryStage.show();
     }
 
