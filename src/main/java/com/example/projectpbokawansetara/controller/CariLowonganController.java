@@ -151,10 +151,6 @@ public class CariLowonganController {
 
         for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
             if (node instanceof CheckBox checkBox) {
-                System.out.println(
-                        checkBox.getText() + " = " + checkBox.isSelected()
-                );
-
                 if (checkBox.isSelected()) {
                     lokasiDipilih.add(checkBox.getText());
                 }
@@ -196,12 +192,6 @@ public class CariLowonganController {
             })
             .toList()       
         );
-
-        for (Lowongan lowongan : hasilFilter) {
-            System.out.println(
-                    lowongan.getNamaPekerjaan() + " | " + lowongan.getLokasi()
-            );
-        }
 
         String urutan = urutkanComboBox.getValue();
 

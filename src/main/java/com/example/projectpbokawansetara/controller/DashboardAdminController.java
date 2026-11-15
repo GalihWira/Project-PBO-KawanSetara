@@ -16,83 +16,140 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class DashboardAdminController {
-
-    @FXML private ToggleGroup adminMenuGroup;
-    @FXML private ToggleButton akunAdminMenu;
-    @FXML private ImageView avatarImage;
-    @FXML private TextField cariField;
-    @FXML private VBox daftarLamaranBox;
-    @FXML private ToggleButton dashboardMenu;
-    @FXML private ToggleButton itemChecklistMenu;
-    @FXML private ToggleButton jenisDisabilitasMenu;
-    @FXML private Label jumlahAdminMenuLabel;
-    @FXML private Label jumlahChecklistMenuLabel;
-    @FXML private Label jumlahDisabilitasMenuLabel;
-    @FXML private Label jumlahLowonganMenuLabel;
-    @FXML private Label jumlahPerusahaanMenuLabel;
-    @FXML private Button keluarButton;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label lamaranMasukInfoLabel;
-    @FXML private Label lamaranMasukLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private ToggleButton lowonganMenu;
-    @FXML private Label lowonganTersediaInfoLabel;
-    @FXML private Label lowonganTersediaLabel;
-    @FXML private BorderPane mainBorderPane;
-    @FXML private Label namaUserLabel;
-    @FXML private Label pelamarTerdaftarInfoLabel;
-    @FXML private Label pelamarTerdaftarLabel;
-    @FXML private Label peranUserLabel;
-    @FXML private ToggleButton perusahaanMenu;
-    @FXML private Label perusahaanMitraInfoLabel;
-    @FXML private Label perusahaanMitraLabel;
-    @FXML private Label tanggalLabel;
-    @FXML private VBox tindakLanjutBox;
-    @FXML private Label tindakLanjutKosongLabel;
-
+    
     private Node halamanDashboardAwal;
 
     @FXML
-    private void initialize() {
-        halamanDashboardAwal = mainBorderPane.getCenter();
-        aturMenuAktif(dashboardMenu);
-    }
+    private ToggleButton akunAdminMenu;
 
     @FXML
-    void handleDashboardMenu(MouseEvent event) {
-        mainBorderPane.setCenter(halamanDashboardAwal);
-        aturMenuAktif(dashboardMenu);
+    private ImageView avatarImage;
+
+    @FXML
+    private TextField cariField;
+
+    @FXML
+    private VBox daftarLamaranBox;
+
+    @FXML
+    private ToggleButton dashboardMenu;
+
+    @FXML
+    private ToggleButton itemChecklistMenu;
+
+    @FXML
+    private ToggleButton jenisDisabilitasMenu;
+
+    @FXML
+    private Label jumlahAdminMenuLabel;
+
+    @FXML
+    private Label jumlahChecklistMenuLabel;
+
+    @FXML
+    private Label jumlahDisabilitasMenuLabel;
+
+    @FXML
+    private Label jumlahLowonganMenuLabel;
+
+    @FXML
+    private Label jumlahPerusahaanMenuLabel;
+
+    @FXML
+    private Button keluarButton;
+
+    @FXML
+    private Label lamaranKosongLabel;
+
+    @FXML
+    private Label lamaranMasukInfoLabel;
+
+    @FXML
+    private Label lamaranMasukLabel;
+
+    @FXML
+    private Hyperlink lihatSemuaLink;
+
+    @FXML
+    private ToggleButton lowonganMenu;
+
+    @FXML
+    private Label lowonganTersediaInfoLabel;
+
+    @FXML
+    private Label lowonganTersediaLabel;
+
+    @FXML
+    private BorderPane mainBorderPane;
+
+    @FXML
+    private Label namaUserLabel;
+
+    @FXML
+    private Label pelamarTerdaftarInfoLabel;
+
+    @FXML
+    private Label pelamarTerdaftarLabel;
+
+    @FXML
+    private Label peranUserLabel;
+
+    @FXML
+    private ToggleButton perusahaanMenu;
+
+    @FXML
+    private Label perusahaanMitraInfoLabel;
+
+    @FXML
+    private Label perusahaanMitraLabel;
+
+    @FXML
+    private Label tanggalLabel;
+
+    @FXML
+    private VBox tindakLanjutBox;
+
+    @FXML
+    private Label tindakLanjutKosongLabel;
+
+    @FXML 
+    void handleDashboardMenu(ActionEvent event) {
+        setMenuAktif(dashboardMenu);
+        mainBorderPane.setCenter(kontenDashboardAwal);
     }
 
     @FXML
     void handleBukaLowongan(ActionEvent event) {
-        System.out.println("=== TOMBOL LOWONGAN BERHASIL DIKLIK ===");
-        tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
-}
-
-    @FXML
-    void handleBukaPerusahaan(MouseEvent event) {
-        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
+        setMenuAktif(lowonganMenu);
+        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
     }
 
     @FXML
-    void handleBukaItemChecklist(MouseEvent event) {
-        tampilkanHalaman("KelolaChecklistView.fxml", itemChecklistMenu);
+    void handleBukaPerusahaan(ActionEvent event) {
+        setMenuAktif(perusahaanMenu);
+        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaPerusahaanView.fxml");
     }
 
     @FXML
-    void handleBukaDisabilitas(MouseEvent event) {
-        tampilkanHalaman("KelolaDisabilitasView.fxml", jenisDisabilitasMenu);
+    void handleBukaItemChecklist(ActionEvent event) {
+        setMenuAktif(itemChecklistMenu);
+        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaChecklistView.fxml");
     }
 
     @FXML
-    void handleAkunAdmin(MouseEvent event) {
-        tampilkanHalaman("KelolaAkunAdminView.fxml", akunAdminMenu);
+    void handleKelolaDisabilitas(ActionEvent event) {
+        setMenuAktif(jenisDisabilitasMenu);
+        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaDisabilitasView.fxml");
+    }
+
+    @FXML
+    void handleKelolaAkunAdmin(ActionEvent event) {
+        setMenuAktif(akunAdminMenu);
+        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaAkunAdminView.fxml");
     }
 
     @FXML

@@ -36,7 +36,7 @@
                         <Label style="-fx-font-size: 15px;" styleClass="h2" text="KawanSetara"/>
                     </children>
                 </HBox>
-                <ToggleButton fx:id="berandaMenu" onAction="#handleBukaBeranda" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" style="-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 12;" text="Beranda">
+                <ToggleButton fx:id="berandaMenu" onAction="#handleBukaBeranda" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" selected="true" styleClass="menu-dashboard" text="Beranda">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -51,7 +51,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="cariLowonganMenu" onAction="#handleBukaCariLowongan" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Cari lowongan" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="cariLowonganMenu" onAction="#handleBukaCariLowongan" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" styleClass="menu-dashboard" text="Cari lowongan" toggleGroup="$menuGroup">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
@@ -63,7 +63,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="riwayatMenu" onAction="#handleBukaRiwayat" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="riwayatMenu" onAction="#handleBukaRiwayat" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" styleClass="menu-dashboard" toggleGroup="$menuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
@@ -72,7 +72,7 @@
                                         <Image url="@../../../../images/Riwayat.png"/>
                                     </image>
                                 </ImageView>
-                                <Label fx:id="riwayatMenuLabel" style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Riwayat lamaran"/>
+                                <Label fx:id="riwayatMenuLabel" styleClass="menu-label" text="Riwayat lamaran"/>
                                 <Region HBox.hgrow="ALWAYS"/>
                                 <Label fx:id="jumlahRiwayatLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;"/>
                             </children>
@@ -82,7 +82,7 @@
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </ToggleButton>
-                <ToggleButton fx:id="checklistMenu" onAction="#handleBukaChecklist" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 0 12;" text="Checklist minat &amp; bakat" toggleGroup="$menuGroup">
+                <ToggleButton fx:id="checklistMenu" onAction="#handleBukaChecklist" alignment="CENTER_LEFT" graphicTextGap="12.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefHeight="30.0" styleClass="menu-dashboard" text="Checklist minat &amp; bakat" toggleGroup="$menuGroup">
                     <graphic>
                         <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
                             <image>
