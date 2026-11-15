@@ -18,14 +18,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="login-view" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
    <center>
-      <HBox spacing="24.0" style="-fx-background-color: white;">
+      <HBox spacing="24.0" style="login-content">
          <padding>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
          <children>
-            <VBox prefWidth="620.0" style="-fx-background-color: #DCE9F5; -fx-background-radius: 12;" HBox.hgrow="NEVER">
+            <VBox prefWidth="620.0" style="login-image-panel" HBox.hgrow="NEVER">
                <children>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
@@ -34,7 +34,7 @@
                               <Image url="@../../../../images/login-photo.jpg" />
                            </image>
                         </ImageView>
-                        <VBox alignment="BOTTOM_LEFT" spacing="6.0" style="-fx-background-color: rgba(0,0,0,0.35);">
+                        <VBox alignment="BOTTOM_LEFT" spacing="6.0" style="login-image-overlay">
                            <padding>
                               <Insets bottom="24.0" left="24.0" right="24.0" top="20.0" />
                            </padding>
@@ -82,7 +82,7 @@
                         <Label styleClass="label-sm" text="Email">
                            <VBox.margin><Insets top="16.0" /></VBox.margin>
                         </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="10.0" styleClass="login-input-container">
                            <padding><Insets left="12.0" right="12.0" /></padding>
                            <VBox.margin><Insets top="6.0" /></VBox.margin>
                            <children>
@@ -92,13 +92,13 @@
                               <TextField fx:id="emailField" promptText="nama@gmail.com" style="-fx-background-color: transparent;" styleClass="body" HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <Label fx:id="emailErrorLabel" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
+                        <Label fx:id="emailErrorLabel" minHeight="0.0" prefHeight="0.0" styleClass="pesan-error" visible="false">
                            <VBox.margin><Insets top="4.0" /></VBox.margin>
                         </Label>
                         <Label styleClass="label-sm" text="Kata sandi">
                            <VBox.margin><Insets top="12.0" /></VBox.margin>
                         </Label>
-                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="10.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;">
+                        <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="10.0" styleClass="login-input-container">
                            <padding><Insets left="12.0" right="12.0" /></padding>
                            <VBox.margin><Insets top="6.0" /></VBox.margin>
                            <children>
@@ -113,7 +113,7 @@
                               </ImageView>
                            </children>
                         </HBox>
-                        <Label fx:id="passwordErrorLabel" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false">
+                        <Label fx:id="passwordErrorLabel" minHeight="0.0" prefHeight="0.0" styleClass="pesan-error" visible="false">
                            <VBox.margin><Insets top="4.0" /></VBox.margin>
                         </Label>
                         <HBox alignment="CENTER_LEFT">
@@ -124,10 +124,10 @@
                               <Hyperlink fx:id="forgotPasswordLink" onAction="#handleForgotPassword" style="-fx-text-fill: #1F4E8C; -fx-border-color: transparent; -fx-padding: 0; -fx-font-size: 13px; -fx-font-weight: 600;" text="Lupa kata sandi?" />
                            </children>
                         </HBox>
-                        <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-cursor: hand;" text="Masuk">
+                        <Button fx:id="loginButton" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleLogin" prefHeight="32.0" styleClass="login-button" text="Masuk">
                            <VBox.margin><Insets top="20.0" /></VBox.margin>
                         </Button>
-                        <Label fx:id="loginMessageLabel" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" styleClass="error" visible="false" wrapText="true">
+                        <Label fx:id="loginMessageLabel" maxWidth="1.7976931348623157E308" minHeight="0.0" prefHeight="0.0" styleClass="pesan-error" visible="false" wrapText="true">
                            <VBox.margin><Insets top="8.0" /></VBox.margin>
                         </Label>
                         <HBox alignment="CENTER" spacing="12.0">
@@ -138,7 +138,7 @@
                               <Separator HBox.hgrow="ALWAYS" />
                            </children>
                         </HBox>
-                        <Button fx:id="googleButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoogleLogin" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-radius: 8; -fx-background-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-cursor: hand;" text="Masuk dengan Google">
+                        <Button fx:id="googleButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleGoogleLogin" prefHeight="32.0" styleClass="login-google-button" text="Masuk dengan Google">
                            <VBox.margin><Insets top="20.0" /></VBox.margin>
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
@@ -146,7 +146,7 @@
                               </ImageView>
                            </graphic>
                         </Button>
-                        <Button fx:id="facebookButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleFacebookLogin" prefHeight="32.0" style="-fx-background-color: #1877F2; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-radius: 8; -fx-cursor: hand;" text="Masuk dengan Facebook">
+                        <Button fx:id="facebookButton" graphicTextGap="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleFacebookLogin" prefHeight="32.0" styleClass="login-facebook-button" text="Masuk dengan Facebook">
                            <VBox.margin><Insets top="12.0" /></VBox.margin>
                            <graphic>
                               <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
