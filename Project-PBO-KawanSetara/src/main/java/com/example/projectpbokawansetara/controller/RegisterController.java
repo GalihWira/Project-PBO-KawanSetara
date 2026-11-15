@@ -83,6 +83,9 @@ public class RegisterController {
     @FXML
     private Label emailErrorLabel;
 
+    @FXML 
+    private Label registerMassageLabel;
+
     @FXML
     private TextField emailField;
 
@@ -300,7 +303,7 @@ public class RegisterController {
         sembunyikanSemuaError();
         boolean valid = true;
         String nama = namaField.getText();
-        String email = namaField.getText();
+        String email = emailField.getText();
         String password = ambilPassword();
         String konfirmasi = ambilKonfirmasiPassword();
 
@@ -350,7 +353,7 @@ public class RegisterController {
             tampilkanPesan(teleponErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
             valid = false;
         } else if (!hanyaAngka(telepon)){
-            tampilkanPesan(tanggalLahirErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
+            tampilkanPesan(teleponErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
             valid = false;
         }
 
@@ -371,7 +374,7 @@ public class RegisterController {
     
     @FXML
     void handleLoginSosial (ActionEvent event){
-        System.out.println("Maaf, Login Sosial Belum Tersedia");
+        tampilkanPesan(registerMassageLabel, "Maaf, Bagian Ini Belum Tersedia");
     }
 
     @FXML
@@ -413,9 +416,9 @@ public class RegisterController {
     void handleToggleConfirmPassword (MouseEvent event){
         if (confirmPasswordField.isVisible()){
             confirmPasswordVisibleField.setText(confirmPasswordField.getText());
-            tukarField (confirmPasswordVisibleField, confirmPasswordField);
+            tukarField (confirmPasswordField, confirmPasswordVisibleField);
         } else {
-            confirmPasswordVisibleField.setText(confirmPasswordField.getText());
+            confirmPasswordField.setText(confirmPasswordVisibleField.getText());
             tukarField (confirmPasswordVisibleField, confirmPasswordField);
         }
     }
