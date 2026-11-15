@@ -86,9 +86,12 @@ public class LoginController {
             return;
         }
 
+        if (!email.endsWith("@gmail.com")) {
+            tampilkanPesan(emailErrorLabel, "Format Penulisan Email Tidak Sesuai!", "pesan-error");
+        }
+
         if (password.isEmpty()) {
-            tampilkanPesan(passwordErrorLabel, "Kata Sandi Wajib Diisi!", 	"pesan-error");
-            return;
+            tampilkanPesan(passwordErrorLabel, "Kata Sandi Wajib Diisi!", "pesan-error");            return;
         }
 
         if (password.length() < 6) {
@@ -189,8 +192,9 @@ public class LoginController {
             stage.setTitle("Beranda - KawanSetara");
             stage.show();
         } catch (IOException | NullPointerException e){
-            tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", 	"pesan-error");
+            tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", "pesan-error");
             e.printStackTrace();
         }
     }
 }
+
