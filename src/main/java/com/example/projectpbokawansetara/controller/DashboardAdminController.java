@@ -1,6 +1,7 @@
 package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
+import java.net.URL;
 
 import com.example.projectpbokawansetara.helper.DialogHelper;
 
@@ -16,143 +17,140 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 
 public class DashboardAdminController {
 
-    @FXML
-    private ToggleGroup adminMenuGroup;
+    private Node halamanDashboardAwal;
+
+    @FXML private ToggleGroup adminMenuGroup;
+    @FXML private ToggleButton akunAdminMenu;
+    @FXML private ImageView avatarImage;
+    @FXML private TextField cariField;
+    @FXML private VBox daftarLamaranBox;
+    @FXML private ToggleButton dashboardMenu;
+    @FXML private ToggleButton itemChecklistMenu;
+    @FXML private ToggleButton jenisDisabilitasMenu;
+    @FXML private Label jumlahAdminMenuLabel;
+    @FXML private Label jumlahChecklistMenuLabel;
+    @FXML private Label jumlahDisabilitasMenuLabel;
+    @FXML private Label jumlahLowonganMenuLabel;
+    @FXML private Label jumlahPerusahaanMenuLabel;
+    @FXML private Button keluarButton;
+    @FXML private Label lamaranKosongLabel;
+    @FXML private Label lamaranMasukInfoLabel;
+    @FXML private Label lamaranMasukLabel;
+    @FXML private Hyperlink lihatSemuaLink;
+    @FXML private ToggleButton lowonganMenu;
+    @FXML private Label lowonganTersediaInfoLabel;
+    @FXML private Label lowonganTersediaLabel;
+    @FXML private BorderPane mainBorderPane;
+    @FXML private Label namaUserLabel;
+    @FXML private Label pelamarTerdaftarInfoLabel;
+    @FXML private Label pelamarTerdaftarLabel;
+    @FXML private Label peranUserLabel;
+    @FXML private ToggleButton perusahaanMenu;
+    @FXML private Label perusahaanMitraInfoLabel;
+    @FXML private Label perusahaanMitraLabel;
+    @FXML private Label tanggalLabel;
+    @FXML private VBox tindakLanjutBox;
+    @FXML private Label tindakLanjutKosongLabel;
 
     @FXML
-    private ToggleButton akunAdminMenu;
-
+    private void initialize() {
+        halamanDashboardAwal = mainBorderPane.getCenter();
+        aturMenuAktif(dashboardMenu);
+    }
+    // Dashboard
     @FXML
-    private ImageView avatarImage;
-
-    @FXML
-    private TextField cariField;
-
-    @FXML
-    private VBox daftarLamaranBox;
-
-    @FXML
-    private ToggleButton dashboardMenu;
-
-    @FXML
-    private ToggleButton itemChecklistMenu;
-
-    @FXML
-    private ToggleButton jenisDisabilitasMenu;
-
-    @FXML
-    private Label jumlahAdminMenuLabel;
-
-    @FXML
-    private Label jumlahChecklistMenuLabel;
-
-    @FXML
-    private Label jumlahDisabilitasMenuLabel;
-
-    @FXML
-    private Label jumlahLowonganMenuLabel;
-
-    @FXML
-    private Label jumlahPerusahaanMenuLabel;
-
-    @FXML
-    private Button keluarButton;
-
-    @FXML
-    private Label lamaranKosongLabel;
-
-    @FXML
-    private Label lamaranMasukInfoLabel;
-
-    @FXML
-    private Label lamaranMasukLabel;
-
-    @FXML
-    private Hyperlink lihatSemuaLink;
-
-    @FXML
-    private ToggleButton lowonganMenu;
-
-    @FXML
-    private Label lowonganTersediaInfoLabel;
-
-    @FXML
-    private Label lowonganTersediaLabel;
-
-    @FXML
-    private BorderPane mainBorderPane;
-
-    @FXML
-    private Label namaUserLabel;
-
-    @FXML
-    private Label pelamarTerdaftarInfoLabel;
-
-    @FXML
-    private Label pelamarTerdaftarLabel;
-
-    @FXML
-    private Label peranUserLabel;
-
-    @FXML
-    private ToggleButton perusahaanMenu;
-
-    @FXML
-    private Label perusahaanMitraInfoLabel;
-
-    @FXML
-    private Label perusahaanMitraLabel;
-
-    @FXML
-    private Label tanggalLabel;
-
-    @FXML
-    private VBox tindakLanjutBox;
-
-    @FXML
-    private Label tindakLanjutKosongLabel;
-
-    @FXML 
     void handleDashboardMenu(ActionEvent event) {
-        setMenuAktif(dashboardMenu);
-        mainBorderPane.setCenter(kontenDashboardAwal);
+        kembaliKeDashboard();
     }
 
+    @FXML
+    void handleDashboardMenuClick(MouseEvent event) {
+        kembaliKeDashboard();
+    }
+
+    private void kembaliKeDashboard() {
+        try {
+            if (halamanDashboardAwal != null) {
+                mainBorderPane.setCenter(halamanDashboardAwal);
+            } else {
+                URL url = getClass().getResource("/com/example/projectpbokawansetara/view/DashboardAdminView.fxml");
+                Parent root = FXMLLoader.load(url);
+                if (root instanceof BorderPane bp && bp.getCenter() != null) {
+                    mainBorderPane.setCenter(bp.getCenter());
+                }
+            }
+            aturMenuAktif(dashboardMenu);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    // Lowongan
     @FXML
     void handleBukaLowongan(ActionEvent event) {
-        setMenuAktif(lowonganMenu);
-        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
+        tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
     }
 
+    @FXML
+    void handleKelolaLowongan(ActionEvent event) {
+        tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
+    }
+
+    // Perusahaan
     @FXML
     void handleBukaPerusahaan(ActionEvent event) {
-        setMenuAktif(perusahaanMenu);
-        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaPerusahaanView.fxml");
+        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
     }
 
     @FXML
+    void handleKelolaPerusahaan(ActionEvent event) {
+        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
+    }
+
+    @FXML
+    void handleBukaPerusahaanMouse(MouseEvent event) {
+        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
+    }
+
+    // Item Cheklist
+    @FXML
     void handleBukaItemChecklist(ActionEvent event) {
-        setMenuAktif(itemChecklistMenu);
-        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaChecklistView.fxml");
+        tampilkanHalaman("KelolaChecklistView.fxml", itemChecklistMenu);
+    }
+
+    @FXML
+    void handleKelolaChecklist(ActionEvent event) {
+        tampilkanHalaman("KelolaChecklistView.fxml", itemChecklistMenu);
+    }
+
+    // Jenis disabilitas
+    @FXML
+    void handleBukaDisabilitas(ActionEvent event) {
+        tampilkanHalaman("KelolaDisabilitasView.fxml", jenisDisabilitasMenu);
     }
 
     @FXML
     void handleKelolaDisabilitas(ActionEvent event) {
-        setMenuAktif(jenisDisabilitasMenu);
-        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaDisabilitasView.fxml");
+        tampilkanHalaman("KelolaDisabilitasView.fxml", jenisDisabilitasMenu);
+    }
+
+    // --- AKUN ADMIN ---
+    @FXML
+    void handleAkunAdmin(ActionEvent event) {
+        tampilkanHalaman("KelolaAkunAdminView.fxml", akunAdminMenu);
     }
 
     @FXML
     void handleKelolaAkunAdmin(ActionEvent event) {
-        setMenuAktif(akunAdminMenu);
-        gantiKontenTengah("/com/example/projectpbokawansetara/view/KelolaAkunAdminView.fxml");
+        tampilkanHalaman("KelolaAkunAdminView.fxml", akunAdminMenu);
     }
 
+    // --- KELUAR ---
     @FXML
     void handleKeluar(ActionEvent event) {
         DialogHelper.tampilkanDialogKeluar(
@@ -160,46 +158,58 @@ public class DashboardAdminController {
                 "Kamu perlu masuk lagi untuk mengelola data lowongan dan pelamar.");
     }
 
-
-    private void gantiKontenTengah(String pathFXML) {
+    private void tampilkanHalaman(String namaFile, ToggleButton menuTujuan) {
         try {
-            Parent newPage = FXMLLoader.load(getClass().getResource(pathFXML));
-            mainBorderPane.setCenter(newPage);
+            String lokasi = "/com/example/projectpbokawansetara/view/" + namaFile;
+            URL url = getClass().getResource(lokasi);
+            if (url == null) {
+                System.err.println("FILE FXML TIDAK DITEMUKAN: " + lokasi);
+                return;
+            }
+
+            FXMLLoader loader = new FXMLLoader(url);
+            Parent halaman = loader.load();
+
+            if (halaman instanceof BorderPane halamanBorder && halamanBorder.getCenter() != null) {
+                mainBorderPane.setCenter(halamanBorder.getCenter());
+            } else {
+                mainBorderPane.setCenter(halaman);
+            }
+
+            aturMenuAktif(menuTujuan);
+
         } catch (IOException e) {
-            System.err.println("Gagal memuat file FXML di lokasi: " + pathFXML);
+            System.err.println("Gagal membuka halaman: " + namaFile);
             e.printStackTrace();
         }
     }
 
-    private Node kontenDashboardAwal;
-    @FXML
-    public void initialize() {
-        kontenDashboardAwal = mainBorderPane.getCenter();
-    }
+    private void aturMenuAktif(ToggleButton menuAktif) {
+        String styleAktif =
+                "-fx-background-color: #DCE9F5;" +
+                "-fx-text-fill: #1F4E8C;" +
+                "-fx-font-weight: 600;" +
+                "-fx-background-radius: 8;";
 
-    private void setMenuAktif(ToggleButton menuAktif) {
-    ToggleButton[] semuaMenu = {
-        dashboardMenu,
-        lowonganMenu,
-        perusahaanMenu,
-        itemChecklistMenu,
-        jenisDisabilitasMenu,
-        akunAdminMenu
-    };
+        String styleTidakAktif =
+                "-fx-background-color: transparent;" +
+                "-fx-text-fill: #344054;" +
+                "-fx-background-radius: 8;";
 
-    for (ToggleButton menu : semuaMenu) {
-        if (menu != null) {
-            menu.setStyle("-fx-background-color: transparent; -fx-background-radius: 8;");
+        ToggleButton[] semuaMenu = {
+            dashboardMenu, lowonganMenu, perusahaanMenu,
+            itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
+        };
+
+        for (ToggleButton menu : semuaMenu) {
+            if (menu != null) {
+                menu.setStyle(styleTidakAktif);
+            }
+        }
+
+        if (menuAktif != null) {
+            menuAktif.setSelected(true);
+            menuAktif.setStyle(styleAktif);
         }
     }
-
-    if (menuAktif != null) {
-        menuAktif.setStyle("-fx-background-color: #E2ECF7; -fx-background-radius: 8;");
-    }
 }
-
-
-}
-
-
-
