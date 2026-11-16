@@ -2,6 +2,16 @@ package com.example.projectpbokawansetara.helper;
 
 public class ValidasiHelper {
 
+    private static final String[] DOMAIN_DIIZINKAN = {
+        "gmail.com",
+        "yahoo.com",
+        "yahoo.co.id",
+        "outlook.com",
+        "hotmail.com",
+        "icloud.com",
+        "kawansetara.com"
+    };
+
     private ValidasiHelper() {
     }
 
@@ -11,15 +21,28 @@ public class ValidasiHelper {
         }
 
         int posisiAt = email.indexOf('@');
-
         if (posisiAt <= 0 || posisiAt != email.lastIndexOf('@')) {
             return false;
         }
 
         String domain = email.substring(posisiAt + 1);
         int posisiTitik = domain.lastIndexOf('.');
-
         return posisiTitik > 0 && posisiTitik < domain.length() - 1;
+    }
+
+    public static boolean domainDiizinkan(String email) {
+        String domain = email.substring(email.indexOf('@') + 1).toLowerCase();
+
+        if (domain.endsWith(".ac.id")) {
+            return true;
+        }
+
+        for (String d : DOMAIN_DIIZINKAN) {
+            if (domain.equals(d)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static boolean teleponValid(String telepon) {
@@ -33,11 +56,17 @@ public class ValidasiHelper {
     }
 
     public static boolean namaValid(String nama) {
-        if (nama == null || nama.length() < 3 || nama.length() > 50) {
+        if (nama == null) {
             return false;
         }
-        for (char c : nama.toCharArray()) {
-            if (!Character.isLetter(c) && c != ' ') {
+
+        String bersih = nama.trim();
+        if (bersih.length() < 3 || bersih.length() > 50) {
+            return false;
+        }
+
+        for (char c : bersih.toCharArray()) {
+            if (!Character.isLetter(c) && c != ' ' && c != '.' && c != '\'') {
                 return false;
             }
         }
@@ -48,8 +77,10 @@ public class ValidasiHelper {
         if (password == null || password.length() < 8) {
             return false;
         }
+
         boolean adaHuruf = false;
         boolean adaAngka = false;
+
         for (char c : password.toCharArray()) {
             if (Character.isLetter(c)) {
                 adaHuruf = true;
@@ -60,10 +91,7 @@ public class ValidasiHelper {
         return adaHuruf && adaAngka;
     }
 
-    public static boolean semuaAngka(String teks) {
-        if (teks == null || teks.isEmpty()) {
-            return false;
-        }
+    private static boolean semuaAngka(String teks) {
         for (char c : teks.toCharArray()) {
             if (!Character.isDigit(c)) {
                 return false;
