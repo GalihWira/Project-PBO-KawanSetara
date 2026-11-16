@@ -18,14 +18,14 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<BorderPane prefHeight="640.0" prefWidth="1000.0" style="login-view" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
+<BorderPane prefHeight="640.0" prefWidth="1000.0" styleClass="login-view" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LoginController">
    <center>
-      <HBox spacing="24.0" style="login-content">
+      <HBox spacing="24.0" styleClass="login-content">
          <padding>
             <Insets bottom="16.0" left="16.0" right="16.0" top="16.0" />
          </padding>
          <children>
-            <VBox prefWidth="620.0" style="login-image-panel" HBox.hgrow="NEVER">
+            <VBox prefWidth="620.0" styleClass="login-image-panel" HBox.hgrow="NEVER">
                <children>
                   <StackPane VBox.vgrow="ALWAYS">
                      <children>
@@ -34,7 +34,7 @@
                               <Image url="@../../../../images/login-photo.jpg" />
                            </image>
                         </ImageView>
-                        <VBox alignment="BOTTOM_LEFT" spacing="6.0" style="login-image-overlay">
+                        <VBox alignment="BOTTOM_LEFT" spacing="6.0" styleClass="login-image-overlay">
                            <padding>
                               <Insets bottom="24.0" left="24.0" right="24.0" top="20.0" />
                            </padding>
