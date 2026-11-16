@@ -4,18 +4,22 @@ import java.io.IOException;
 
 import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.Lowongan;
+import com.example.projectpbokawansetara.model.Session;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
+import javafx.stage.Stage;
 public class DashboardPelamarController {
     private Node halamanCariLowongan;
     @FXML
@@ -49,6 +53,29 @@ public class DashboardPelamarController {
 
     @FXML
     private void initialize() {
+        if (!Session.isLoggedIn()) {
+            Platform.runLater(() -> {
+                try {
+                    Parent root = FXMLLoader.load(
+                        getClass().getResource(
+                            "/com/example/projectpbokawansetara/view/LoginView.fxml"
+                        )
+                    );
+
+                    Stage stage = (Stage) mainBorderPane.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Masuk - KawanSetara");
+                    stage.sizeToScene();
+                    stage.centerOnScreen();
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
+
+            return;
+        }
+
         halamanBeranda = mainBorderPane.getCenter();
         aturMenuAktif(berandaMenu);
     }

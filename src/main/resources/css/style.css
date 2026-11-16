@@ -538,3 +538,87 @@
 .pesan-info {
     -fx-text-fill: #475467;
 }
+
+/* Overlay Dialog Keluar */
+.overlay-dialog {
+    -fx-background-color: rgba(16, 24, 40, 0.45);
+}
+
+
+/* Login View */
+.login-view {
+    -fx-background-color: white;
+}
+
+.login-content {
+    -fx-background-color: white;
+}
+
+.login-image-panel {
+    -fx-background-color: #DCE9F5;
+    -fx-background-radius: 12;
+}
+
+.login-image-overlay {
+    -fx-background-color: rgba(0, 0, 0, 0.35);
+}
+
+.login-input-container {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+}
+
+.login-input-container .text-field,
+.login-input-container .password-field {
+    -fx-background-color: transparent;
+}
+
+.login-remember-checkbox {
+    -fx-text-fill: #344054;
+    -fx-font-size: 13px;
+}
+
+.login-forgot-link {
+    -fx-text-fill: #1F4E8C;
+    -fx-border-color: transparent;
+    -fx-padding: 0;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+}
+
+.login-button {
+    -fx-background-color: #1F4E8C;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.login-divider-label {
+    -fx-font-size: 12px;
+    -fx-text-fill: #98A2B3;
+}
+
+.login-google-button {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-text-fill: #344054;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-cursor: hand;
+}
+
+.login-facebook-button {
+    -fx-background-color: #1877F2;
+    -fx-text-fill: white;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+}

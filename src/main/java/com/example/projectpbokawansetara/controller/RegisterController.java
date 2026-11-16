@@ -2,17 +2,18 @@ package com.example.projectpbokawansetara.controller;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+
+import com.example.projectpbokawansetara.dao.PelamarDAO;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.Node; 
-
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -25,12 +26,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-public class RegisterController {
 
+
+public class RegisterController {
+    private final PelamarDAO pelamarDAO = new PelamarDAO();
+    
     @FXML
     private CheckBox agreeCheckBox;
 
@@ -254,29 +257,53 @@ public class RegisterController {
         sembunyikanSemuaError();
         boolean valid = true;
 
-        if(!fisikCheckBox.isSelected () && !runguWicaraCheckBox.isSelected() && !mentalCheckBox.isSelected() && !netraCheckBox.isSelected() && !intelektualCheckBox.isSelected()){
-            tampilkanPesan (disabilitasErrorLabel, "Wajib Memilih Jenis Disabilitas!");
+        if (!fisikCheckBox.isSelected()
+                && !runguWicaraCheckBox.isSelected()
+                && !mentalCheckBox.isSelected()
+                && !netraCheckBox.isSelected()
+                && !intelektualCheckBox.isSelected()) {
+            tampilkanPesan(disabilitasErrorLabel, "Wajib Memilih Jenis Disabilitas!");
             valid = false;
         }
 
-        if(fileCv == null){
-            tampilkanPesan (cvErrorLabel, "Wajib Mengisi CV!");
+        if (fileCv == null) {
+            tampilkanPesan(cvErrorLabel, "Wajib Mengisi CV!");
             valid = false;
         }
 
-        if(fileIjazah == null){
-            tampilkanPesan (ijazahErrorLabel, "Wajib Mengisi Ijazah!");
+        if (fileIjazah == null) {
+            tampilkanPesan(ijazahErrorLabel, "Wajib Mengisi Ijazah!");
             valid = false;
         }
 
-        if(fileSkd == null){
-            tampilkanPesan (skdErrorLabel, "Wajib Mengisi SKD!");
+        if (fileSkd == null) {
+            tampilkanPesan(skdErrorLabel, "Wajib Mengisi SKD!");
             valid = false;
         }
 
-        if (valid){
-            pindahHalaman (event, "/com/example/projectpbokawansetara/view/LoginView.fxml", "Masuk - KawanSetara");
-        } 
+        if (!valid) {
+            return;
+        }
+
+        try {
+            boolean berhasil = pelamarDAO.simpanPelamar(
+                namaField.getText().trim(),
+                emailField.getText().trim(),
+                passwordField.getText()
+            );
+
+            if (berhasil) {
+                pindahHalaman(
+                    event,
+                    "/com/example/projectpbokawansetara/view/LoginView.fxml",
+                    "Masuk - KawanSetara"
+                );
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            tampilkanPesan(emailErrorLabel, "Gagal mendaftar. Email mungkin sudah digunakan.");
+        }
     }
 
     @FXML 
@@ -315,9 +342,9 @@ public class RegisterController {
         if(email.isEmpty()){
             tampilkanPesan (emailErrorLabel, "Wajib Mengisi Bagian Email!");
             valid = false;
-        } else if (!email.endsWith("@gmail.com")){
-            tampilkanPesan (emailErrorLabel, "Format Email Anda Salah!");
-            valid = false;
+        } else if (!emailValid(email)) {
+            tampilkanPesan(emailErrorLabel, "Domain email tidak didukung!");
+            return;
         }
 
         if (password.length() < 8){
@@ -434,6 +461,27 @@ public class RegisterController {
         }
     }
 
+    private boolean emailValid(String email) {
+        String[] domainDiizinkan = {
+            "@gmail.com",
+            "@yahoo.com",
+            "@yahoo.co.id",
+            "@outlook.com",
+            "@hotmail.com",
+            "@icloud.com",
+            "@kawansetara.com" // untuk akun admin
+        };
+
+        String emailLower = email.toLowerCase();
+
+        for (String domain : domainDiizinkan) {
+            if (emailLower.endsWith(domain)) {
+                return true;
+            }
+        }
+
+        return false;
+    }  
 
     private void tampilkanLangkah (int langkah){
         step1Pane.setVisible (langkah == 1);
@@ -564,8 +612,10 @@ public class RegisterController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasiFxml));
             Parent root = loader.load();
             Stage stage = ambilStage (event);
-            stage.setScene (new Scene (root, 1280, 800));
+            stage.setScene (new Scene (root));
             stage.setTitle (judul);
+            stage.sizeToScene();
+            stage.centerOnScreen();
             stage.show();
         } catch (IOException | NullPointerException e){
             System.out.println ("Maaf, Anda Gagal Memuat Halaman " + lokasiFxml);

@@ -6,6 +6,8 @@ import java.sql.SQLException;
 import com.example.projectpbokawansetara.dao.UserDAO;
 import com.example.projectpbokawansetara.model.Session;
 import com.example.projectpbokawansetara.model.User;
+import java.util.prefs.Preferences;
+import javafx.scene.control.CheckBox;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -35,7 +37,7 @@ public class LoginController {
     private Button facebookButton;
 
     @FXML
-    private Hyperlink forgotPasswordLink;
+    private Hyperlink forgotPasswordLink;    
 
     @FXML
     private Button googleButton;
@@ -53,21 +55,33 @@ public class LoginController {
     private PasswordField passwordField;
 
     @FXML
+    private TextField passwordVisibleField;
+
+    @FXML
     private Hyperlink registerLink;
 
     @FXML
     private CheckBox rememberCheckBox;
+    private final Preferences preferences = Preferences.userNodeForPackage(LoginController.class);
+    private static final String KEY_EMAIL = "email_login";
 
     @FXML
     private ImageView togglePasswordIcon;
 
     private boolean passwordTerlihat = false;
-    private String passwordAsli = "";
 
     public void initialize (){
         sembunyikanPesan (emailErrorLabel);
         sembunyikanPesan (passwordErrorLabel);
         sembunyikanPesan (loginMessageLabel);
+        passwordVisibleField.setVisible(false);
+        passwordVisibleField.setManaged(false);
+        emailField.setOnAction(event -> passwordField.requestFocus());
+        passwordField.setOnAction(this::handleLogin);
+        passwordVisibleField.setOnAction(this::handleLogin);
+        String emailTersimpan = preferences.get(KEY_EMAIL, "");
+        emailField.setText(emailTersimpan);
+        rememberCheckBox.setSelected(!emailTersimpan.isEmpty());
     }
 
     @FXML
@@ -78,7 +92,7 @@ public class LoginController {
 
         String email = emailField.getText().trim();
         String password = passwordTerlihat
-            ? passwordAsli
+            ? passwordVisibleField.getText()
             : passwordField.getText();
 
         if (email.isEmpty()) {
@@ -86,8 +100,9 @@ public class LoginController {
             return;
         }
 
-        if (!email.endsWith("@gmail.com")) {
-            tampilkanPesan(emailErrorLabel, "Format Penulisan Email Tidak Sesuai!", "pesan-error");
+        if (!emailValid(email)) {
+            tampilkanPesan(emailErrorLabel, "Domain email tidak didukung!", "pesan-error");
+            return;
         }
 
         if (password.isEmpty()) {
@@ -112,6 +127,11 @@ public class LoginController {
             }
 
             Session.login(user);
+            if (rememberCheckBox.isSelected()) {
+                preferences.put(KEY_EMAIL, email);
+            } else {
+                preferences.remove(KEY_EMAIL);
+            }
 
             String lokasiFxml =
                 "/com/example/projectpbokawansetara/view/"
@@ -131,16 +151,19 @@ public class LoginController {
 
     @FXML
     private void handleTogglePassword(MouseEvent event){
-        if(passwordTerlihat == false){
-            passwordAsli = passwordField.getText();
-            passwordField.clear();
-            passwordField.setPromptText(passwordAsli);
-            passwordField.setEditable(false);
+        if(!passwordTerlihat){
+            passwordVisibleField.setText(passwordField.getText());
+            passwordField.setVisible(false);
+            passwordField.setManaged(false);
+            passwordVisibleField.setVisible(true);
+            passwordVisibleField.setManaged(true);
             passwordTerlihat = true;
         } else {
-            passwordField.setText(passwordAsli);
-            passwordField.setPromptText("Masukkan Kata Sandi Anda ...");
-            passwordField.setEditable(true);
+            passwordField.setText(passwordVisibleField.getText());
+            passwordVisibleField.setVisible(false);
+            passwordVisibleField.setManaged(false);
+            passwordField.setVisible(true);
+            passwordField.setManaged(true);
             passwordTerlihat = false;
         }
     }
@@ -163,6 +186,28 @@ public class LoginController {
     @FXML 
     private void handleFacebookLogin(ActionEvent event){
         tampilkanPesan(loginMessageLabel, "Maaf, Login Facebook Saat Ini Belum Tersedia ...", 	"pesan-error");        
+    }
+
+    private boolean emailValid(String email) {
+        String[] domainDiizinkan = {
+            "@gmail.com",
+            "@yahoo.com",
+            "@yahoo.co.id",
+            "@outlook.com",
+            "@hotmail.com",
+            "@icloud.com",
+            "@kawansetara.com" // untuk akun admin
+        };
+
+        String emailLower = email.toLowerCase();
+
+        for (String domain : domainDiizinkan) {
+            if (emailLower.endsWith(domain)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     private void tampilkanPesan(Label label, String pesan, String styleClass) {
@@ -188,8 +233,10 @@ public class LoginController {
             FXMLLoader(getClass().getResource(lokasiFxml));
             Parent root = loader.load();
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root, 1280, 800));
+            stage.setScene(new Scene(root));
             stage.setTitle("Beranda - KawanSetara");
+            stage.sizeToScene();
+            stage.centerOnScreen(); 
             stage.show();
         } catch (IOException | NullPointerException e){
             tampilkanPesan(loginMessageLabel, "Maaf, Anda Gagal Membuka Halaman", "pesan-error");

@@ -164,3 +164,7 @@ SELECT
 FROM Keahlian
 JOIN KategoriKeahlian
 ON Keahlian.id_kategori = KategoriKeahlian.id_kategori;
+
+ALTER TABLE Lamaran
+ADD CONSTRAINT unik_lamaran
+UNIQUE (id_pelamar, id_lowongan);

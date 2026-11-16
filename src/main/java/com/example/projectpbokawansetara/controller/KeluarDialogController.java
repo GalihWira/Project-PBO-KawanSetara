@@ -3,7 +3,6 @@ package com.example.projectpbokawansetara.controller;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Stage;
 
 public class KeluarDialogController {
 
@@ -19,12 +18,17 @@ public class KeluarDialogController {
     @FXML
     private Button keluarButton;
 
+    private Runnable onBatal;
     private Runnable onKeluar;
 
     @FXML
     private void initialize() {
-        batalButton.setOnAction(event -> tutupDialog());
+        batalButton.setOnAction(event -> handleBatal());
         keluarButton.setOnAction(event -> handleKeluar());
+    }
+
+    public void setOnBatal(Runnable onBatal) {
+        this.onBatal = onBatal;
     }
 
     public void setOnKeluar(Runnable onKeluar) {
@@ -39,16 +43,15 @@ public class KeluarDialogController {
         pesanLabel.setText(pesan);
     }
 
-    private void handleKeluar() {
-        tutupDialog();
-
-        if (onKeluar != null) {
-            onKeluar.run();
+    private void handleBatal() {
+        if (onBatal != null) {
+            onBatal.run();
         }
     }
 
-    private void tutupDialog() {
-        Stage stage = (Stage) batalButton.getScene().getWindow();
-        stage.close();
+    private void handleKeluar() {
+        if (onKeluar != null) {
+            onKeluar.run();
+        }
     }
 }
