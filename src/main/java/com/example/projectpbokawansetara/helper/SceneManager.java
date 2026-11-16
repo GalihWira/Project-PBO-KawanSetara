@@ -25,7 +25,7 @@ public class SceneManager {
 
     public static void pindah(String namaFxml, String judul) {
         if (stage == null) {
-            throw new IllegalStateException("Stage belum di-set. Panggil SceneManager.setStage() dulu di HelloApplication.");
+            throw new IllegalStateException("Stage belum di-set. Panggil SceneMana  ger.setStage() dulu di HelloApplication.");
         }
 
         URL lokasi = SceneManager.class.getResource(BASE + namaFxml);
