@@ -1,4 +1,3 @@
-
 package com.example.projectpbokawansetara.dao;
 
 import java.sql.Connection;
@@ -107,6 +106,27 @@ public class UserDAO {
         }
 
         return null;
+    }
+
+    public boolean emailSudahTerdaftar(String email) throws SQLException {
+
+        String sql = """
+            SELECT email FROM Pelamar WHERE email = ?
+            UNION
+            SELECT email FROM Admin WHERE email = ?
+        """;
+
+        try (
+            Connection conn = KoneksiDB.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setString(1, email);
+            stmt.setString(2, email);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                return rs.next();
+            }
+        }
     }
 
     private boolean passwordCocok(String password, String passwordDB) {

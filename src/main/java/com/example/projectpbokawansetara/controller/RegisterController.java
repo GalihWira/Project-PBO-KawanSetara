@@ -1,19 +1,22 @@
 package com.example.projectpbokawansetara.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.example.projectpbokawansetara.dao.PelamarDAO;
+import com.example.projectpbokawansetara.dao.UserDAO;
+import com.example.projectpbokawansetara.exception.ValidationException;
+import com.example.projectpbokawansetara.helper.SceneManager;
+import com.example.projectpbokawansetara.model.Pelamar;
+import com.example.projectpbokawansetara.service.AuthService;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -29,11 +32,14 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
-
-
 public class RegisterController {
+
+    private static final long UKURAN_MAKS_FILE = 2 * 1024 * 1024;
+
     private final PelamarDAO pelamarDAO = new PelamarDAO();
-    
+    private final UserDAO userDAO = new UserDAO();
+    private final AuthService authService = new AuthService();
+
     @FXML
     private CheckBox agreeCheckBox;
 
@@ -79,14 +85,13 @@ public class RegisterController {
     @FXML
     private CheckBox intelektualCheckBox;
 
-
     @FXML
     private Label disabilitasErrorLabel;
 
     @FXML
     private Label emailErrorLabel;
 
-    @FXML 
+    @FXML
     private Label registerMassageLabel;
 
     @FXML
@@ -132,7 +137,7 @@ public class RegisterController {
     private TextField passwordVisibleField;
 
     @FXML
-    private ComboBox<String> pendidikanComboBox ;
+    private ComboBox<String> pendidikanComboBox;
 
     @FXML
     private Label pendidikanErrorLabel;
@@ -230,337 +235,342 @@ public class RegisterController {
     @FXML
     private TextField usiaField;
 
-    private File fileCv = null;
-    private File fileIjazah = null;
-    private File fileSkd = null;
+    private File fileCv;
+    private File fileIjazah;
+    private File fileSkd;
 
-    @FXML 
-    public void initialize(){
+    @FXML
+    public void initialize() {
         pendidikanComboBox.getItems().addAll("SD", "SMP", "SMA", "Sarjana", "Magister", "Lainnya");
 
         sembunyikanSemuaError();
         tampilkanLangkah(1);
     }
 
-    @FXML 
-    void handleBukaPrivasi(ActionEvent event){
-        System.out.println("Membuka Privasi!");
-    }
-
-    @FXML 
-    void handleBukaSyarat (ActionEvent event ){
-        System.out.println("Membuka Syarat!");
-    }
-
-    @FXML 
-    void handleDaftar(ActionEvent event){
+    @FXML
+    void handleLanjutStep1(ActionEvent event) {
         sembunyikanSemuaError();
-        boolean valid = true;
 
-        if (!fisikCheckBox.isSelected()
-                && !runguWicaraCheckBox.isSelected()
-                && !mentalCheckBox.isSelected()
-                && !netraCheckBox.isSelected()
-                && !intelektualCheckBox.isSelected()) {
-            tampilkanPesan(disabilitasErrorLabel, "Wajib Memilih Jenis Disabilitas!");
-            valid = false;
+        String nama = namaField.getText().trim();
+        String email = emailField.getText().trim().toLowerCase();
+        String password = ambilPassword();
+        String konfirmasi = ambilKonfirmasiPassword();
+
+        if (!agreeCheckBox.isSelected()) {
+            tampilkanPesan(agreeErrorLabel, "Wajib menyetujui syarat dan ketentuan!");
         }
 
-        if (fileCv == null) {
-            tampilkanPesan(cvErrorLabel, "Wajib Mengisi CV!");
-            valid = false;
+        try {
+            authService.validasiAkunDaftar(nama, email, password, konfirmasi);
+        } catch (ValidationException e) {
+            tampilkanErrorField(e);
+            tampilkanAlert(step1Alert);
+            return;
         }
 
-        if (fileIjazah == null) {
-            tampilkanPesan(ijazahErrorLabel, "Wajib Mengisi Ijazah!");
-            valid = false;
-        }
-
-        if (fileSkd == null) {
-            tampilkanPesan(skdErrorLabel, "Wajib Mengisi SKD!");
-            valid = false;
-        }
-
-        if (!valid) {
+        if (!agreeCheckBox.isSelected()) {
+            tampilkanAlert(step1Alert);
             return;
         }
 
         try {
-            boolean berhasil = pelamarDAO.simpanPelamar(
-                namaField.getText().trim(),
-                emailField.getText().trim(),
-                passwordField.getText()
-            );
-
-            if (berhasil) {
-                pindahHalaman(
-                    event,
-                    "/com/example/projectpbokawansetara/view/LoginView.fxml",
-                    "Masuk - KawanSetara"
-                );
+            if (userDAO.emailSudahTerdaftar(email)) {
+                tampilkanPesan(emailErrorLabel, "Email sudah terdaftar!");
+                tampilkanAlert(step1Alert);
+                return;
             }
-
         } catch (SQLException e) {
+            tampilkanPesan(registerMassageLabel, "Terjadi kesalahan saat menghubungkan database!");
             e.printStackTrace();
-            tampilkanPesan(emailErrorLabel, "Gagal mendaftar. Email mungkin sudah digunakan.");
-        }
-    }
-
-    @FXML 
-    void handleHitungUsia (ActionEvent event){
-        LocalDate tanggal = tanggalLahirPicker.getValue();
-        if (tanggal != null){
-            int usia = Period.between(tanggal, LocalDate.now()).getYears();
-            usiaField.setText (usia + " tahun");
-        }
-    }
-
-    @FXML 
-    void handleKembaliStep1(ActionEvent event){
-        tampilkanLangkah (1);
-    }
-
-    @FXML 
-    void handleKembaliStep2(ActionEvent event){
-        tampilkanLangkah (2);
-    }
-
-    @FXML 
-    void handleLanjutStep1 (ActionEvent event){
-        sembunyikanSemuaError();
-        boolean valid = true;
-        String nama = namaField.getText();
-        String email = emailField.getText();
-        String password = ambilPassword();
-        String konfirmasi = ambilKonfirmasiPassword();
-
-        if(nama.isEmpty()){
-            tampilkanPesan (namaErrorLabel, "Wajib Mengisi Bagian Nama!");
-            valid = false;
-        }
-
-        if(email.isEmpty()){
-            tampilkanPesan (emailErrorLabel, "Wajib Mengisi Bagian Email!");
-            valid = false;
-        } else if (!emailValid(email)) {
-            tampilkanPesan(emailErrorLabel, "Domain email tidak didukung!");
             return;
         }
 
-        if (password.length() < 8){
-            tampilkanPesan (passwordErrorLabel, "Maaf, Password Minimal 8 Karakter!");
-            valid = false;
-        }
-
-        if (konfirmasi.isEmpty()){
-            tampilkanPesan(confirmPasswordErrorLabel, "Maaf, Bagian Ini Wajib Diisi!");
-            valid = false;
-        } else if (!konfirmasi.equals(password)){
-            tampilkanPesan(confirmPasswordErrorLabel, "Maaf, Password Anda Tidak Sama!");
-            valid = false;
-        }
-
-        if (!agreeCheckBox.isSelected()){
-            tampilkanPesan(agreeErrorLabel, "Wajib Menyetujui Syarat dan Ketentuan yang Berlaku");
-            valid = false;
-        }
-
-        if (valid){
-            tampilkanLangkah(2);
-        }
+        tampilkanLangkah(2);
     }
 
-    @FXML 
-    void handleLanjutStep2 (ActionEvent event){
+    @FXML
+    void handleLanjutStep2(ActionEvent event) {
         sembunyikanSemuaError();
         boolean valid = true;
-        String telepon = teleponField.getText();
 
-        if(telepon.isEmpty()){
-            tampilkanPesan(teleponErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
-            valid = false;
-        } else if (!hanyaAngka(telepon)){
-            tampilkanPesan(teleponErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
+        try {
+            authService.validasiTelepon(ambilTelepon());
+        } catch (ValidationException e) {
+            tampilkanPesan(teleponErrorLabel, e.getMessage());
             valid = false;
         }
 
-        if (tanggalLahirPicker.getValue() == null){
-            tampilkanPesan(tanggalLahirErrorLabel, "Maaf, Bagian ini Wajib Diisi");
+        if (tanggalLahirPicker.getValue() == null) {
+            tampilkanPesan(tanggalLahirErrorLabel, "Tanggal lahir wajib diisi!");
             valid = false;
         }
 
-        if (pendidikanComboBox.getValue () == null){
-            tampilkanPesan (pendidikanErrorLabel, "Maaf, Bagian ini Wajib Diisi!");
+        if (pendidikanComboBox.getValue() == null) {
+            tampilkanPesan(pendidikanErrorLabel, "Pendidikan wajib dipilih!");
             valid = false;
         }
 
-        if (valid){
-            tampilkanLangkah (3);
-        }
-    }
-    
-    @FXML
-    void handleLoginSosial (ActionEvent event){
-        tampilkanPesan(registerMassageLabel, "Maaf, Bagian Ini Belum Tersedia");
-    }
-
-    @FXML
-    void handleMasuk(ActionEvent event){
-        pindahHalaman (event, "/com/example/projectpbokawansetara/view/LoginView.fxml", "Masuk - KawanSetara");
-    }
-
-    @FXML
-    void handlePilihCv (ActionEvent event){
-        File file = pilihPdf (event, cvErrorLabel);
-
-        if (file != null){
-            fileCv = file;
-            tampilkanFile (file, cvFileLabel, cvSizeLabel);
-        }
-    }
-
-    @FXML
-    void handlePilihIjazah (ActionEvent event){
-        File file = pilihPdf (event, ijazahErrorLabel);
-
-        if (file != null){
-            fileIjazah = file;
-            tampilkanFile (file, ijazahFileLabel, ijazahSizeLabel);
-        }
-    }
-
-    @FXML
-    void handlePilihSkd (ActionEvent event){
-        File file = pilihPdf (event, skdErrorLabel);
-
-        if (file != null){
-            fileSkd = file;
-            tampilkanFile (file, skdFileLabel, skdSizeLabel);
-        }
-    }
-
-    @FXML
-    void handleToggleConfirmPassword (MouseEvent event){
-        if (confirmPasswordField.isVisible()){
-            confirmPasswordVisibleField.setText(confirmPasswordField.getText());
-            tukarField (confirmPasswordField, confirmPasswordVisibleField);
+        if (valid) {
+            tampilkanLangkah(3);
         } else {
-            confirmPasswordField.setText(confirmPasswordVisibleField.getText());
-            tukarField (confirmPasswordVisibleField, confirmPasswordField);
+            tampilkanAlert(step2Alert);
         }
     }
 
-    @FXML 
-    void handleTogglePassword (MouseEvent event){
-        if (passwordField.isVisible()){
+    @FXML
+    void handleDaftar(ActionEvent event) {
+        sembunyikanSemuaError();
+        boolean valid = true;
+
+        List<String> daftarDisabilitas = ambilDisabilitas();
+
+        if (daftarDisabilitas.isEmpty()) {
+            tampilkanPesan(disabilitasErrorLabel, "Pilih minimal satu jenis disabilitas!");
+            valid = false;
+        }
+
+        if (fileCv == null) {
+            tampilkanPesan(cvErrorLabel, "CV wajib diunggah!");
+            valid = false;
+        }
+
+        if (fileIjazah == null) {
+            tampilkanPesan(ijazahErrorLabel, "Ijazah wajib diunggah!");
+            valid = false;
+        }
+
+        if (fileSkd == null) {
+            tampilkanPesan(skdErrorLabel, "Surat keterangan disabilitas wajib diunggah!");
+            valid = false;
+        }
+
+        if (!valid) {
+            tampilkanAlert(step3Alert);
+            return;
+        }
+
+        Pelamar pelamar = new Pelamar(
+            0,
+            namaField.getText().trim(),
+            emailField.getText().trim().toLowerCase(),
+            ambilPassword(),
+            ambilTelepon(),
+            tanggalLahirPicker.getValue(),
+            pendidikanComboBox.getValue(),
+            String.join(", ", daftarDisabilitas),
+            fileIjazah.getAbsolutePath(),
+            fileSkd.getAbsolutePath(),
+            fileCv.getAbsolutePath()
+        );
+
+        try {
+            if (pelamarDAO.simpanPelamar(pelamar, daftarDisabilitas)) {
+                SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara");
+            }
+        } catch (SQLException e) {
+            tampilkanPesan(skdErrorLabel, "Gagal mendaftar, silakan coba lagi.");
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    void handleKembaliStep1(ActionEvent event) {
+        tampilkanLangkah(1);
+    }
+
+    @FXML
+    void handleKembaliStep2(ActionEvent event) {
+        tampilkanLangkah(2);
+    }
+
+    @FXML
+    void handleHitungUsia(ActionEvent event) {
+        LocalDate tanggal = tanggalLahirPicker.getValue();
+        if (tanggal != null) {
+            int usia = Period.between(tanggal, LocalDate.now()).getYears();
+            usiaField.setText(usia + " tahun");
+        }
+    }
+
+    @FXML
+    void handlePilihCv(ActionEvent event) {
+        File file = pilihPdf(event, cvErrorLabel);
+        if (file != null) {
+            fileCv = file;
+            tampilkanFile(file, cvFileLabel, cvSizeLabel);
+        }
+    }
+
+    @FXML
+    void handlePilihIjazah(ActionEvent event) {
+        File file = pilihPdf(event, ijazahErrorLabel);
+        if (file != null) {
+            fileIjazah = file;
+            tampilkanFile(file, ijazahFileLabel, ijazahSizeLabel);
+        }
+    }
+
+    @FXML
+    void handlePilihSkd(ActionEvent event) {
+        File file = pilihPdf(event, skdErrorLabel);
+        if (file != null) {
+            fileSkd = file;
+            tampilkanFile(file, skdFileLabel, skdSizeLabel);
+        }
+    }
+
+    @FXML
+    void handleTogglePassword(MouseEvent event) {
+        if (passwordField.isVisible()) {
             passwordVisibleField.setText(passwordField.getText());
             tukarField(passwordField, passwordVisibleField);
         } else {
-            passwordVisibleField.setText(passwordVisibleField.getText());
+            passwordField.setText(passwordVisibleField.getText());
             tukarField(passwordVisibleField, passwordField);
         }
     }
 
-    private boolean emailValid(String email) {
-        String[] domainDiizinkan = {
-            "@gmail.com",
-            "@yahoo.com",
-            "@yahoo.co.id",
-            "@outlook.com",
-            "@hotmail.com",
-            "@icloud.com",
-            "@kawansetara.com" // untuk akun admin
-        };
+    @FXML
+    void handleToggleConfirmPassword(MouseEvent event) {
+        if (confirmPasswordField.isVisible()) {
+            confirmPasswordVisibleField.setText(confirmPasswordField.getText());
+            tukarField(confirmPasswordField, confirmPasswordVisibleField);
+        } else {
+            confirmPasswordField.setText(confirmPasswordVisibleField.getText());
+            tukarField(confirmPasswordVisibleField, confirmPasswordField);
+        }
+    }
 
-        String emailLower = email.toLowerCase();
+    @FXML
+    void handleMasuk(ActionEvent event) {
+        SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara");
+    }
 
-        for (String domain : domainDiizinkan) {
-            if (emailLower.endsWith(domain)) {
-                return true;
-            }
+    @FXML
+    void handleLoginSosial(ActionEvent event) {
+        tampilkanPesan(registerMassageLabel, "Maaf, fitur ini belum tersedia.");
+    }
+
+    @FXML
+    void handleBukaSyarat(ActionEvent event) {
+        System.out.println("Membuka Syarat!");
+    }
+
+    @FXML
+    void handleBukaPrivasi(ActionEvent event) {
+        System.out.println("Membuka Privasi!");
+    }
+
+    private void tampilkanErrorField(ValidationException e) {
+        String field = e.getNamaField();
+
+        if ("nama".equals(field)) {
+            tampilkanPesan(namaErrorLabel, e.getMessage());
+        } else if ("email".equals(field)) {
+            tampilkanPesan(emailErrorLabel, e.getMessage());
+        } else if ("password".equals(field)) {
+            tampilkanPesan(passwordErrorLabel, e.getMessage());
+        } else if ("konfirmasi".equals(field)) {
+            tampilkanPesan(confirmPasswordErrorLabel, e.getMessage());
+        } else {
+            tampilkanPesan(registerMassageLabel, e.getMessage());
+        }
+    }
+
+    private List<String> ambilDisabilitas() {
+        List<String> daftar = new ArrayList<>();
+
+        if (fisikCheckBox.isSelected()) {
+            daftar.add("Disabilitas Fisik");
+        }
+        if (netraCheckBox.isSelected()) {
+            daftar.add("Disabilitas Sensorik Netra");
+        }
+        if (runguWicaraCheckBox.isSelected()) {
+            daftar.add("Disabilitas Sensorik Rungu");
+            daftar.add("Disabilitas Wicara");
+        }
+        if (intelektualCheckBox.isSelected()) {
+            daftar.add("Disabilitas Intelektual");
+        }
+        if (mentalCheckBox.isSelected()) {
+            daftar.add("Disabilitas Mental");
         }
 
-        return false;
-    }  
-
-    private void tampilkanLangkah (int langkah){
-        step1Pane.setVisible (langkah == 1);
-        step1Pane.setManaged (langkah == 1);
-
-        step2Pane.setVisible (langkah == 2);
-        step2Pane.setManaged (langkah == 2);
-
-        step3Pane.setVisible (langkah == 3);
-        step3Pane.setManaged (langkah == 3);
-
-        aturLingkaran (step1Circle, step1Title, langkah >=1);
-        aturLingkaran (step2Circle, step2Title, langkah >=2);
-        aturLingkaran (step3Circle, step3Title, langkah >=3);
+        return daftar;
     }
 
-    private void aturLingkaran (Label lingkaran, Label judul, boolean aktif){
-      String warna;
-      
-      if (aktif){
-        warna = "#1F4E8C";
-      } else {
-        warna = "#D0D5DD";
-      }
+    private String ambilTelepon() {
+        String telepon = teleponField.getText().trim().replace(" ", "");
 
-      lingkaran.setStyle ("-fx-background-color:" + warna + "; -fx-background-radius: 50; -fx-text-fill: white");
+        if (telepon.startsWith("8")) {
+            telepon = "0" + telepon;
+        }
 
-      if (aktif){
-        judul.setStyle ("-fx-text-fill: #101828;");
-      } else {
-        judul.setStyle ("-fx-text-fill: #667085;");
-      }
+        return telepon;
     }
 
-    private void tukarField (TextField disembunyikan, TextField ditampilkan){
+    private String ambilPassword() {
+        if (passwordField.isVisible()) {
+            return passwordField.getText();
+        }
+        return passwordVisibleField.getText();
+    }
+
+    private String ambilKonfirmasiPassword() {
+        if (confirmPasswordField.isVisible()) {
+            return confirmPasswordField.getText();
+        }
+        return confirmPasswordVisibleField.getText();
+    }
+
+    private void tampilkanLangkah(int langkah) {
+        step1Pane.setVisible(langkah == 1);
+        step1Pane.setManaged(langkah == 1);
+
+        step2Pane.setVisible(langkah == 2);
+        step2Pane.setManaged(langkah == 2);
+
+        step3Pane.setVisible(langkah == 3);
+        step3Pane.setManaged(langkah == 3);
+
+        aturLingkaran(step1Circle, step1Title, langkah >= 1);
+        aturLingkaran(step2Circle, step2Title, langkah >= 2);
+        aturLingkaran(step3Circle, step3Title, langkah >= 3);
+    }
+
+    private void aturLingkaran(Label lingkaran, Label judul, boolean aktif) {
+        String warna = aktif ? "#1F4E8C" : "#D0D5DD";
+        lingkaran.setStyle("-fx-background-color: " + warna + "; -fx-background-radius: 50; -fx-text-fill: white;");
+
+        if (aktif) {
+            judul.setStyle("-fx-text-fill: #101828;");
+        } else {
+            judul.setStyle("-fx-text-fill: #667085;");
+        }
+    }
+
+    private void tukarField(TextField disembunyikan, TextField ditampilkan) {
         ditampilkan.setVisible(true);
         ditampilkan.setManaged(true);
         disembunyikan.setVisible(false);
         disembunyikan.setManaged(false);
     }
 
-    private String ambilPassword (){
-        if (passwordField.isVisible()){
-            return passwordField.getText();
-        }
-        return passwordVisibleField.getText();
-    }
-
-    private String ambilKonfirmasiPassword(){
-        if(confirmPasswordField.isVisible()){
-            return confirmPasswordField.getText();
-        }
-        return confirmPasswordVisibleField.getText();
-    }
-
-    private boolean hanyaAngka (String teks){
-        for (int i = 0; i < teks.length(); i++){
-            if (!Character.isDigit(teks.charAt(i))){
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private File pilihPdf (ActionEvent event, Label errorLabel){
+    private File pilihPdf(ActionEvent event, Label errorLabel) {
         FileChooser chooser = new FileChooser();
-        chooser.setTitle ("Pilih file PDF");
-
+        chooser.setTitle("Pilih file PDF");
         chooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("File PDF", "*.pdf"));
 
-        File file = chooser.showOpenDialog(ambilStage(event));
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        File file = chooser.showOpenDialog(stage);
 
-        if (file == null){
+        if (file == null) {
             return null;
         }
 
-        if (file.length() > 2 * 1024 *1024){
-            tampilkanPesan (errorLabel, "Ukuran File Maksimal 2 MB");
+        if (file.length() > UKURAN_MAKS_FILE) {
+            tampilkanPesan(errorLabel, "Ukuran file maksimal 2 MB!");
             return null;
         }
 
@@ -568,32 +578,43 @@ public class RegisterController {
         return file;
     }
 
-    private void tampilkanFile (File file, Label namaLabel, Label ukuranLabel){
-        long kb = file.length()/1024;
+    private void tampilkanFile(File file, Label namaLabel, Label ukuranLabel) {
+        long kb = file.length() / 1024;
         namaLabel.setText(file.getName());
-        ukuranLabel.setText(kb +"KB");
+        ukuranLabel.setText(kb + " KB");
         ukuranLabel.setVisible(true);
         ukuranLabel.setManaged(true);
     }
 
-    private void tampilkanPesan (Label label, String pesan){
+    private void tampilkanAlert(HBox alert) {
+        alert.setVisible(true);
+        alert.setManaged(true);
+    }
+
+    private void sembunyikanAlert(HBox alert) {
+        alert.setVisible(false);
+        alert.setManaged(false);
+    }
+
+    private void tampilkanPesan(Label label, String pesan) {
         label.setText(pesan);
         label.setPrefHeight(-1);
         label.setVisible(true);
     }
 
-    private void sembunyikanPesan (Label label){
+    private void sembunyikanPesan(Label label) {
         label.setText("");
         label.setPrefHeight(0);
         label.setVisible(false);
     }
 
-    private void sembunyikanSemuaError(){
+    private void sembunyikanSemuaError() {
         sembunyikanPesan(namaErrorLabel);
         sembunyikanPesan(emailErrorLabel);
         sembunyikanPesan(passwordErrorLabel);
         sembunyikanPesan(confirmPasswordErrorLabel);
         sembunyikanPesan(agreeErrorLabel);
+        sembunyikanPesan(registerMassageLabel);
         sembunyikanPesan(teleponErrorLabel);
         sembunyikanPesan(tanggalLahirErrorLabel);
         sembunyikanPesan(pendidikanErrorLabel);
@@ -601,25 +622,8 @@ public class RegisterController {
         sembunyikanPesan(cvErrorLabel);
         sembunyikanPesan(ijazahErrorLabel);
         sembunyikanPesan(skdErrorLabel);
-    }
-
-    private Stage ambilStage (ActionEvent event){
-        return (Stage) ((Node) event.getSource()).getScene().getWindow();
-    }
-
-    private void pindahHalaman (ActionEvent event, String lokasiFxml, String judul){
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasiFxml));
-            Parent root = loader.load();
-            Stage stage = ambilStage (event);
-            stage.setScene (new Scene (root));
-            stage.setTitle (judul);
-            stage.sizeToScene();
-            stage.centerOnScreen();
-            stage.show();
-        } catch (IOException | NullPointerException e){
-            System.out.println ("Maaf, Anda Gagal Memuat Halaman " + lokasiFxml);
-            e.printStackTrace();
-        }
+        sembunyikanAlert(step1Alert);
+        sembunyikanAlert(step2Alert);
+        sembunyikanAlert(step3Alert);
     }
 }
