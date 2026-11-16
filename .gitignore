@@ -12,4 +12,4 @@ target/
 Thumbs.db
 
 # Password MySQL per laptop
-db.properties
+db.properties".vscode/" 
