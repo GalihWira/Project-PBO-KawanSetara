@@ -3,14 +3,14 @@ package com.example.projectpbokawansetara.helper;
 import java.io.IOException;
 
 import com.example.projectpbokawansetara.controller.KeluarDialogController;
+import com.example.projectpbokawansetara.model.Session;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.paint.Color;
-import javafx.stage.Modality;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.stage.Window;
 
 public class DialogHelper {
@@ -34,18 +34,50 @@ public class DialogHelper {
                 controller.setPesan(pesan);
             }
 
-            controller.setOnKeluar(() -> kembaliKeLogin(owner));
+            Stage stage = (Stage) owner;
+            Scene scene = stage.getScene();
 
-            Stage dialog = new Stage();
-            dialog.initOwner(owner);
-            dialog.initModality(Modality.APPLICATION_MODAL);
-            dialog.initStyle(StageStyle.TRANSPARENT);
+            Parent halamanAwal = scene.getRoot();
 
-            Scene scene = new Scene(root);
-            scene.setFill(Color.TRANSPARENT);
+            StackPane pembungkus = new StackPane();
+            StackPane overlay = new StackPane();
 
-            dialog.setScene(scene);
-            dialog.show();
+            pembungkus.getStylesheets().add(
+                    DialogHelper.class.getResource("/css/style.css").toExternalForm()
+            );
+
+            overlay.getStyleClass().add("overlay-dialog");
+
+            overlay.setPickOnBounds(true);
+
+            if (root instanceof Region) {
+                ((Region) root).setMaxSize(
+                        Region.USE_PREF_SIZE,
+                        Region.USE_PREF_SIZE
+                );
+            }
+
+            overlay.getChildren().add(root);
+
+            scene.setRoot(pembungkus);
+
+            pembungkus.getChildren().addAll(
+                    halamanAwal,
+                    overlay
+            );
+
+            Runnable tutupOverlay = () -> {
+                pembungkus.getChildren().clear();
+                scene.setRoot(halamanAwal);
+            };
+
+            controller.setOnBatal(tutupOverlay);
+
+            controller.setOnKeluar(() -> {
+                Session.logout();
+                tutupOverlay.run();
+                kembaliKeLogin(owner);
+            });
 
         } catch (IOException | NullPointerException e) {
             System.err.println("Gagal membuka dialog keluar: " + PATH_DIALOG_KELUAR);

@@ -1,5 +1,6 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.IOException;
 import java.text.NumberFormat;
 import java.util.Locale;
 
@@ -7,10 +8,15 @@ import com.example.projectpbokawansetara.model.Lowongan;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 public class DetailLowonganController {
@@ -175,9 +181,76 @@ public class DetailLowonganController {
             aksiKembali.run();
         }
     }
-
     @FXML
     private void handleLamar(ActionEvent event) {
+        try {
+                String lokasi = "/com/example/projectpbokawansetara/view/KonfirmasiLamarDialog.fxml";
 
+                FXMLLoader loader = new FXMLLoader(
+                        getClass().getResource(lokasi)
+                );
+
+                Parent halamanDialog = loader.load();
+
+                KonfirmasiLamarController controller = loader.getController();
+                controller.setLowongan(lowongan);
+
+                Scene scene = lamarButton.getScene();
+                Parent halamanAwal = scene.getRoot();
+
+                StackPane pembungkus = new StackPane();
+                StackPane overlay = new StackPane();
+
+                pembungkus.getStylesheets().add(
+                        getClass().getResource("/css/style.css").toExternalForm()
+                );
+
+                overlay.getStyleClass().add("overlay-dialog");
+                overlay.setPickOnBounds(true);
+
+                if (halamanDialog instanceof Region) {
+                ((Region) halamanDialog).setMaxSize(
+                        Region.USE_PREF_SIZE,
+                        Region.USE_PREF_SIZE
+                );
+                }
+
+                overlay.getChildren().add(halamanDialog);
+
+                scene.setRoot(pembungkus);
+
+                pembungkus.getChildren().addAll(
+                        halamanAwal,
+                        overlay
+                );
+
+                Runnable tutupOverlay = () -> {
+                pembungkus.getChildren().clear();
+                scene.setRoot(halamanAwal);
+                };
+
+                controller.setAksiBatal(tutupOverlay);
+
+                controller.setAksiBerhasil(() -> {
+                tutupOverlay.run();
+
+                javafx.scene.control.Alert alert =
+                        new javafx.scene.control.Alert(
+                                javafx.scene.control.Alert.AlertType.INFORMATION
+                        );
+
+                alert.setTitle("Lamaran Berhasil");
+                alert.setHeaderText("Lamaran berhasil dikirim!");
+                alert.setContentText(
+                        "Kamu dapat memantau status lamaran melalui Riwayat Lamaran."
+                );
+
+                alert.showAndWait();
+                });
+
+        } catch (IOException | NullPointerException e) {
+                System.err.println("Gagal membuka dialog konfirmasi lamaran.");
+                e.printStackTrace();
+        }
     }
 }

@@ -35,12 +35,12 @@
         <HBox alignment="CENTER_RIGHT" spacing="8.0">
             <children>
                 <Region HBox.hgrow="ALWAYS"/>
-                <Button fx:id="batalButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
+                <Button fx:id="batalButton" onAction="#handleBatal" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Batal">
                     <cursor>
                         <Cursor fx:constant="HAND"/>
                     </cursor>
                 </Button>
-                <Button fx:id="kirimLamaranButton" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Kirim lamaran">
+                <Button fx:id="kirimLamaranButton" onAction="#handleKirimLamaran" mnemonicParsing="false" prefHeight="32.0" style="-fx-background-color: #1F4E8C; -fx-background-radius: 8; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 16;" text="Kirim lamaran">
                     <cursor>
                         <Cursor fx:constant="HAND"/>
                     </cursor>
