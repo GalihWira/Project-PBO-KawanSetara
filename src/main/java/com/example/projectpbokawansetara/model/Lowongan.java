@@ -1,5 +1,8 @@
 package com.example.projectpbokawansetara.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Lowongan {
     private int idLowongan;
     private Perusahaan perusahaan;
@@ -9,6 +12,25 @@ public class Lowongan {
     private double gaji;
     private String jenisLowongan;
     private String status;
+
+    private String durasiKerja;
+    private List<Keahlian> daftarKeahlian = new ArrayList<>();
+
+    public String getDurasiKerja() {
+        return durasiKerja;
+    }
+
+    public void setDurasiKerja(String durasiKerja) {
+        this.durasiKerja = durasiKerja;
+    }
+
+    public List<Keahlian> getDaftarKeahlian() {
+        return daftarKeahlian;
+    }
+
+    public void setDaftarKeahlian(List<Keahlian> daftarKeahlian) {
+        this.daftarKeahlian = daftarKeahlian;
+    }
 
     public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String status) {
         this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);

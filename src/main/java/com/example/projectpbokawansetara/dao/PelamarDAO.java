@@ -8,11 +8,14 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.example.projectpbokawansetara.dao.KoneksiDB;
 import com.example.projectpbokawansetara.model.Pelamar;
+import com.example.projectpbokawansetara.model.Keahlian;
 
 public class PelamarDAO {
 
@@ -76,5 +79,33 @@ public class PelamarDAO {
                 throw e;
             }
         }
+    }
+
+    public List<Keahlian> getKeahlianByPelamar(int idPelamar) throws SQLException {
+        List<Keahlian> list = new ArrayList<>();
+
+        String sql = """
+            SELECT k.id_keahlian, k.nama_keahlian
+            FROM pelamar_keahlian pk
+            JOIN keahlian k ON pk.id_keahlian = k.id_keahlian
+            WHERE pk.id_pelamar = ?
+        """;
+
+        try (
+            Connection conn = KoneksiDB.getConnection();
+            PreparedStatement stmt = conn.prepareStatement(sql)
+        ) {
+            stmt.setInt(1, idPelamar);
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                Keahlian keahlian = new Keahlian();
+                keahlian.setIdKeahlian(rs.getInt("id_keahlian"));
+                keahlian.setNamaKeahlian(rs.getString("nama_keahlian"));
+                list.add(keahlian);
+            }
+        }
+
+        return list;
     }
 }

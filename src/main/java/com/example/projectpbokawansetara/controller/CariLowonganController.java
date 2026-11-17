@@ -5,11 +5,18 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 
 import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.dao.PelamarDAO;
 import com.example.projectpbokawansetara.model.Lowongan;
+import com.example.projectpbokawansetara.model.Pelamar;
+import com.example.projectpbokawansetara.model.Session;
+import com.example.projectpbokawansetara.model.Keahlian;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,6 +29,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.geometry.Insets;
 
 public class CariLowonganController {
 
@@ -82,8 +92,9 @@ public class CariLowonganController {
     private List<Lowongan> hasilFilterSaatIni = new ArrayList<>();
 
     private int halamanSekarang = 1;
-
     private final int jumlahPerHalaman = 5;
+    private List<Keahlian> keahlianPelamar = new ArrayList<>();
+    private final PelamarDAO pelamarDAO = new PelamarDAO(); 
 
     @FXML
     private void initialize() {
@@ -116,11 +127,13 @@ public class CariLowonganController {
     private void muatLowongan() {
         try {
             semuaLowongan = lowonganDAO.getSemuaLowongan();
+            if (Session.getCurrentUser() instanceof Pelamar pelamar) {
+                keahlianPelamar = pelamarDAO.getKeahlianByPelamar(pelamar.getIdPengguna());
+            }
 
             hitungJenisLowongan();
             buatFilterLokasi();
-
-            tampilkanLowongan(semuaLowongan);
+            terapkanFilter();
 
         } catch (SQLException e) {
             System.err.println("Gagal mengambil data lowongan.");
@@ -236,115 +249,140 @@ public class CariLowonganController {
     private void buatFilterLokasi() {
         lokasiFilterBox.getChildren().clear();
 
-        Set<String> lokasiUnik = new TreeSet<>(String.CASE_INSENSITIVE_ORDER);
+        // Hitung jumlah per lokasi
+        Map<String, Long> jumlahPerLokasi = semuaLowongan.stream()
+                .filter(l -> l.getLokasi() != null && !l.getLokasi().isBlank())
+                .collect(Collectors.groupingBy(
+                        l -> l.getLokasi().trim(),
+                        TreeMap::new,
+                        Collectors.counting()
+                ));
 
-        for (Lowongan lowongan : semuaLowongan) {
-            if (lowongan.getLokasi() != null && !lowongan.getLokasi().isBlank()) {
-                lokasiUnik.add(lowongan.getLokasi());
-            }
-        }
+        for (Map.Entry<String, Long> entry : jumlahPerLokasi.entrySet()) {
+            String lokasi = entry.getKey();
+            long jumlah = entry.getValue();
 
-        for (String lokasi : lokasiUnik) {
             CheckBox checkBox = new CheckBox(lokasi);
             checkBox.setStyle("-fx-text-fill: #344054; -fx-font-size: 13px;");
             checkBox.setOnAction(event -> terapkanFilter());
 
-            lokasiFilterBox.getChildren().add(checkBox);
+            Label jumlahLabel = new Label(String.valueOf(jumlah));
+            jumlahLabel.setStyle("-fx-text-fill: #98A2B3; -fx-font-size: 12px;");
+
+            HBox baris = new HBox();
+            baris.setAlignment(Pos.CENTER_LEFT);
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            baris.getChildren().addAll(checkBox, spacer, jumlahLabel);
+
+            lokasiFilterBox.getChildren().add(baris);
         }
     }
 
     private void tampilkanLowongan(List<Lowongan> daftar) {
         daftarLowonganBox.getChildren().clear();
 
-        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(
-                new Locale("id", "ID")
-        );
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
         formatRupiah.setMaximumFractionDigits(0);
 
         for (Lowongan lowongan : daftar) {
+            String namaPerusahaan = lowongan.getPerusahaan() != null
+                    ? lowongan.getPerusahaan().getNamaPerusahaan()
+                    : "Perusahaan";
 
-            Label gambar = new Label("LOGO");
-            gambar.getStyleClass().add("avatar-lowongan");
+            Label avatar = buatAvatar(namaPerusahaan);
+            avatar.setMinWidth(44);
+            avatar.setPrefWidth(44);
+            avatar.setMaxWidth(44);
 
-            Label nama = new Label(lowongan.getNamaPekerjaan());
+            Label nama = new Label(lowongan.getNamaPekerjaan() != null
+                    ? lowongan.getNamaPekerjaan() : "-");
             nama.getStyleClass().add("nama-lowongan");
+            nama.setMaxWidth(Double.MAX_VALUE);
+            nama.setWrapText(false);         
+            nama.setEllipsisString("...");   
 
-            Label perusahaan = new Label(
-                    lowongan.getPerusahaan() != null
-                            ? lowongan.getPerusahaan().getNamaPerusahaan()
-                            : "Perusahaan"
-            );
-            perusahaan.getStyleClass().add("perusahaan-lowongan");
+            String lokasi = (lowongan.getLokasi() != null && !lowongan.getLokasi().isBlank())
+                    ? lowongan.getLokasi() : "-";
 
-            VBox identitas = new VBox(6, nama, perusahaan);
-            identitas.getStyleClass().add("identitas-lowongan");
-            identitas.setPrefWidth(230);
+            Label perusahaanLokasi = new Label(namaPerusahaan + " · " + lokasi);
+            perusahaanLokasi.getStyleClass().add("perusahaan-lowongan");
+            perusahaanLokasi.setMaxWidth(Double.MAX_VALUE);
+            perusahaanLokasi.setEllipsisString("...");
+
+            VBox identitas = new VBox(3, nama, perusahaanLokasi);
             identitas.setAlignment(Pos.CENTER_LEFT);
+            HBox.setHgrow(identitas, Priority.ALWAYS);   
 
-            String jenisLowongan = lowongan.getJenisLowongan() != null
-                    ? lowongan.getJenisLowongan()
-                    : "Belum tersedia";
-
-            if (!jenisLowongan.equals("Belum tersedia")) {
-                jenisLowongan = jenisLowongan.substring(0, 1).toUpperCase()
-                        + jenisLowongan.substring(1);
-            }
-
-            Label jenis = new Label(jenisLowongan);
+            String jenisTeks = kapitalisasi(lowongan.getJenisLowongan());
+            Label jenis = new Label(jenisTeks);
             jenis.getStyleClass().add("jenis-lowongan");
 
-            Label durasi = new Label("Durasi belum tersedia");
+            String durasiTeks = (lowongan.getDurasiKerja() != null
+                    && !lowongan.getDurasiKerja().isBlank())
+                    ? lowongan.getDurasiKerja()
+                    : "Durasi belum tersedia";
+
+            Label durasi = new Label(durasiTeks);
             durasi.getStyleClass().add("detail-lowongan");
 
-            VBox informasiJenis = new VBox(6, jenis, durasi);
-            informasiJenis.getStyleClass().add("kolom-lowongan");
-            informasiJenis.setPrefWidth(120);
-            informasiJenis.setAlignment(Pos.CENTER_LEFT); 
+            VBox kolomJenis = new VBox(4, jenis, durasi);
+            kolomJenis.setAlignment(Pos.CENTER_LEFT);
+            kolomJenis.setMinWidth(110);
+            kolomJenis.setPrefWidth(110);
+            kolomJenis.setMaxWidth(110);
 
-            Label kecocokan = new Label("Belum dihitung");
-            kecocokan.getStyleClass().add("nilai-kecocokan");
+            int[] skor = hitungSkorKecocokan(lowongan);
 
-            Label keteranganCocok = new Label("Kecocokan");
-            keteranganCocok.getStyleClass().add("detail-lowongan");
+            Label kecocokan;
+            if (skor[1] == 0) {
+                kecocokan = new Label("Belum dihitung");
+                kecocokan.getStyleClass().add("nilai-kecocokan-kosong");
+            } else {
+                kecocokan = new Label("Cocok " + skor[0] + "/" + skor[1]);
+                kecocokan.getStyleClass().add("nilai-kecocokan");
+            }
 
-            VBox informasiCocok = new VBox(6, kecocokan, keteranganCocok);
-            informasiCocok.setPrefWidth(100);
-            informasiCocok.setAlignment(Pos.CENTER_LEFT);
+            Label ketCocok = new Label("Kecocokan");
+            ketCocok.getStyleClass().add("detail-lowongan");
 
-            Label gaji = new Label(
-                    formatRupiah.format(lowongan.getGaji())
-            );
+            VBox kolomCocok = new VBox(4, kecocokan, ketCocok);
+            kolomCocok.setAlignment(Pos.CENTER_LEFT);
+            kolomCocok.setMinWidth(95);
+            kolomCocok.setPrefWidth(95);
+            kolomCocok.setMaxWidth(95);
+
+           Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
             gaji.getStyleClass().add("gaji-lowongan");
-
-            Label update = new Label("Update belum tersedia");
-            update.getStyleClass().add("detail-lowongan");
-
-            VBox informasiGaji = new VBox(6, gaji, update);
-            informasiGaji.setPrefWidth(150);
-            informasiGaji.setAlignment(Pos.CENTER_RIGHT);
-            informasiGaji.getStyleClass().add("informasi-gaji");
-
-            gaji.setMaxWidth(Double.MAX_VALUE);
             gaji.setAlignment(Pos.CENTER_RIGHT);
+            gaji.setMaxWidth(Double.MAX_VALUE);
 
-            update.setMaxWidth(Double.MAX_VALUE);
+            Label update = new Label("Baru saja"); 
+            update.getStyleClass().add("detail-lowongan");
             update.setAlignment(Pos.CENTER_RIGHT);
+            update.setMaxWidth(Double.MAX_VALUE);
 
-            HBox kartu = new HBox(
-                    16,
-                    gambar,
-                    identitas,
-                    informasiJenis,
-                    informasiCocok,
-                    informasiGaji
-            );
+            VBox kolomGaji = new VBox(4, gaji, update);
+            kolomGaji.setAlignment(Pos.CENTER_RIGHT);
+            kolomGaji.setMinWidth(120);
+            kolomGaji.setPrefWidth(120);
+            kolomGaji.setMaxWidth(120);
 
+            HBox kartu = new HBox(16);
             kartu.setAlignment(Pos.CENTER_LEFT);
-
             kartu.getStyleClass().add("kartu-lowongan-horizontal");
             kartu.setCursor(Cursor.HAND);
+            kartu.setPadding(new Insets(14, 16, 14, 16));
 
-            kartu.setOnMouseClicked(event -> {
+            kartu.getChildren().addAll(
+                    avatar,
+                    identitas,      
+                    kolomJenis,
+                    kolomCocok,
+                    kolomGaji
+            );
+
+            kartu.setOnMouseClicked(e -> {
                 if (dashboardController != null) {
                     dashboardController.bukaDetailLowongan(lowongan);
                 }
@@ -354,45 +392,137 @@ public class CariLowonganController {
         }
 
         boolean kosong = daftar.isEmpty();
-
         kosongLabel.setVisible(kosong);
         kosongLabel.setManaged(kosong);
+    }
 
-        jumlahLowonganLabel.setText(daftar.size() + " lowongan");
+    private Label buatAvatar(String namaPerusahaan) {
+        String inisial = buatInisial(namaPerusahaan);
 
-        infoHalamanLabel.setText(
-                "Menampilkan " + daftar.size() + " dari " + semuaLowongan.size()
-        );
+        Label avatar = new Label(inisial);
+        avatar.getStyleClass().add("avatar-lowongan");
+        avatar.getStyleClass().add(tentukanWarnaAvatar(namaPerusahaan));
+        return avatar;
+    }
+
+    private String buatInisial(String nama) {
+        if (nama == null || nama.isBlank()) return "?";
+
+        String[] kata = nama.trim().split("\\s+");
+        StringBuilder sb = new StringBuilder();
+
+        for (String k : kata) {
+            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank()) continue;
+            sb.append(Character.toUpperCase(k.charAt(0)));
+            if (sb.length() >= 2) break;
+        }
+
+        if (sb.length() == 0) {
+            sb.append(Character.toUpperCase(nama.charAt(0)));
+        }
+        return sb.toString();
+    }
+
+    private String tentukanWarnaAvatar(String nama) {
+        if (nama == null) return "avatar-biru";
+        int hash = Math.abs(nama.hashCode() % 6);
+        return switch (hash) {
+            case 0 -> "avatar-biru";
+            case 1 -> "avatar-ungu";
+            case 2 -> "avatar-cyan";
+            case 3 -> "avatar-oranye";
+            case 4 -> "avatar-hijau";
+            default -> "avatar-pink";
+        };
+    }
+
+    private String kapitalisasi(String teks) {
+        if (teks == null || teks.isBlank()) return "-";
+        return teks.substring(0, 1).toUpperCase() + teks.substring(1).toLowerCase();
     }
 
     private void tampilkanHalaman() {
         int totalLowongan = hasilFilterSaatIni.size();
-
-        int totalHalaman = (int) Math.ceil(
-                (double) totalLowongan / jumlahPerHalaman
-        );
+        int totalHalaman = (int) Math.ceil((double) totalLowongan / jumlahPerHalaman);
 
         int indeksAwal = (halamanSekarang - 1) * jumlahPerHalaman;
-        int indeksAkhir = Math.min(
-                indeksAwal + jumlahPerHalaman,
-                totalLowongan
-        );
+        int indeksAkhir = Math.min(indeksAwal + jumlahPerHalaman, totalLowongan);
 
-        List<Lowongan> lowonganHalaman = hasilFilterSaatIni.subList(
-                indeksAwal,
-                indeksAkhir
-        );
+        List<Lowongan> lowonganHalaman = hasilFilterSaatIni.subList(indeksAwal, indeksAkhir);
 
         tampilkanLowongan(lowonganHalaman);
 
         jumlahLowonganLabel.setText(totalLowongan + " lowongan");
 
-        infoHalamanLabel.setText(
-                "Halaman " + halamanSekarang + " dari " + Math.max(1, totalHalaman)
-        );
+        ringkasanFilterLabel.setText(buatRingkasanFilter());
+
+        if (totalLowongan == 0) {
+            infoHalamanLabel.setText("Menampilkan 0 dari 0");
+        } else {
+            infoHalamanLabel.setText(
+                "Menampilkan " + (indeksAwal + 1) + "-" + indeksAkhir + " dari " + totalLowongan
+            );
+        }
 
         sebelumnyaButton.setDisable(halamanSekarang <= 1);
-        berikutnyaButton.setDisable(halamanSekarang >= totalHalaman);
+        berikutnyaButton.setDisable(halamanSekarang >= totalHalaman || totalHalaman == 0);
+    }
+
+    private String buatRingkasanFilter() {
+        List<String> bagian = new ArrayList<>();
+
+        if (fullTimeCheckBox.isSelected() && !partTimeCheckBox.isSelected()) {
+            bagian.add("Full time");
+        } else if (partTimeCheckBox.isSelected() && !fullTimeCheckBox.isSelected()) {
+            bagian.add("Part time");
+        }
+
+        List<String> lokasiDipilih = new ArrayList<>();
+        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
+            if (node instanceof HBox hbox) {
+                for (javafx.scene.Node child : hbox.getChildren()) {
+                    if (child instanceof CheckBox cb && cb.isSelected()) {
+                        lokasiDipilih.add(cb.getText());
+                    }
+                }
+            }
+        }
+        if (!lokasiDipilih.isEmpty()) {
+            bagian.add(String.join(", ", lokasiDipilih));
+        }
+
+        String gajiTeks = gajiMinimumField.getText().replaceAll("[^0-9]", "");
+        if (!gajiTeks.isBlank() && !gajiTeks.equals("0")) {
+            bagian.add("min. Rp" + NumberFormat.getInstance(new Locale("id", "ID")).format(Long.parseLong(gajiTeks)));
+        }
+
+        if (bagian.isEmpty()) return "";
+        return " · " + String.join(" · ", bagian);
+    }
+
+    private int[] hitungSkorKecocokan(Lowongan lowongan) {
+        List<Keahlian> dibutuhkan = lowongan.getDaftarKeahlian();
+        if (dibutuhkan == null || dibutuhkan.isEmpty()) {
+            return new int[]{0, 0};
+        }
+
+        if (keahlianPelamar == null || keahlianPelamar.isEmpty()) {
+            return new int[]{0, dibutuhkan.size()};
+        }
+
+        java.util.Set<Integer> idKeahlianPelamar = new java.util.HashSet<>();
+        for (Keahlian k : keahlianPelamar) {
+            idKeahlianPelamar.add(k.getIdKeahlian());
+        }
+
+        int jumlahCocok = 0;
+        for (Keahlian k : dibutuhkan) {
+            if (idKeahlianPelamar.contains(k.getIdKeahlian())) {
+                jumlahCocok++;
+            }
+        }
+
+        return new int[]{jumlahCocok, dibutuhkan.size()};
     }
 
     @FXML
