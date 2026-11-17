@@ -101,7 +101,9 @@
                                  <children>
                                     <HBox alignment="CENTER_LEFT" spacing="8.0">
                                        <children>
-                                          <HBox alignment="CENTER_LEFT" prefHeight="30.0" spacing="8.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;" HBox.hgrow="ALWAYS">
+                                          <HBox alignment="CENTER_LEFT" prefHeight="36.0" spacing="8.0"
+                                                style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8;"
+                                                HBox.hgrow="ALWAYS">
                                              <padding>
                                                 <Insets left="12.0" right="12.0"/>
                                              </padding>
@@ -111,10 +113,20 @@
                                                       <Image url="@../../../../images/icon_search.png"/>
                                                    </image>
                                                 </ImageView>
-                                                <TextField fx:id="kataKunciField" promptText="Cari posisi atau perusahaan" style="-fx-background-color: transparent; -fx-font-size: 13px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS"/>
+                                                <TextField fx:id="kataKunciField" promptText="Cari posisi atau perusahaan"
+                                                         style="-fx-background-color: transparent; -fx-font-size: 13px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;"
+                                                         HBox.hgrow="ALWAYS"/>
                                              </children>
                                           </HBox>
-                                          <ComboBox fx:id="urutkanComboBox" onAction="#handleFilter" prefHeight="30.0" prefWidth="160.0" promptText="Paling cocok" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;"/>
+                                          <ComboBox fx:id="urutkanComboBox" prefHeight="36.0" prefWidth="160.0"
+                                                   style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-background-radius: 8; -fx-border-radius: 8; -fx-font-size: 13px;"/>
+                                          <Button onAction="#handleFilter" text="Cari"
+                                                style="-fx-background-color: #1F4E8C; -fx-text-fill: white; -fx-font-size: 13px; -fx-font-weight: 600; -fx-background-radius: 8; -fx-padding: 0 18;"
+                                                prefHeight="36.0">
+                                             <cursor>
+                                                <Cursor fx:constant="HAND"/>
+                                             </cursor>
+                                          </Button>
                                        </children>
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" spacing="4.0">

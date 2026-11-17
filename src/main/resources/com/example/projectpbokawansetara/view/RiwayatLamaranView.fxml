@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.Cursor?>
@@ -41,7 +43,7 @@
                               <Insets top="16.0" />
                            </VBox.margin>
                            <children>
-                              <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" style="-fx-background-color: transparent; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 0 2 8 2; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0;" text="Semua">
+                              <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" styleClass="tab-riwayat" text="Semua">
                                  <toggleGroup>
                                     <ToggleGroup fx:id="statusGroup" />
                                  </toggleGroup>
@@ -49,22 +51,22 @@
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ToggleButton>
-                              <ToggleButton fx:id="diprosesTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-padding: 0 2 8 2;" text="Diproses" toggleGroup="$statusGroup">
+                              <ToggleButton fx:id="diprosesTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Diproses" toggleGroup="$statusGroup">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ToggleButton>
-                              <ToggleButton fx:id="ditinjauTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-padding: 0 2 8 2;" text="Ditinjau" toggleGroup="$statusGroup">
+                              <ToggleButton fx:id="ditinjauTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Ditinjau" toggleGroup="$statusGroup">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ToggleButton>
-                              <ToggleButton fx:id="diterimaTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-padding: 0 2 8 2;" text="Diterima" toggleGroup="$statusGroup">
+                              <ToggleButton fx:id="diterimaTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Diterima" toggleGroup="$statusGroup">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
                               </ToggleButton>
-                              <ToggleButton fx:id="ditolakTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #344054; -fx-font-size: 13px; -fx-padding: 0 2 8 2;" text="Ditolak" toggleGroup="$statusGroup">
+                              <ToggleButton fx:id="ditolakTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Ditolak" toggleGroup="$statusGroup">
                                  <cursor>
                                     <Cursor fx:constant="HAND" />
                                  </cursor>
@@ -76,19 +78,33 @@
                               <Insets top="16.0" />
                            </VBox.margin>
                            <children>
-                              <HBox alignment="CENTER_LEFT" prefHeight="32.0" style="-fx-background-color: #F9FAFB; -fx-background-radius: 8 8 0 0; -fx-border-color: transparent transparent #EAECF0 transparent;">
-                                 <padding>
-                                    <Insets left="12.0" right="12.0" />
-                                 </padding>
+                              <GridPane styleClass="riwayat-header">
+                                 <columnConstraints>
+                                    <ColumnConstraints percentWidth="30" />
+                                    <ColumnConstraints percentWidth="12" />
+                                    <ColumnConstraints percentWidth="11" />
+                                    <ColumnConstraints percentWidth="14" />
+                                    <ColumnConstraints percentWidth="12" />
+                                    <ColumnConstraints percentWidth="11" />
+                                    <ColumnConstraints percentWidth="10" />
+                                 </columnConstraints>
                                  <children>
-                                    <Label prefWidth="220.0" style="-fx-text-fill: #475467; -fx-font-size: 11px;" text="Posisi" />
-                                    <Label prefWidth="90.0" style="-fx-text-fill: #475467; -fx-font-size: 11px;" text="Lokasi" />
-                                    <Label prefWidth="80.0" style="-fx-text-fill: #475467; -fx-font-size: 11px;" text="Jenis" />
-                                    <Label prefWidth="105.0" style="-fx-text-fill: #475467; -fx-font-size: 11px;" text="Tanggal lamar" />
-                                    <Label prefWidth="85.0" style="-fx-text-fill: #475467; -fx-font-size: 11px;" text="Status" />
-                                    <Region HBox.hgrow="ALWAYS" />
+                                    <Label text="Posisi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="0" />
+                                    <Label text="Lokasi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="1" />
+                                    <Label text="Jenis" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="2" />
+                                    <Label text="Tanggal Lamar" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="3" />
+                                    <Label text="Status" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="4" />
+                                    <Label text="Diperbarui" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="5" />
+                                    <Label text="Aksi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="6" />
                                  </children>
-                              </HBox>
+                              </GridPane>
                               <VBox fx:id="daftarLamaranBox" />
                               <Label fx:id="kosongLabel" managed="false" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #667085; -fx-font-size: 12px; -fx-alignment: center; -fx-padding: 32;" text="Belum ada lamaran" visible="false" />
                            </children>

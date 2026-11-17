@@ -238,30 +238,31 @@
 /* ===== Cari Lowongan: kartu horizontal ===== */
 .kartu-lowongan-horizontal {
     -fx-background-color: white;
-    -fx-padding: 16;
-    -fx-spacing: 16;
-    -fx-alignment: CENTER_LEFT;
     -fx-border-color: transparent transparent #EAECF0 transparent;
     -fx-cursor: hand;
 }
 
 .kartu-lowongan-horizontal:hover {
     -fx-background-color: #F8FAFC;
-    -fx-border-color: transparent transparent #D0D5DD transparent;
 }
 
 .avatar-lowongan {
-    -fx-background-color: #EEF4FB;
-    -fx-text-fill: #1F4E8C;
-    -fx-font-size: 11px;
-    -fx-font-weight: bold;
-    -fx-alignment: center;
-    -fx-min-width: 52px;
-    -fx-pref-width: 52px;
-    -fx-min-height: 52px;
-    -fx-pref-height: 52px;
+    -fx-min-width: 44px;
+    -fx-pref-width: 44px;
+    -fx-min-height: 44px;
+    -fx-pref-height: 44px;
     -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
 }
+
+.avatar-biru   { -fx-background-color: #EEF4FB; -fx-text-fill: #1F4E8C; }
+.avatar-ungu   { -fx-background-color: #F4F0FF; -fx-text-fill: #6941C6; }
+.avatar-cyan   { -fx-background-color: #ECFDFF; -fx-text-fill: #0E7090; }
+.avatar-oranye { -fx-background-color: #FFF6ED; -fx-text-fill: #C4320A; }
+.avatar-hijau  { -fx-background-color: #ECFDF3; -fx-text-fill: #067647; }
+.avatar-pink   { -fx-background-color: #FDF2FA; -fx-text-fill: #C11574; }
 
 .identitas-lowongan,
 .kolom-lowongan {
@@ -283,9 +284,10 @@
 .jenis-lowongan {
     -fx-background-color: #EEF4FF;
     -fx-text-fill: #175CD3;
-    -fx-padding: 5 10;
+    -fx-padding: 4 10;
     -fx-background-radius: 6;
-    -fx-font-size: 10px;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
 }
 
 .detail-lowongan {
@@ -300,7 +302,7 @@
 }
 
 .gaji-lowongan {
-    -fx-font-size: 13px;
+    -fx-font-size: 14px;
     -fx-font-weight: bold;
     -fx-text-fill: #1570EF;
 }
@@ -621,4 +623,182 @@
     -fx-background-radius: 8;
     -fx-border-radius: 8;
     -fx-cursor: hand;
+}
+
+
+/* ============================= */
+/* RIWAYAT LAMARAN */
+/* ============================= */
+
+.riwayat-baris {
+    -fx-padding: 0 12 0 12;
+    -fx-min-height: 48px;
+    -fx-pref-height: 48px;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+}
+
+.riwayat-kolom {
+    -fx-font-size: 11px;
+    -fx-text-fill: #344054;
+}
+
+.status-lamaran {
+    -fx-font-size: 10px;
+    -fx-padding: 4 6 4 6;
+    -fx-background-radius: 12;
+}
+
+.status-diproses {
+    -fx-background-color: #FFF4E5;
+    -fx-text-fill: #B54708;
+}
+
+.status-ditinjau {
+    -fx-background-color: #EFF8FF;
+    -fx-text-fill: #175CD3;
+}
+
+.status-diterima {
+    -fx-background-color: #ECFDF3;
+    -fx-text-fill: #027A48;
+}
+
+.status-ditolak {
+    -fx-background-color: #FEF3F2;
+    -fx-text-fill: #B42318;
+}
+
+.status-default {
+    -fx-background-color: #F2F4F7;
+    -fx-text-fill: #344054;
+}
+
+
+/* ============================= */
+/* RIWAYAT LAMARAN */
+/* ============================= */
+
+/* Tab */
+.tab-riwayat {
+    -fx-background-color: transparent;
+    -fx-text-fill: #344054;
+    -fx-font-size: 13px;
+    -fx-padding: 0 2 8 2;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-background-radius: 0;
+    -fx-cursor: hand;
+}
+
+.tab-riwayat:selected {
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+    -fx-border-color: transparent transparent #1F4E8C transparent;
+}
+
+.tab-riwayat:hover {
+    -fx-text-fill: #1F4E8C;
+}
+
+/* Header tabel */
+.riwayat-header {
+    -fx-background-color: #F9FAFB;
+    -fx-padding: 12 16 12 16;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+}
+
+.riwayat-header-kolom {
+    -fx-text-fill: #475467;
+    -fx-font-size: 11px;
+    -fx-font-weight: 600;
+}
+
+/* Baris */
+.riwayat-baris {
+    -fx-padding: 12 16 12 16;
+    -fx-min-height: 64px;
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+}
+
+.riwayat-kolom {
+    -fx-font-size: 12px;
+    -fx-text-fill: #344054;
+}
+
+.riwayat-posisi {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #101828;
+}
+
+.riwayat-perusahaan {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+/* Avatar */
+.avatar-riwayat {
+    -fx-min-width: 36px;
+    -fx-pref-width: 36px;
+    -fx-min-height: 36px;
+    -fx-pref-height: 36px;
+    -fx-background-radius: 8;
+    -fx-alignment: center;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+}
+
+.avatar-biru   { -fx-background-color: #EEF4FB; -fx-text-fill: #1F4E8C; }
+.avatar-ungu   { -fx-background-color: #F4F0FF; -fx-text-fill: #6941C6; }
+.avatar-cyan   { -fx-background-color: #ECFDFF; -fx-text-fill: #0E7090; }
+.avatar-oranye { -fx-background-color: #FFF6ED; -fx-text-fill: #C4320A; }
+.avatar-hijau  { -fx-background-color: #ECFDF3; -fx-text-fill: #067647; }
+.avatar-pink   { -fx-background-color: #FDF2FA; -fx-text-fill: #C11574; }
+
+/* Status (titik + teks) */
+.status-titik {
+    -fx-background-radius: 50%;
+}
+
+.titik-diproses { -fx-background-color: #F79009; }
+.titik-ditinjau { -fx-background-color: #2E90FA; }
+.titik-diterima { -fx-background-color: #12B76A; }
+.titik-ditolak  { -fx-background-color: #F04438; }
+.titik-default  { -fx-background-color: #98A2B3; }
+
+.status-teks {
+    -fx-font-size: 12px;
+}
+
+.teks-diproses { -fx-text-fill: #B54708; }
+.teks-ditinjau { -fx-text-fill: #175CD3; }
+.teks-diterima { -fx-text-fill: #027A48; }
+.teks-ditolak  { -fx-text-fill: #B42318; }
+.teks-default  { -fx-text-fill: #344054; }
+
+/* Tombol Lihat lowongan */
+.tombol-lihat-lowongan {
+    -fx-background-color: transparent;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-padding: 4 2 4 2;
+    -fx-cursor: hand;
+}
+
+.tombol-lihat-lowongan:hover {
+    -fx-text-fill: #174071;
+    -fx-underline: true;
+}
+
+.nilai-kecocokan {
+    -fx-font-size: 13px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #12B76A;
+}
+
+.nilai-kecocokan-kosong {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #98A2B3;
 }
