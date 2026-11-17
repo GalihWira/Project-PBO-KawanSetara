@@ -14,8 +14,6 @@ import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Perusahaan;
 
 public class LowonganDAO {
-
-    // Method asli untuk halaman pelamar (hanya status 'tersedia')
     public List<Lowongan> getSemuaLowongan() throws SQLException {
         List<Lowongan> daftarLowongan = new ArrayList<>();
 
@@ -70,8 +68,6 @@ public class LowonganDAO {
 
         return daftarLowongan;
     }
-
-    // 1. Ambil SEMUA lowongan untuk Admin (tersedia & tidak tersedia + jumlah pelamar)
     public List<Lowongan> getAllLowonganAdmin() {
         List<Lowongan> daftarLowongan = new ArrayList<>();
         String sql = """
@@ -128,7 +124,6 @@ public class LowonganDAO {
         return daftarLowongan;
     }
 
-    // 2. Ambil daftar Perusahaan untuk ComboBox Form
     public List<Perusahaan> getAllPerusahaan() {
         List<Perusahaan> list = new ArrayList<>();
         String sql = "SELECT id_perusahaan, nama_perusahaan, alamat FROM Perusahaan ORDER BY nama_perusahaan ASC";
@@ -151,7 +146,6 @@ public class LowonganDAO {
         return list;
     }
 
-    // 3. Ambil daftar keahlian dari tabel Keahlian (id_keahlian -> nama_keahlian)
     public Map<Integer, String> getAllKeahlian() {
         Map<Integer, String> map = new LinkedHashMap<>();
         String sql = "SELECT id_keahlian, nama_keahlian FROM Keahlian ORDER BY nama_keahlian ASC";
@@ -169,7 +163,6 @@ public class LowonganDAO {
         return map;
     }
 
-    // 4. Simpan Lowongan Baru + Relasi Lowongan_Keahlian
     public boolean tambahLowongan(Lowongan lowongan, List<Integer> idKeahlianList) {
         String sqlLowongan = "INSERT INTO Lowongan (id_admin, id_perusahaan, nama_pekerjaan, deskripsi, gaji, lokasi, jenis_lowongan, persyaratan, status) " +
                              "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -225,8 +218,7 @@ public class LowonganDAO {
             }
         }
     }
-
-    // 5. Hapus Lowongan
+    
     public boolean hapusLowongan(int idLowongan) {
         String sql = "DELETE FROM Lowongan WHERE id_lowongan = ?";
         try (Connection conn = KoneksiDB.getConnection();

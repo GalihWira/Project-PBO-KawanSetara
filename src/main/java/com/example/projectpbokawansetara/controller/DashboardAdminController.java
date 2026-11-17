@@ -74,28 +74,28 @@ public class DashboardAdminController {
 
     @FXML
     private void initialize() {
-        // if (!Session.isLoggedIn()) {
-        //     Platform.runLater(() -> {
-        //         try {
-        //             Parent root = FXMLLoader.load(
-        //                 getClass().getResource(
-        //                     "/com/example/projectpbokawansetara/view/LoginView.fxml"
-        //                 )
-        //             );
+        if (!Session.isLoggedIn()) {
+            Platform.runLater(() -> {
+                try {
+                    Parent root = FXMLLoader.load(
+                        getClass().getResource(
+                            "/com/example/projectpbokawansetara/view/LoginView.fxml"
+                        )
+                    );
 
-        //             Stage stage = (Stage) mainBorderPane.getScene().getWindow();
-        //             stage.setScene(new Scene(root));
-        //             stage.setTitle("Masuk - KawanSetara");
-        //             stage.sizeToScene();
-        //             stage.centerOnScreen();
+                    Stage stage = (Stage) mainBorderPane.getScene().getWindow();
+                    stage.setScene(new Scene(root));
+                    stage.setTitle("Masuk - KawanSetara");
+                    stage.sizeToScene();
+                    stage.centerOnScreen();
 
-        //         } catch (IOException e) {
-        //             e.printStackTrace();
-        //         }
-        //     });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            });
 
-        //     return;
-        //}
+            return;
+        }
         loadDataDashboard();
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
@@ -114,8 +114,7 @@ public class DashboardAdminController {
 
     private void loadDataDashboard() {
         DashboardDAO dao = new DashboardDAO();
-        
-        // 1. Load Statistik Angka
+    
         DashboardStatistik stat = dao.getStatistik();
         
         lowonganTersediaLabel.setText(String.valueOf(stat.getLowonganTersedia()));
