@@ -34,7 +34,7 @@
                                         <Image url="@../../../../images/icon_search.png" />
                                     </image>
                                 </ImageView>
-                                <TextField fx:id="cariField" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari di panel admin" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS" />
+                               <TextField fx:id="cariField" onKeyReleased="#handleCari" maxHeight="26.0" minHeight="26.0" prefHeight="26.0" promptText="Cari di panel admin" style="-fx-background-color: transparent; -fx-font-size: 12px; -fx-padding: 0; -fx-prompt-text-fill: #98A2B3;" HBox.hgrow="ALWAYS" />
                             </children>
                         </HBox>
                     </children>
@@ -54,6 +54,7 @@
                             <columns>
                                 <TableColumn fx:id="namaColumn" prefWidth="300.0" text="Nama" />
                                 <TableColumn fx:id="emailColumn" prefWidth="360.0" text="Email" />
+                                <TableColumn fx:id="passwordColumn" prefWidth="200.0" text="Kata sandi" />
                             </columns>
                             <columnResizePolicy>
                                 <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
