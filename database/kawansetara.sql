@@ -168,3 +168,8 @@ ON Keahlian.id_kategori = KategoriKeahlian.id_kategori;
 ALTER TABLE Lamaran
 ADD CONSTRAINT unik_lamaran
 UNIQUE (id_pelamar, id_lowongan);
+
+ALTER TABLE Lamaran
+ADD COLUMN tanggal_diperbarui DATETIME
+DEFAULT CURRENT_TIMESTAMP
+ON UPDATE CURRENT_TIMESTAMP;
