@@ -14,6 +14,8 @@ public class ItemChecklist {
     public String getNamaItem(){return namaItem;}
     public void setNamaItem(String namaItem){this.namaItem = namaItem;}
 
+    public ItemChecklist() {
+    }
     @Override
     public String toString(){
         return namaItem;

@@ -9,6 +9,9 @@ public class Lowongan {
     private double gaji;
     private String jenisLowongan;
     private String status;
+    private int idAdmin;
+    private String persyaratan;
+    private int jumlahPelamar;
 
     public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String status) {
         this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);
@@ -87,6 +90,29 @@ public class Lowongan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getIdAdmin() { 
+        return idAdmin; 
+    }
+
+    public void setIdAdmin(int idAdmin) { 
+        this.idAdmin = idAdmin; 
+    }
+
+    public String getPersyaratan() {
+        return persyaratan; 
+    }
+
+    public void setPersyaratan(String persyaratan) {
+        this.persyaratan = persyaratan; 
+    }
+
+    public int getJumlahPelamar() { 
+        return jumlahPelamar; 
+    }
+    public void setJumlahPelamar(int jumlahPelamar) { 
+        this.jumlahPelamar = jumlahPelamar; 
     }
 
     @Override
