@@ -1,5 +1,15 @@
 package com.example.projectpbokawansetara.controller;
 
+import com.example.projectpbokawansetara.dao.DashboardDAO;
+import com.example.projectpbokawansetara.model.DashboardStatistik;
+import com.example.projectpbokawansetara.model.LamaranTerbaru;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import java.util.List;
+
 import java.io.IOException;
 import java.net.URL;
 
@@ -86,10 +96,11 @@ public class DashboardAdminController {
 
             return;
         }
-
+        loadDataDashboard();
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
     }
+
     // Dashboard
     @FXML
     void handleDashboardMenu(ActionEvent event) {
@@ -99,6 +110,70 @@ public class DashboardAdminController {
     @FXML
     void handleDashboardMenuClick(MouseEvent event) {
         kembaliKeDashboard();
+    }
+
+    private void loadDataDashboard() {
+        DashboardDAO dao = new DashboardDAO();
+    
+        DashboardStatistik stat = dao.getStatistik();
+        
+        lowonganTersediaLabel.setText(String.valueOf(stat.getLowonganTersedia()));
+        lamaranMasukLabel.setText(String.valueOf(stat.getLamaranMasuk()));
+        perusahaanMitraLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
+        pelamarTerdaftarLabel.setText(String.valueOf(stat.getPelamarTerdaftar()));
+        lowonganTersediaInfoLabel.setText(stat.getLowonganDitutup() + " lowongan ditutup");
+        lamaranMasukInfoLabel.setText(stat.getLamaranBelumDitinjau() + " belum ditinjau");
+        perusahaanMitraInfoLabel.setText(stat.getPerusahaanTanpaLowongan() + " belum buka lowongan");
+        pelamarTerdaftarInfoLabel.setText(stat.getPelamarAktifMelamar() + " aktif melamar");
+        jumlahLowonganMenuLabel.setText(String.valueOf(stat.getTotalLowongan()));
+        jumlahPerusahaanMenuLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
+        jumlahChecklistMenuLabel.setText(String.valueOf(stat.getTotalChecklist()));
+        jumlahDisabilitasMenuLabel.setText(String.valueOf(stat.getTotalDisabilitas()));
+        jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
+
+        List<LamaranTerbaru> listLamaran = dao.getLamaranTerbaru();
+        
+        daftarLamaranBox.getChildren().clear(); 
+
+        if (listLamaran.isEmpty()) {
+            lamaranKosongLabel.setVisible(true);
+            lamaranKosongLabel.setManaged(true);
+        } else {
+            lamaranKosongLabel.setVisible(false);
+            lamaranKosongLabel.setManaged(false);
+
+            for (LamaranTerbaru lamaran : listLamaran) {
+                HBox row = new HBox();
+                row.setAlignment(Pos.CENTER_LEFT);
+                row.setPrefHeight(40.0);
+                row.setSpacing(12.0);
+                row.setStyle("-fx-border-color: transparent transparent #EAECF0 transparent; -fx-padding: 0 14 0 14;");
+
+                Label lblNama = new Label(lamaran.getNamaPelamar());
+                lblNama.setStyle("-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 500;");
+                lblNama.setPrefWidth(120.0);
+                HBox.setHgrow(lblNama, Priority.ALWAYS); // Biar responsif mengikuti header
+
+                Label lblPosisi = new Label(lamaran.getPosisi());
+                lblPosisi.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+                lblPosisi.setPrefWidth(110.0);
+
+                Label lblTanggal = new Label(lamaran.getTanggalMasuk());
+                lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+                lblTanggal.setPrefWidth(70.0);
+
+                Label lblStatus = new Label(lamaran.getStatus().substring(0, 1).toUpperCase() + lamaran.getStatus().substring(1));
+                lblStatus.setPrefWidth(70.0);
+                lblStatus.setPadding(new Insets(2, 8, 2, 8));
+                lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + 
+                    (lamaran.getStatus().equals("diproses") ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;" : 
+                    (lamaran.getStatus().equals("diterima") ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;" : 
+                    "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;")));
+
+                row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
+                daftarLamaranBox.getChildren().add(row);
+            }
+        }
     }
 
     private void kembaliKeDashboard() {

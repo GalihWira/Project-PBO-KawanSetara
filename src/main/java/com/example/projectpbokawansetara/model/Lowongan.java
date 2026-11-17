@@ -12,6 +12,9 @@ public class Lowongan {
     private double gaji;
     private String jenisLowongan;
     private String status;
+    private int idAdmin;
+    private String persyaratan;
+    private int jumlahPelamar;
 
     private String durasiKerja;
     private List<Keahlian> daftarKeahlian = new ArrayList<>();
@@ -109,6 +112,29 @@ public class Lowongan {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getIdAdmin() { 
+        return idAdmin; 
+    }
+
+    public void setIdAdmin(int idAdmin) { 
+        this.idAdmin = idAdmin; 
+    }
+
+    public String getPersyaratan() {
+        return persyaratan; 
+    }
+
+    public void setPersyaratan(String persyaratan) {
+        this.persyaratan = persyaratan; 
+    }
+
+    public int getJumlahPelamar() { 
+        return jumlahPelamar; 
+    }
+    public void setJumlahPelamar(int jumlahPelamar) { 
+        this.jumlahPelamar = jumlahPelamar; 
     }
 
     @Override
