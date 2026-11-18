@@ -87,6 +87,25 @@
                         <Cursor fx:constant="HAND" />
                     </cursor>
                 </ToggleButton>
+                <ToggleButton fx:id="lamaranMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleKelolaLamaran" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                    <graphic>
+                        <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
+                            <children>
+                                <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                    <image>
+                                        <Image url="@../../../../images/icon_file.png" />
+                                    </image>
+                                </ImageView>
+                                <Label style="-fx-text-fill: #344054; -fx-font-size: 13px;" text="Lamaran" />
+                                <Region HBox.hgrow="ALWAYS" />
+                                <Label fx:id="jumlahLamaranMenuLabel" style="-fx-text-fill: #667085; -fx-font-size: 12px;" text="0" />
+                            </children>
+                        </HBox>
+                    </graphic>
+                    <cursor>
+                        <Cursor fx:constant="HAND" />
+                    </cursor>
+                </ToggleButton>
                 <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="DATA MASTER" />
                 <ToggleButton fx:id="itemChecklistMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleBukaItemChecklist" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
@@ -266,7 +285,7 @@
                                                     <children>
                                                         <Label style="-fx-text-fill: #101828; -fx-font-size: 15px; -fx-font-weight: 600;" text="Lamaran masuk terbaru" />
                                                         <Region HBox.hgrow="ALWAYS" />
-                                                        <Hyperlink fx:id="lihatSemuaLink" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Lihat semua" />
+                                                        <Hyperlink fx:id="lihatSemuaLink" onAction="#handleKelolaLamaran" style="-fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-border-color: transparent; -fx-padding: 0;" text="Lihat semua" />
                                                     </children>
                                                 </HBox>
                                                 <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">

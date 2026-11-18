@@ -23,14 +23,21 @@ import javafx.scene.control.cell.PropertyValueFactory;
 
 public class KelolaDisabilitasController {
 
-    @FXML private TableView<JenisDisabilitas> disabilitasTable;
-    @FXML private TableColumn<JenisDisabilitas, String> idColumn;
-    @FXML private TableColumn<JenisDisabilitas, String> namaColumn;
-    @FXML private TableColumn<JenisDisabilitas, String> pelamarColumn;
-    @FXML private TableColumn<JenisDisabilitas, Void> aksiColumn;
+    @FXML
+    private TableView<JenisDisabilitas> disabilitasTable;
+    @FXML
+    private TableColumn<JenisDisabilitas, String> idColumn;
+    @FXML
+    private TableColumn<JenisDisabilitas, String> namaColumn;
+    @FXML
+    private TableColumn<JenisDisabilitas, String> pelamarColumn;
+    @FXML
+    private TableColumn<JenisDisabilitas, Void> aksiColumn;
 
-    @FXML private TextField namaJenisField;
-    @FXML private Label namaJenisErrorLabel;
+    @FXML
+    private TextField namaJenisField;
+    @FXML
+    private Label namaJenisErrorLabel;
 
     private DisabilitasDAO disabilitasDAO = new DisabilitasDAO();
     private List<JenisDisabilitas> semuaDisabilitas = new ArrayList<>();
@@ -39,7 +46,8 @@ public class KelolaDisabilitasController {
     public void initialize() {
         namaColumn.setCellValueFactory(new PropertyValueFactory<>("namaJenis"));
         idColumn.setCellValueFactory(data -> new SimpleStringProperty("#" + data.getValue().getIdJenisDisabilitas()));
-        pelamarColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahPelamar() + " pelamar"));
+        pelamarColumn
+                .setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahPelamar() + " pelamar"));
 
         buatTombolHapus();
         loadDataDisabilitas();
@@ -84,7 +92,8 @@ public class KelolaDisabilitasController {
                     setGraphic(null);
                 } else {
                     Button btnHapus = new Button("Hapus");
-                    btnHapus.setStyle("-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
+                    btnHapus.setStyle(
+                            "-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
                     btnHapus.setOnAction(event -> {
                         JenisDisabilitas data = getTableView().getItems().get(getIndex());
                         prosesHapus(data);
@@ -97,14 +106,31 @@ public class KelolaDisabilitasController {
 
     private void prosesHapus(JenisDisabilitas data) {
         sembunyikanError();
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menghapus \"" + data.getNamaJenis() + "\"?");
+
+        int jumlahPemakaian = disabilitasDAO.hitungPemakaian(data.getIdJenisDisabilitas());
+
+        if (jumlahPemakaian > 0) {
+            Alert dipakai = new Alert(Alert.AlertType.WARNING,
+                    "Tidak bisa dihapus karena masih digunakan oleh data pelamar.");
+            dipakai.showAndWait();
+            return;
+        }
+
+        if (jumlahPemakaian < 0) {
+            Alert gagalCek = new Alert(Alert.AlertType.WARNING, "Gagal memeriksa data. Silakan coba lagi.");
+            gagalCek.showAndWait();
+            return;
+        }
+
+        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
+                "Yakin ingin menghapus \"" + data.getNamaJenis() + "\"?");
         Optional<ButtonType> hasil = konfirmasi.showAndWait();
 
         if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
             if (disabilitasDAO.hapusDisabilitas(data.getIdJenisDisabilitas())) {
                 loadDataDisabilitas();
             } else {
-                Alert gagal = new Alert(Alert.AlertType.WARNING, "Tidak bisa dihapus karena masih digunakan oleh data pelamar.");
+                Alert gagal = new Alert(Alert.AlertType.WARNING, "Gagal menghapus. Silakan coba lagi.");
                 gagal.showAndWait();
             }
         }

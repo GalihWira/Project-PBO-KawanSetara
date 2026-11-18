@@ -3,8 +3,10 @@ package com.example.projectpbokawansetara.controller;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
 import com.example.projectpbokawansetara.dao.ChecklistDAO;
 import com.example.projectpbokawansetara.model.ItemChecklist;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -25,27 +27,48 @@ import javafx.scene.layout.VBox;
 
 public class KelolaChecklistController {
 
-    @FXML private TableView<ItemChecklist> itemTable;
-    @FXML private TableColumn<ItemChecklist, String> idColumn;
-    @FXML private TableColumn<ItemChecklist, String> kategoriColumn;
-    @FXML private TableColumn<ItemChecklist, String> namaColumn;
-    @FXML private TableColumn<ItemChecklist, String> diLowonganColumn;
-    @FXML private TableColumn<ItemChecklist, String> dipilihColumn;
-    @FXML private TableColumn<ItemChecklist, Void> aksiColumn;
-    @FXML private TextField cariItemField;
-    @FXML private ComboBox<String> filterKategoriComboBox;
-    @FXML private Label ringkasanLabel;
-    @FXML private HBox suksesBanner;
-    @FXML private Label suksesBannerJudulLabel;
-    @FXML private Label suksesBannerPesanLabel;
-    @FXML private HBox errorBanner;
-    @FXML private Label errorBannerJudulLabel;
-    @FXML private Label errorBannerPesanLabel;
-    @FXML private TextField namaItemField;
-    @FXML private ComboBox<String> kategoriComboBox;
-    @FXML private VBox previewBox;
-    @FXML private Label previewKategoriLabel;
-    @FXML private CheckBox previewCheckBox;
+    @FXML
+    private TableView<ItemChecklist> itemTable;
+    @FXML
+    private TableColumn<ItemChecklist, String> idColumn;
+    @FXML
+    private TableColumn<ItemChecklist, String> kategoriColumn;
+    @FXML
+    private TableColumn<ItemChecklist, String> namaColumn;
+    @FXML
+    private TableColumn<ItemChecklist, String> diLowonganColumn;
+    @FXML
+    private TableColumn<ItemChecklist, String> dipilihColumn;
+    @FXML
+    private TableColumn<ItemChecklist, Void> aksiColumn;
+    @FXML
+    private TextField cariItemField;
+    @FXML
+    private ComboBox<String> filterKategoriComboBox;
+    @FXML
+    private Label ringkasanLabel;
+    @FXML
+    private HBox suksesBanner;
+    @FXML
+    private Label suksesBannerJudulLabel;
+    @FXML
+    private Label suksesBannerPesanLabel;
+    @FXML
+    private HBox errorBanner;
+    @FXML
+    private Label errorBannerJudulLabel;
+    @FXML
+    private Label errorBannerPesanLabel;
+    @FXML
+    private TextField namaItemField;
+    @FXML
+    private ComboBox<String> kategoriComboBox;
+    @FXML
+    private VBox previewBox;
+    @FXML
+    private Label previewKategoriLabel;
+    @FXML
+    private CheckBox previewCheckBox;
 
     private ChecklistDAO checklistDAO = new ChecklistDAO();
     private List<ItemChecklist> semuaItem = new ArrayList<>();
@@ -54,10 +77,12 @@ public class KelolaChecklistController {
     public void initialize() {
         kategoriColumn.setCellValueFactory(new PropertyValueFactory<>("namaKategori"));
         namaColumn.setCellValueFactory(new PropertyValueFactory<>("namaItem"));
-        
+
         idColumn.setCellValueFactory(data -> new SimpleStringProperty("#" + data.getValue().getIdItem()));
-        diLowonganColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahDiLowongan() + " lowongan"));
-        dipilihColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahDipilihPelamar() + " pelamar"));
+        diLowonganColumn.setCellValueFactory(
+                data -> new SimpleStringProperty(data.getValue().getJumlahDiLowongan() + " lowongan"));
+        dipilihColumn.setCellValueFactory(
+                data -> new SimpleStringProperty(data.getValue().getJumlahDipilihPelamar() + " pelamar"));
 
         buatTombolHapus();
         muatKategori();
@@ -94,8 +119,8 @@ public class KelolaChecklistController {
         List<ItemChecklist> hasilFilter = new ArrayList<>();
         for (ItemChecklist item : semuaItem) {
             boolean cocokNama = item.getNamaItem().toLowerCase().contains(keyword);
-            boolean cocokKategori = kategoriDipilih == null 
-                    || kategoriDipilih.equals("Semua kategori") 
+            boolean cocokKategori = kategoriDipilih == null
+                    || kategoriDipilih.equals("Semua kategori")
                     || kategoriDipilih.equals(item.getNamaKategori());
 
             if (cocokNama && cocokKategori) {
@@ -117,19 +142,19 @@ public class KelolaChecklistController {
         String kategori = kategoriComboBox.getValue();
 
         if (nama.isEmpty()) {
-            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
-                            "Item belum ditambahkan", "Nama item wajib diisi.");
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Item belum ditambahkan", "Nama item wajib diisi.");
             return;
         }
         if (kategori == null) {
-            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
-                            "Item belum ditambahkan", "Pilih kategori terlebih dahulu.");
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Item belum ditambahkan", "Pilih kategori terlebih dahulu.");
             return;
         }
         for (ItemChecklist item : semuaItem) {
             if (item.getNamaItem().equalsIgnoreCase(nama)) {
-                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
-                                "Item sudah ada", "Keahlian \"" + nama + "\" sudah terdaftar.");
+                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                        "Item sudah ada", "Keahlian \"" + nama + "\" sudah terdaftar.");
                 return;
             }
         }
@@ -138,11 +163,11 @@ public class KelolaChecklistController {
             namaItemField.clear();
             kategoriComboBox.getSelectionModel().clearSelection();
             loadDataItem();
-            tampilkanBanner(suksesBanner, suksesBannerJudulLabel, suksesBannerPesanLabel, 
-                            "“" + nama + "” ditambahkan ke " + kategori, "Pelamar langsung melihatnya di checklist.");
+            tampilkanBanner(suksesBanner, suksesBannerJudulLabel, suksesBannerPesanLabel,
+                    "“" + nama + "” ditambahkan ke " + kategori, "Pelamar langsung melihatnya di checklist.");
         } else {
-            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
-                            "Gagal menyimpan", "Terjadi kesalahan saat menyimpan ke database.");
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Gagal menyimpan", "Terjadi kesalahan saat menyimpan ke database.");
         }
     }
 
@@ -155,7 +180,8 @@ public class KelolaChecklistController {
                     setGraphic(null);
                 } else {
                     Button btnHapus = new Button("Hapus");
-                    btnHapus.setStyle("-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
+                    btnHapus.setStyle(
+                            "-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
                     btnHapus.setOnAction(event -> {
                         ItemChecklist data = getTableView().getItems().get(getIndex());
                         prosesHapus(data);
@@ -168,15 +194,31 @@ public class KelolaChecklistController {
 
     private void prosesHapus(ItemChecklist item) {
         sembunyikanSemuaBanner();
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menghapus \"" + item.getNamaItem() + "\"?");
+
+        int jumlahPemakaian = checklistDAO.hitungPemakaian(item.getIdItem());
+
+        if (jumlahPemakaian > 0) {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Tidak bisa dihapus", "Item ini masih dipakai pada lowongan atau pelamar.");
+            return;
+        }
+
+        if (jumlahPemakaian < 0) {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Gagal memeriksa data", "Silakan coba lagi.");
+            return;
+        }
+
+        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
+                "Yakin ingin menghapus \"" + item.getNamaItem() + "\"?");
         Optional<ButtonType> hasil = konfirmasi.showAndWait();
 
         if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
             if (checklistDAO.hapusItem(item.getIdItem())) {
                 loadDataItem();
             } else {
-                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
-                                "Tidak bisa dihapus", "Item ini masih dipakai pada lowongan atau pelamar.");
+                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                        "Gagal menghapus", "Silakan coba lagi.");
             }
         }
     }
@@ -205,12 +247,14 @@ public class KelolaChecklistController {
             previewBox.setManaged(true);
         }
     }
+
     private void tampilkanBanner(HBox banner, Label labelJudul, Label labelPesan, String judul, String pesan) {
         labelJudul.setText(judul);
         labelPesan.setText(pesan);
         banner.setVisible(true);
         banner.setManaged(true);
     }
+
     private void sembunyikanSemuaBanner() {
         suksesBanner.setVisible(false);
         suksesBanner.setManaged(false);
