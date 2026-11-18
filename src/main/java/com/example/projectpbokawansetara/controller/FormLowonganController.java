@@ -7,11 +7,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.helper.DialogHelper;
+import com.example.projectpbokawansetara.helper.ValidasiHelper;
 import com.example.projectpbokawansetara.model.Admin;
 import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Perusahaan;
 import com.example.projectpbokawansetara.model.Session;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -133,6 +136,19 @@ public class FormLowonganController {
             }
         }
         updateJumlahDipilih();
+        gajiField.textProperty().addListener((obs, lama, baru) -> {
+            String angka = baru.replace(".", "");
+            if (!ValidasiHelper.gajiValid(angka)) {
+                return;
+            }
+            String rapi = formatRibuan(angka);
+            if (!rapi.equals(baru)) {
+                Platform.runLater(() -> {
+                    gajiField.setText(rapi);
+                    gajiField.positionCaret(rapi.length());
+                });
+            }
+        });
     }
 
     private void updateJumlahDipilih() {
@@ -174,15 +190,11 @@ public class FormLowonganController {
         }
 
         double gaji = 0;
-        String gajiStr = gajiField.getText().trim();
-        try {
-            if (gajiStr.isEmpty())
-                throw new NumberFormatException();
+        String gajiStr = gajiField.getText().trim().replace(".", "");
+        if (ValidasiHelper.gajiValid(gajiStr)) {
             gaji = Double.parseDouble(gajiStr);
-            if (gaji < 0)
-                throw new NumberFormatException();
             tampilkanError(gajiErrorLabel, false);
-        } catch (NumberFormatException e) {
+        } else {
             tampilkanError(gajiErrorLabel, true);
             jumlahError++;
         }
@@ -239,7 +251,12 @@ public class FormLowonganController {
                 badgeLowongan.setText(String.valueOf(totalSekarang));
             }
 
-            pindahHalaman(event, "/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
+            DialogHelper.tampilkanDialogLowonganBerhasil(
+                    scene.getWindow(),
+                    lowongan.getNamaPekerjaan(),
+                    perusahaanTerpilih.getNamaPerusahaan(),
+                    () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormLowonganView.fxml"),
+                    () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml"));
         } else {
             errorBannerLabel.setText("Terjadi kesalahan saat menyimpan ke database.");
             errorBanner.setVisible(true);
@@ -272,5 +289,18 @@ public class FormLowonganController {
             System.err.println("Gagal pindah ke: " + fxmlPath);
             e.printStackTrace();
         }
+    }
+
+    private String formatRibuan(String angka) {
+        StringBuilder hasil = new StringBuilder();
+        int hitung = 0;
+        for (int i = angka.length() - 1; i >= 0; i--) {
+            hasil.insert(0, angka.charAt(i));
+            hitung++;
+            if (hitung % 3 == 0 && i > 0) {
+                hasil.insert(0, '.');
+            }
+        }
+        return hasil.toString();
     }
 }

@@ -3,13 +3,13 @@ package com.example.projectpbokawansetara.helper;
 public class ValidasiHelper {
 
     private static final String[] DOMAIN_DIIZINKAN = {
-        "gmail.com",
-        "yahoo.com",
-        "yahoo.co.id",
-        "outlook.com",
-        "hotmail.com",
-        "icloud.com",
-        "kawansetara.com"
+            "gmail.com",
+            "yahoo.com",
+            "yahoo.co.id",
+            "outlook.com",
+            "hotmail.com",
+            "icloud.com",
+            "kawansetara.com"
     };
 
     private ValidasiHelper() {
@@ -89,6 +89,13 @@ public class ValidasiHelper {
             }
         }
         return adaHuruf && adaAngka;
+    }
+
+    public static boolean gajiValid(String gaji) {
+        if (gaji == null || gaji.isEmpty() || gaji.length() > 10) {
+            return false;
+        }
+        return semuaAngka(gaji);
     }
 
     private static boolean semuaAngka(String teks) {

@@ -242,8 +242,8 @@ public class LowonganDAO {
 
         String sql = """
             SELECT k.id_keahlian, k.nama_keahlian
-            FROM lowongan_keahlian lk
-            JOIN keahlian k ON lk.id_keahlian = k.id_keahlian
+            FROM Lowongan_Keahlian lk
+            JOIN Keahlian k ON lk.id_keahlian = k.id_keahlian
             WHERE lk.id_lowongan = ?
         """;
 

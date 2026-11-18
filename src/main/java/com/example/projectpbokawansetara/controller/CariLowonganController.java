@@ -6,20 +6,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
-import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 import com.example.projectpbokawansetara.dao.LowonganDAO;
 import com.example.projectpbokawansetara.dao.PelamarDAO;
+import com.example.projectpbokawansetara.model.Keahlian;
 import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Pelamar;
 import com.example.projectpbokawansetara.model.Session;
-import com.example.projectpbokawansetara.model.Keahlian;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.control.Button;
@@ -28,10 +27,9 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
-import javafx.geometry.Insets;
+import javafx.scene.layout.VBox;
 
 public class CariLowonganController {
 
@@ -197,6 +195,10 @@ public class CariLowonganController {
 
         if (urutan != null) {
             switch (urutan) {
+                case "Paling cocok":
+                    hasilFilter.sort((a, b) -> Integer.compare(
+                            hitungSkorKecocokan(b)[0], hitungSkorKecocokan(a)[0]));
+                    break;
                 case "Gaji tertinggi":
                     hasilFilter.sort((a, b) -> Double.compare(b.getGaji(), a.getGaji()));
                     break;

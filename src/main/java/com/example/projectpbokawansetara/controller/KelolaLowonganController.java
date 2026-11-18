@@ -175,7 +175,7 @@ public class KelolaLowonganController {
             if (lowonganDAO.hapusLowongan(lowongan.getIdLowongan())) {
                 loadDataLowongan();
             } else {
-                tampilkanPesanGagal("Lowongan tidak bisa dihapus karena sudah punya lamaran.");
+                tampilkanPesanGagal("Lowongan gagal dihapus. Coba lagi nanti.");
             }
         } catch (IOException e) {
             e.printStackTrace();
