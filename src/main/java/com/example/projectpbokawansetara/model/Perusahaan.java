@@ -7,6 +7,7 @@ public class Perusahaan {
     private String email;
     private String noTelepon;
     private String deskripsi;
+    private int jumlahLowonganAktif;
 
     public Perusahaan(int idPerusahaan, String namaPerusahaan, String alamat, String email, String noTelepon, String deskripsi){
         this.idPerusahaan = idPerusahaan;
@@ -34,6 +35,9 @@ public class Perusahaan {
     public String getDeskripsi(){return deskripsi;}
     public void setDeskripsi(String deskripsi){this.deskripsi = deskripsi;}
 
+    public int getJumlahLowonganAktif(){return jumlahLowonganAktif;}
+    public void setJumlahLowonganAktif(int jumlahLowonganAktif){this.jumlahLowonganAktif = jumlahLowonganAktif;}
+    
     @Override
     public String toString(){
         return namaPerusahaan;

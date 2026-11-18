@@ -1,90 +1,251 @@
 package com.example.projectpbokawansetara.controller;
 
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
+import com.example.projectpbokawansetara.dao.PerusahaanDAO;
+import com.example.projectpbokawansetara.model.Perusahaan;
+
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
 
 public class KelolaPerusahaanController {
 
+    @FXML private TableView<Perusahaan> perusahaanTable;
+    @FXML private TableColumn<Perusahaan, String> namaColumn;
+    @FXML private TableColumn<Perusahaan, String> alamatColumn;
+    @FXML private TableColumn<Perusahaan, String> emailColumn;
+    @FXML private TableColumn<Perusahaan, String> noTeleponColumn;
+
+    @FXML private TextField cariPerusahaanField;
+    @FXML private Label ringkasanLabel;
+    @FXML private Label infoTampilLabel;
+    @FXML private Button sebelumnyaButton;
+    @FXML private Button berikutnyaButton;
+
+    @FXML private Label judulFormLabel;
+    @FXML private Label jumlahLowonganAktifLabel;
+    @FXML private HBox errorBanner;
+    @FXML private Label errorBannerJudulLabel;
+    @FXML private Label errorBannerPesanLabel;
+
+    @FXML private TextField namaPerusahaanField;
+    @FXML private TextArea alamatArea;
+    @FXML private TextField emailField;
+    @FXML private TextField noTeleponField;
+    @FXML private TextArea deskripsiArea;
+    @FXML private Button hapusButton;
+
+    private final PerusahaanDAO perusahaanDAO = new PerusahaanDAO();
+    private List<Perusahaan> semuaPerusahaan = new ArrayList<>();
+    private List<Perusahaan> perusahaanTerfilter = new ArrayList<>();
+    private Perusahaan perusahaanDipilih = null; 
+
+    private int halamanSekarang = 1;
+    private final int barisPerHalaman = 8;
 
     @FXML
-    void handleUbah(ActionEvent event) {
+    public void initialize() {
+        namaColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNamaPerusahaan()));
+        alamatColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getAlamat()));
+        emailColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getEmail()));
+        noTeleponColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNoTelepon()));
+
+        perusahaanTable.getSelectionModel().selectedItemProperty().addListener((obs, lama, baru) -> {
+            if (baru != null) {
+                tampilkanDetailKeForm(baru);
+            }
+        });
+
+        cariPerusahaanField.textProperty().addListener((obs, lama, baru) -> {
+            halamanSekarang = 1;
+            terapkanFilter();
+        });
+
+        loadDataPerusahaan();
     }
 
-    @FXML
-    void handleEdit(ActionEvent event) {
+    private void loadDataPerusahaan() {
+        semuaPerusahaan = perusahaanDAO.getAllPerusahaan();
+        ringkasanLabel.setText(semuaPerusahaan.size() + " perusahaan mitra");
+        halamanSekarang = 1;
+        terapkanFilter();
+
+        if (!perusahaanTerfilter.isEmpty()) {
+            perusahaanTable.getSelectionModel().selectFirst();
+        } else {
+            siapkanModeTambah();
+        }
     }
 
-    @FXML
-    void handleHapus(ActionEvent event) {
+    private void terapkanFilter() {
+        String keyword = cariPerusahaanField.getText() == null ? "" : cariPerusahaanField.getText().toLowerCase().trim();
+        perusahaanTerfilter.clear();
+
+        for (Perusahaan p : semuaPerusahaan) {
+            boolean cocokNama = p.getNamaPerusahaan() != null && p.getNamaPerusahaan().toLowerCase().contains(keyword);
+            boolean cocokAlamat = p.getAlamat() != null && p.getAlamat().toLowerCase().contains(keyword);
+            if (keyword.isEmpty() || cocokNama || cocokAlamat) {
+                perusahaanTerfilter.add(p);
+            }
+        }
+        updateTampilanHalaman();
     }
 
-    @FXML
-    void handleDetail(ActionEvent event) {
+    private void updateTampilanHalaman() {
+        int totalData = perusahaanTerfilter.size();
+        int totalHalaman = Math.max(1, (int) Math.ceil((double) totalData / barisPerHalaman));
+        if (halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;
+
+        int dariIndex = (halamanSekarang - 1) * barisPerHalaman;
+        int sampaiIndex = Math.min(dariIndex + barisPerHalaman, totalData);
+
+        perusahaanTable.setItems(FXCollections.observableArrayList(perusahaanTerfilter.subList(dariIndex, sampaiIndex)));
+        infoTampilLabel.setText(totalData == 0 ? "Menampilkan 0 dari 0" : "Menampilkan " + (dariIndex + 1) + "–" + sampaiIndex + " dari " + totalData);
+        sebelumnyaButton.setDisable(halamanSekarang <= 1);
+        berikutnyaButton.setDisable(halamanSekarang >= totalHalaman);
     }
 
-    @FXML
-    void handleCari(ActionEvent event) {
+    private void tampilkanDetailKeForm(Perusahaan p) {
+        perusahaanDipilih = p;
+        setError(false, "", "");
+
+        judulFormLabel.setText("Detail perusahaan");
+        jumlahLowonganAktifLabel.setText(p.getJumlahLowonganAktif() + " lowongan aktif");
+        jumlahLowonganAktifLabel.setVisible(true);
+
+        namaPerusahaanField.setText(p.getNamaPerusahaan());
+        alamatArea.setText(p.getAlamat());
+        emailField.setText(p.getEmail());
+        noTeleponField.setText(p.getNoTelepon());
+        deskripsiArea.setText(p.getDeskripsi());
+
+        hapusButton.setVisible(true);
     }
 
-    @FXML
-    void handleBatal(ActionEvent event) {
-    }
+    private void siapkanModeTambah() {
+        perusahaanDipilih = null;
+        perusahaanTable.getSelectionModel().clearSelection();
+        setError(false, "", "");
 
-    @FXML
-    void handleSimpan(ActionEvent event) {
+        judulFormLabel.setText("Tambah perusahaan");
+        jumlahLowonganAktifLabel.setVisible(false);
+
+        namaPerusahaanField.clear();
+        alamatArea.clear();
+        emailField.clear();
+        noTeleponField.clear();
+        deskripsiArea.clear();
+
+        hapusButton.setVisible(false);
     }
 
     @FXML
     void handleTambah(ActionEvent event) {
-        pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormPerusahaanView.fxml");
+        siapkanModeTambah();
+        namaPerusahaanField.requestFocus();
     }
 
     @FXML
-    void handleFilter(ActionEvent event) {
+    void handleSimpan(ActionEvent event) {
+        String nama = namaPerusahaanField.getText().trim();
+        String alamat = alamatArea.getText().trim();
+        String email = emailField.getText().trim();
+        String telepon = noTeleponField.getText().trim();
+        String deskripsi = deskripsiArea.getText().trim();
+
+        if (nama.isEmpty()) {
+            setError(true, "Data belum lengkap", "Nama perusahaan wajib diisi.");
+            return;
+        }
+        if (!email.isEmpty() && !email.contains("@")) {
+            setError(true, "Format salah", "Email harus mengandung tanda @.");
+            return;
+        }
+        if (!telepon.isEmpty()) {
+            try {
+                Long.parseLong(telepon);
+            } catch (NumberFormatException e) {
+                setError(true, "Format salah", "Nomor telepon hanya boleh berisi angka.");
+                return;
+            }
+        }
+
+        boolean berhasil;
+        if (perusahaanDipilih == null) {
+            Perusahaan baru = new Perusahaan(0, nama, alamat, email, telepon, deskripsi);
+            berhasil = perusahaanDAO.tambahPerusahaan(baru);
+        } else {
+            perusahaanDipilih.setNamaPerusahaan(nama);
+            perusahaanDipilih.setAlamat(alamat);
+            perusahaanDipilih.setEmail(email);
+            perusahaanDipilih.setNoTelepon(telepon);
+            perusahaanDipilih.setDeskripsi(deskripsi);
+            berhasil = perusahaanDAO.updatePerusahaan(perusahaanDipilih);
+        }
+
+        if (berhasil) {
+            loadDataPerusahaan();
+        } else {
+            setError(true, "Gagal menyimpan", "Gagal menyimpan data ke database.");
+        }
+    }
+
+    @FXML
+    void handleHapus(ActionEvent event) {
+        if (perusahaanDipilih == null) return;
+
+        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION, "Hapus " + perusahaanDipilih.getNamaPerusahaan() + "?");
+        Optional<ButtonType> hasil = konfirmasi.showAndWait();
+
+        if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
+            if (perusahaanDAO.hapusPerusahaan(perusahaanDipilih.getIdPerusahaan())) {
+                loadDataPerusahaan();
+            } else {
+                setError(true, "Tidak bisa dihapus", "Perusahaan ini masih memiliki lowongan aktif.");
+            }
+        }
+    }
+
+    @FXML
+    void handleBatal(ActionEvent event) {
+        if (perusahaanDipilih != null) {
+            tampilkanDetailKeForm(perusahaanDipilih);
+        } else {
+            siapkanModeTambah();
+        }
     }
 
     @FXML
     void handleSebelumnya(ActionEvent event) {
+        if (halamanSekarang > 1) {
+            halamanSekarang--;
+            updateTampilanHalaman();
+        }
     }
 
     @FXML
     void handleBerikutnya(ActionEvent event) {
+        halamanSekarang++;
+        updateTampilanHalaman();
     }
 
-    private void pindahHalaman(ActionEvent event, String fxmlPath) {
-        try {
-            URL url = getClass().getResource(fxmlPath);
-            if (url == null) {
-                System.err.println("File FXML tidak ditemukan: " + fxmlPath);
-                return;
-            }
-
-            FXMLLoader loader = new FXMLLoader(url);
-            Parent halamanBaru = loader.load();
-
-            Node kontenTengah = halamanBaru;
-            if (halamanBaru instanceof BorderPane halamanBorder && halamanBorder.getCenter() != null) {
-                kontenTengah = halamanBorder.getCenter();
-            }
-
-            Scene scene = ((Node) event.getSource()).getScene();
-            BorderPane mainBorderPane = (BorderPane) scene.lookup("#mainBorderPane");
-
-            if (mainBorderPane != null) {
-                mainBorderPane.setCenter(kontenTengah);
-            } else {
-                scene.setRoot(halamanBaru);
-            }
-        } catch (Exception e) {
-            System.err.println("Gagal pindah ke: " + fxmlPath);
-            e.printStackTrace();
-        }
+    private void setError(boolean tampil, String judul, String pesan) {
+        errorBannerJudulLabel.setText(judul);
+        errorBannerPesanLabel.setText(pesan);
+        errorBanner.setVisible(tampil);
+        errorBanner.setManaged(tampil);
     }
 }

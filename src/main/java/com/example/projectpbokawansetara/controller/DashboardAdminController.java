@@ -36,79 +36,51 @@ public class DashboardAdminController {
 
     private Node halamanDashboardAwal;
 
-    @FXML
-    private ToggleGroup adminMenuGroup;
-    @FXML
-    private ToggleButton akunAdminMenu;
-    @FXML
-    private ImageView avatarImage;
-    @FXML
-    private TextField cariField;
-    @FXML
-    private VBox daftarLamaranBox;
-    @FXML
-    private ToggleButton dashboardMenu;
-    @FXML
-    private ToggleButton itemChecklistMenu;
-    @FXML
-    private ToggleButton jenisDisabilitasMenu;
-    @FXML
-    private Label jumlahAdminMenuLabel;
-    @FXML
-    private Label jumlahChecklistMenuLabel;
-    @FXML
-    private Label jumlahDisabilitasMenuLabel;
-    @FXML
-    private Label jumlahLowonganMenuLabel;
-    @FXML
-    private Label jumlahPerusahaanMenuLabel;
-    @FXML
-    private Button keluarButton;
-    @FXML
-    private Label lamaranKosongLabel;
-    @FXML
-    private Label lamaranMasukInfoLabel;
-    @FXML
-    private Label lamaranMasukLabel;
-    @FXML
-    private Hyperlink lihatSemuaLink;
-    @FXML
-    private ToggleButton lowonganMenu;
-    @FXML
-    private Label lowonganTersediaInfoLabel;
-    @FXML
-    private Label lowonganTersediaLabel;
-    @FXML
-    private BorderPane mainBorderPane;
-    @FXML
-    private Label namaUserLabel;
-    @FXML
-    private Label pelamarTerdaftarInfoLabel;
-    @FXML
-    private Label pelamarTerdaftarLabel;
-    @FXML
-    private Label peranUserLabel;
-    @FXML
-    private ToggleButton perusahaanMenu;
-    @FXML
-    private Label perusahaanMitraInfoLabel;
-    @FXML
-    private Label perusahaanMitraLabel;
-    @FXML
-    private Label tanggalLabel;
-    @FXML
-    private VBox tindakLanjutBox;
-    @FXML
-    private Label tindakLanjutKosongLabel;
+    @FXML private ToggleGroup adminMenuGroup;
+    @FXML private ToggleButton akunAdminMenu;
+    @FXML private ImageView avatarImage;
+    @FXML private TextField cariField;
+    @FXML private VBox daftarLamaranBox;
+    @FXML private ToggleButton dashboardMenu;
+    @FXML private ToggleButton itemChecklistMenu;
+    @FXML private ToggleButton jenisDisabilitasMenu;
+    @FXML private Label jumlahAdminMenuLabel;
+    @FXML private Label jumlahChecklistMenuLabel;
+    @FXML private Label jumlahDisabilitasMenuLabel;
+    @FXML private Label jumlahLowonganMenuLabel;
+    @FXML private Label jumlahPerusahaanMenuLabel;
+    @FXML private Button keluarButton;
+    @FXML private Label lamaranKosongLabel;
+    @FXML private Label lamaranMasukInfoLabel;
+    @FXML private Label lamaranMasukLabel;
+    @FXML private Hyperlink lihatSemuaLink;
+    @FXML private ToggleButton lowonganMenu;
+    @FXML private Label lowonganTersediaInfoLabel;
+    @FXML private Label lowonganTersediaLabel;
+    @FXML private BorderPane mainBorderPane;
+    @FXML private Label namaUserLabel;
+    @FXML private Label pelamarTerdaftarInfoLabel;
+    @FXML private Label pelamarTerdaftarLabel;
+    @FXML private Label peranUserLabel;
+    @FXML private ToggleButton perusahaanMenu;
+    @FXML private Label perusahaanMitraInfoLabel;
+    @FXML private Label perusahaanMitraLabel;
+    @FXML private Label tanggalLabel;
+    @FXML private VBox tindakLanjutBox;
+    @FXML private Label tindakLanjutKosongLabel;
 
     @FXML
     private void initialize() {
+        //pastiin admin login (noted:gy)
         if (!Session.isLoggedIn()) {
             Platform.runLater(() -> SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara"));
             return;
         }
+
         tampilkanProfil();
         loadDataDashboard();
+
+        // Simpan tampilan tengah awal supaya nanti gampang balik ke dashboard
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
     }
@@ -119,93 +91,98 @@ public class DashboardAdminController {
         peranUserLabel.setText("Admin");
     }
 
-    @FXML
-    void handleDashboardMenu(ActionEvent event) {
-        kembaliKeDashboard();
-    }
-
     private void loadDataDashboard() {
         DashboardDAO dao = new DashboardDAO();
-
         DashboardStatistik stat = dao.getStatistik();
 
+        // Isi angka kartu statistik utama
         lowonganTersediaLabel.setText(String.valueOf(stat.getLowonganTersedia()));
         lamaranMasukLabel.setText(String.valueOf(stat.getLamaranMasuk()));
         perusahaanMitraLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
         pelamarTerdaftarLabel.setText(String.valueOf(stat.getPelamarTerdaftar()));
+
+        // Isi keterangan kecil di bawah angka statistik
         lowonganTersediaInfoLabel.setText(stat.getLowonganDitutup() + " lowongan ditutup");
         lamaranMasukInfoLabel.setText(stat.getLamaranBelumDitinjau() + " belum ditinjau");
         perusahaanMitraInfoLabel.setText(stat.getPerusahaanTanpaLowongan() + " belum buka lowongan");
         pelamarTerdaftarInfoLabel.setText(stat.getPelamarAktifMelamar() + " aktif melamar");
+
+        // Isi angka badge di menu sidebar kiri
         jumlahLowonganMenuLabel.setText(String.valueOf(stat.getTotalLowongan()));
         jumlahPerusahaanMenuLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
         jumlahChecklistMenuLabel.setText(String.valueOf(stat.getTotalChecklist()));
         jumlahDisabilitasMenuLabel.setText(String.valueOf(stat.getTotalDisabilitas()));
         jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
 
-        List<LamaranTerbaru> listLamaran = dao.getLamaranTerbaru();
+        // Tampilkan daftar lamaran terbaru
+        tampilkanDaftarLamaran(dao.getLamaranTerbaru());
+    }
 
+    private void tampilkanDaftarLamaran(List<LamaranTerbaru> listLamaran) {
         daftarLamaranBox.getChildren().clear();
 
         if (listLamaran.isEmpty()) {
             lamaranKosongLabel.setVisible(true);
             lamaranKosongLabel.setManaged(true);
-        } else {
-            lamaranKosongLabel.setVisible(false);
-            lamaranKosongLabel.setManaged(false);
+            return;
+        }
 
-            for (LamaranTerbaru lamaran : listLamaran) {
-                HBox row = new HBox();
-                row.setAlignment(Pos.CENTER_LEFT);
-                row.setPrefHeight(40.0);
-                row.setSpacing(12.0);
-                row.setStyle("-fx-border-color: transparent transparent #EAECF0 transparent; -fx-padding: 0 14 0 14;");
+        lamaranKosongLabel.setVisible(false);
+        lamaranKosongLabel.setManaged(false);
 
-                Label lblNama = new Label(lamaran.getNamaPelamar());
-                lblNama.setStyle("-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 500;");
-                lblNama.setPrefWidth(120.0);
-                HBox.setHgrow(lblNama, Priority.ALWAYS);
+        for (LamaranTerbaru lamaran : listLamaran) {
+            HBox row = new HBox();
+            row.setAlignment(Pos.CENTER_LEFT);
+            row.setPrefHeight(40.0);
+            row.setSpacing(12.0);
+            row.setStyle("-fx-border-color: transparent transparent #EAECF0 transparent; -fx-padding: 0 14 0 14;");
 
-                Label lblPosisi = new Label(lamaran.getPosisi());
-                lblPosisi.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
-                lblPosisi.setPrefWidth(110.0);
+            Label lblNama = new Label(lamaran.getNamaPelamar());
+            lblNama.setStyle("-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 500;");
+            lblNama.setPrefWidth(120.0);
+            HBox.setHgrow(lblNama, Priority.ALWAYS);
 
-                Label lblTanggal = new Label(lamaran.getTanggalMasuk());
-                lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
-                lblTanggal.setPrefWidth(70.0);
+            Label lblPosisi = new Label(lamaran.getPosisi());
+            lblPosisi.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+            lblPosisi.setPrefWidth(110.0);
 
-                Label lblStatus = new Label(
-                        lamaran.getStatus().substring(0, 1).toUpperCase() + lamaran.getStatus().substring(1));
-                lblStatus.setPrefWidth(70.0);
-                lblStatus.setPadding(new Insets(2, 8, 2, 8));
-                lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " +
-                        (lamaran.getStatus().equals("diproses")
-                                ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;"
-                                : (lamaran.getStatus().equals("diterima")
-                                        ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
-                                        : "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;")));
+            Label lblTanggal = new Label(lamaran.getTanggalMasuk());
+            lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+            lblTanggal.setPrefWidth(70.0);
 
-                row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
-                daftarLamaranBox.getChildren().add(row);
+            // Ubah huruf pertama status jadi huruf besar (misal: "diproses" -> "Diproses")
+            String statusText = lamaran.getStatus();
+            String statusKapital = statusText.substring(0, 1).toUpperCase() + statusText.substring(1);
+
+            Label lblStatus = new Label(statusKapital);
+            lblStatus.setPrefWidth(70.0);
+            lblStatus.setPadding(new Insets(2, 8, 2, 8));
+
+            // Atur warna label status pakai if-else biasa
+            String warnaStatus;
+            if (statusText.equals("diproses")) {
+                warnaStatus = "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;";
+            } else if (statusText.equals("diterima")) {
+                warnaStatus = "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;";
+            } else {
+                warnaStatus = "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;";
             }
+            lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + warnaStatus);
+
+            row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
+            daftarLamaranBox.getChildren().add(row);
         }
     }
 
-    private void kembaliKeDashboard() {
-        try {
-            if (halamanDashboardAwal != null) {
-                mainBorderPane.setCenter(halamanDashboardAwal);
-            } else {
-                URL url = getClass().getResource("/com/example/projectpbokawansetara/view/DashboardAdminView.fxml");
-                Parent root = FXMLLoader.load(url);
-                if (root instanceof BorderPane bp && bp.getCenter() != null) {
-                    mainBorderPane.setCenter(bp.getCenter());
-                }
-            }
-            aturMenuAktif(dashboardMenu);
-        } catch (Exception e) {
-            e.printStackTrace();
+    // Navigasi Menu Sidebar 
+
+    @FXML
+    void handleDashboardMenu(ActionEvent event) {
+        if (halamanDashboardAwal != null) {
+            mainBorderPane.setCenter(halamanDashboardAwal);
         }
+        loadDataDashboard(); // Sekalian refresh angka statistik terbaru
+        aturMenuAktif(dashboardMenu);
     }
 
     @FXML
@@ -265,45 +242,46 @@ public class DashboardAdminController {
                 "Kamu perlu masuk lagi untuk mengelola data lowongan dan pelamar.");
     }
 
+    // Method bantu untuk ganti isi bagian tengah BorderPane
     private void tampilkanHalaman(String namaFile, ToggleButton menuTujuan) {
         try {
             String lokasi = "/com/example/projectpbokawansetara/view/" + namaFile;
             URL url = getClass().getResource(lokasi);
             if (url == null) {
-                System.err.println("FILE FXML TIDAK DITEMUKAN: " + lokasi);
+                System.err.println("File FXML tidak ditemukan: " + lokasi);
                 return;
             }
 
             FXMLLoader loader = new FXMLLoader(url);
             Parent halaman = loader.load();
 
-            if (halaman instanceof BorderPane halamanBorder && halamanBorder.getCenter() != null) {
-                mainBorderPane.setCenter(halamanBorder.getCenter());
+            // Kalau FXML tujuan berbentuk BorderPane, ambil bagian centernya aja
+            if(halaman instanceof BorderPane){
+                BorderPane bp = (BorderPane) halaman;
+                if (bp.getCenter() != null) {
+                    mainBorderPane.setCenter(bp.getCenter());
+                } else {
+                    mainBorderPane.setCenter(halaman);
+                }
             } else {
                 mainBorderPane.setCenter(halaman);
             }
 
             aturMenuAktif(menuTujuan);
-
         } catch (IOException e) {
             System.err.println("Gagal membuka halaman: " + namaFile);
             e.printStackTrace();
         }
     }
 
+    // method kasi warna pas klik
     private void aturMenuAktif(ToggleButton menuAktif) {
-        String styleAktif = "-fx-background-color: #DCE9F5;" +
-                "-fx-text-fill: #1F4E8C;" +
-                "-fx-font-weight: 600;" +
-                "-fx-background-radius: 8;";
-
-        String styleTidakAktif = "-fx-background-color: transparent;" +
-                "-fx-text-fill: #344054;" +
-                "-fx-background-radius: 8;";
+        String styleAktif = "-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8;";
+        String styleTidakAktif = "-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 8;";
 
         ToggleButton[] semuaMenu = {
-                dashboardMenu, lowonganMenu, perusahaanMenu,
-                itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
+            dashboardMenu, lowonganMenu, perusahaanMenu,
+            itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
         };
 
         for (ToggleButton menu : semuaMenu) {
