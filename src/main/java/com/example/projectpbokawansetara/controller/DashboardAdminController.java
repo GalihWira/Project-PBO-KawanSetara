@@ -211,6 +211,11 @@ public class DashboardAdminController {
     }
 
     @FXML
+    void handleBukaPerusahaan(ActionEvent event) {
+        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
+    }
+
+    @FXML
     void handleKelolaPerusahaan(ActionEvent event) {
         tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
     }
