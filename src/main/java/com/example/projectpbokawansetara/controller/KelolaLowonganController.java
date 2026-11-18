@@ -1,7 +1,18 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.IOException;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 import com.example.projectpbokawansetara.dao.LowonganDAO;
 import com.example.projectpbokawansetara.model.Lowongan;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,40 +22,70 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class KelolaLowonganController {
 
-    @FXML private TableColumn<Lowongan, Void> aksiColumn;
-    @FXML private Button berikutnyaButton;
-    @FXML private TextField cariField;
-    @FXML private TextField cariPekerjaanField;
-    @FXML private TableColumn<Lowongan, String> gajiColumn;
-    @FXML private Label infoHalamanLabel;
-    @FXML private Label infoTampilLabel;
-    @FXML private TableColumn<Lowongan, String> jenisColumn;
-    @FXML private ComboBox<String> jenisComboBox;
-    @FXML private TableColumn<Lowongan, String> lokasiColumn;
-    @FXML private ComboBox<String> lokasiComboBox;
-    @FXML private TableView<Lowongan> lowonganTable;
-    @FXML private TableColumn<Lowongan, String> pelamarColumn;
-    @FXML private TableColumn<Lowongan, String> perusahaanColumn;
-    @FXML private ComboBox<String> perusahaanComboBox;
-    @FXML private TableColumn<Lowongan, String> posisiColumn;
-    @FXML private Label ringkasanLabel;
-    @FXML private Button sebelumnyaButton;
-    @FXML private ToggleButton semuaTab;
-    @FXML private TableColumn<Lowongan, String> statusColumn;
-    @FXML private ToggleGroup statusTabGroup;
-    @FXML private Button tambahLowonganButton;
-    @FXML private ToggleButton tersediaTab;
-    @FXML private ToggleButton tidakTersediaTab;
+    @FXML
+    private TableColumn<Lowongan, Void> aksiColumn;
+    @FXML
+    private Button berikutnyaButton;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private TextField cariPekerjaanField;
+    @FXML
+    private TableColumn<Lowongan, String> gajiColumn;
+    @FXML
+    private Label infoHalamanLabel;
+    @FXML
+    private Label infoTampilLabel;
+    @FXML
+    private TableColumn<Lowongan, String> jenisColumn;
+    @FXML
+    private ComboBox<String> jenisComboBox;
+    @FXML
+    private TableColumn<Lowongan, String> lokasiColumn;
+    @FXML
+    private ComboBox<String> lokasiComboBox;
+    @FXML
+    private TableView<Lowongan> lowonganTable;
+    @FXML
+    private TableColumn<Lowongan, String> pelamarColumn;
+    @FXML
+    private TableColumn<Lowongan, String> perusahaanColumn;
+    @FXML
+    private ComboBox<String> perusahaanComboBox;
+    @FXML
+    private TableColumn<Lowongan, String> posisiColumn;
+    @FXML
+    private Label ringkasanLabel;
+    @FXML
+    private Button sebelumnyaButton;
+    @FXML
+    private ToggleButton semuaTab;
+    @FXML
+    private TableColumn<Lowongan, String> statusColumn;
+    @FXML
+    private ToggleGroup statusTabGroup;
+    @FXML
+    private Button tambahLowonganButton;
+    @FXML
+    private ToggleButton tersediaTab;
+    @FXML
+    private ToggleButton tidakTersediaTab;
 
     private final LowonganDAO lowonganDAO = new LowonganDAO();
     private List<Lowongan> semuaLowongan = new ArrayList<>();
@@ -68,12 +109,13 @@ public class KelolaLowonganController {
 
         posisiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getNamaPekerjaan()));
         perusahaanColumn.setCellValueFactory(data -> new SimpleStringProperty(
-                data.getValue().getPerusahaan() != null ? data.getValue().getPerusahaan().getNamaPerusahaan() : "-"
-        ));
+                data.getValue().getPerusahaan() != null ? data.getValue().getPerusahaan().getNamaPerusahaan() : "-"));
         lokasiColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getLokasi()));
         jenisColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJenisLowongan()));
-        gajiColumn.setCellValueFactory(data -> new SimpleStringProperty("Rp " + rupiahFormat.format(data.getValue().getGaji())));
-        pelamarColumn.setCellValueFactory(data -> new SimpleStringProperty(String.valueOf(data.getValue().getJumlahPelamar())));
+        gajiColumn.setCellValueFactory(
+                data -> new SimpleStringProperty("Rp " + rupiahFormat.format(data.getValue().getGaji())));
+        pelamarColumn.setCellValueFactory(
+                data -> new SimpleStringProperty(String.valueOf(data.getValue().getJumlahPelamar())));
 
         statusColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getStatus()));
         statusColumn.setCellFactory(col -> new TableCell<>() {
@@ -87,7 +129,7 @@ public class KelolaLowonganController {
                     boolean aktif = status.equalsIgnoreCase("tersedia");
                     badge.setStyle("-fx-font-size: 12px; -fx-padding: 2 8 2 8; -fx-background-radius: 10; " +
                             (aktif ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
-                                   : "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;"));
+                                    : "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;"));
                     setGraphic(badge);
                 }
             }
@@ -96,13 +138,9 @@ public class KelolaLowonganController {
         aksiColumn.setCellFactory(col -> new TableCell<>() {
             private final Button hapusBtn = new Button("Hapus");
             {
-                hapusBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #B42318; -fx-font-size: 12px; -fx-cursor: hand;");
-                hapusBtn.setOnAction(e -> {
-                    Lowongan item = getTableView().getItems().get(getIndex());
-                    if (lowonganDAO.hapusLowongan(item.getIdLowongan())) {
-                        loadDataLowongan();
-                    }
-                });
+                hapusBtn.setStyle(
+                        "-fx-background-color: transparent; -fx-text-fill: #B42318; -fx-font-size: 12px; -fx-cursor: hand;");
+                hapusBtn.setOnAction(e -> konfirmasiHapus(getTableView().getItems().get(getIndex())));
             }
 
             @Override
@@ -112,6 +150,45 @@ public class KelolaLowonganController {
                 setGraphic(empty ? null : hapusBtn);
             }
         });
+    }
+
+    private void konfirmasiHapus(Lowongan lowongan) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/example/projectpbokawansetara/view/HapusLowonganDialog.fxml"));
+            Parent dialog = loader.load();
+
+            HapusLowonganController controller = loader.getController();
+            controller.setData(lowongan.getNamaPekerjaan(), lowongan.getJumlahPelamar());
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(lowonganTable.getScene().getWindow());
+            stage.setTitle("Hapus Lowongan");
+            stage.setScene(new Scene(dialog));
+            stage.showAndWait();
+
+            if (!controller.isDihapus()) {
+                return;
+            }
+
+            if (lowonganDAO.hapusLowongan(lowongan.getIdLowongan())) {
+                loadDataLowongan();
+            } else {
+                tampilkanPesanGagal("Lowongan tidak bisa dihapus karena sudah punya lamaran.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            tampilkanPesanGagal("Dialog hapus gagal dibuka.");
+        }
+    }
+
+    private void tampilkanPesanGagal(String pesan) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Gagal");
+        alert.setHeaderText(null);
+        alert.setContentText(pesan);
+        alert.showAndWait();
     }
 
     public void loadDataLowongan() {
@@ -138,8 +215,10 @@ public class KelolaLowonganController {
             if (l.getPerusahaan() != null && l.getPerusahaan().getNamaPerusahaan() != null) {
                 setPerusahaan.add(l.getPerusahaan().getNamaPerusahaan());
             }
-            if (l.getJenisLowongan() != null) setJenis.add(l.getJenisLowongan());
-            if (l.getLokasi() != null) setLokasi.add(l.getLokasi());
+            if (l.getJenisLowongan() != null)
+                setJenis.add(l.getJenisLowongan());
+            if (l.getLokasi() != null)
+                setLokasi.add(l.getLokasi());
         }
 
         List<String> listPerusahaan = new ArrayList<>(List.of("Semua perusahaan"));
@@ -165,14 +244,23 @@ public class KelolaLowonganController {
         String filterLokasi = lokasiComboBox.getValue();
 
         lowonganTerfilter = semuaLowongan.stream().filter(l -> {
-            if (tersediaTab.isSelected() && !"tersedia".equalsIgnoreCase(l.getStatus())) return false;
-            if (tidakTersediaTab.isSelected() && !"tidak tersedia".equalsIgnoreCase(l.getStatus())) return false;
-            if (!keyword.isEmpty() && !l.getNamaPekerjaan().toLowerCase().contains(keyword)) return false;
+            if (tersediaTab.isSelected() && !"tersedia".equalsIgnoreCase(l.getStatus()))
+                return false;
+            if (tidakTersediaTab.isSelected() && !"tidak tersedia".equalsIgnoreCase(l.getStatus()))
+                return false;
+            if (!keyword.isEmpty() && !l.getNamaPekerjaan().toLowerCase().contains(keyword))
+                return false;
 
             String namaPerusahaan = l.getPerusahaan() != null ? l.getPerusahaan().getNamaPerusahaan() : "";
-            if (filterPerusahaan != null && !filterPerusahaan.equals("Semua perusahaan") && !filterPerusahaan.equals(namaPerusahaan)) return false;
-            if (filterJenis != null && !filterJenis.equals("Semua jenis") && !filterJenis.equalsIgnoreCase(l.getJenisLowongan())) return false;
-            if (filterLokasi != null && !filterLokasi.equals("Semua lokasi") && !filterLokasi.equalsIgnoreCase(l.getLokasi())) return false;
+            if (filterPerusahaan != null && !filterPerusahaan.equals("Semua perusahaan")
+                    && !filterPerusahaan.equals(namaPerusahaan))
+                return false;
+            if (filterJenis != null && !filterJenis.equals("Semua jenis")
+                    && !filterJenis.equalsIgnoreCase(l.getJenisLowongan()))
+                return false;
+            if (filterLokasi != null && !filterLokasi.equals("Semua lokasi")
+                    && !filterLokasi.equalsIgnoreCase(l.getLokasi()))
+                return false;
             return true;
         }).collect(Collectors.toList());
 
@@ -182,7 +270,8 @@ public class KelolaLowonganController {
     private void updateTampilanHalaman() {
         int totalData = lowonganTerfilter.size();
         int totalHalaman = Math.max(1, (int) Math.ceil((double) totalData / barisPerHalaman));
-        if (halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;
+        if (halamanSekarang > totalHalaman)
+            halamanSekarang = totalHalaman;
 
         int dariIndex = (halamanSekarang - 1) * barisPerHalaman;
         int sampaiIndex = Math.min(dariIndex + barisPerHalaman, totalData);
@@ -191,7 +280,8 @@ public class KelolaLowonganController {
             lowonganTable.setItems(FXCollections.observableArrayList());
             infoTampilLabel.setText("Menampilkan 0 dari 0");
         } else {
-            lowonganTable.setItems(FXCollections.observableArrayList(lowonganTerfilter.subList(dariIndex, sampaiIndex)));
+            lowonganTable
+                    .setItems(FXCollections.observableArrayList(lowonganTerfilter.subList(dariIndex, sampaiIndex)));
             infoTampilLabel.setText("Menampilkan " + (dariIndex + 1) + "–" + sampaiIndex + " dari " + totalData);
         }
 

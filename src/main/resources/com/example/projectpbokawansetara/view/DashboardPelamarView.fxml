@@ -102,7 +102,7 @@
                     <children>
                         <ImageView fx:id="avatarImage" fitHeight="34.0" fitWidth="34.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../../../../images/avatar.jpeg"/>
+                                <Image url="@../../../../images/icon_user.png"/>
                             </image>
                         </ImageView>
                         <VBox HBox.hgrow="ALWAYS">

@@ -1,14 +1,19 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.sql.SQLException;
+
+import com.example.projectpbokawansetara.dao.UserDAO;
+import com.example.projectpbokawansetara.model.Admin;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.KeyEvent;
-
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.KeyEvent;
 
 public class KelolaAkunAdminController {
 
@@ -24,60 +29,40 @@ public class KelolaAkunAdminController {
     @FXML
     private TableColumn<Admin, String> namaColumn;
 
-    @FXML
-    private TableColumn<Admin, String> passwordColumn;
-
-    private ObservableList <Admin> semuaAdmin=FXCollections.observableArrayList();
+    private final UserDAO userDAO = new UserDAO();
+    private final ObservableList<Admin> semuaAdmin = FXCollections.observableArrayList();
 
     @FXML
-    private void initialize (){
-        namaColumn.setCellValueFactory(new PropertyValueFactory<Admin, String>("nama"));
-        emailColumn.setCellValueFactory(new PropertyValueFactory<Admin, String>("email"));
-        passwordColumn.setCellValueFactory(new PropertyValueFactory<Admin, String>("password"));
-
-        semuaAdmin.add(new Admin("Made Satya Kinanta", "madeSatya@gmail.com", "kinanta123456"));
-        semuaAdmin.add(new Admin("I Gusti Ngurah Agung Yuda Darma", "ngurahAgung@gmail.com", "Agung123456"));
-        semuaAdmin.add(new Admin("I Wayan Galih Wira Setiawan", "galihWira@gmail.com", "galih123456"));
-        semuaAdmin.add(new Admin("Ida Ayu Intan Andini Putri", "intanAndini@gmail.com", "intan123456"));
-
-        adminTable.setItems (semuaAdmin);
+    private void initialize() {
+        namaColumn.setCellValueFactory(new PropertyValueFactory<>("nama"));
+        emailColumn.setCellValueFactory(new PropertyValueFactory<>("email"));
+        muatDataAdmin();
     }
 
-    @FXML 
-    private void handleCari (KeyEvent event){
-        String kataKunci = cariField.getText().toLowerCase();
+    private void muatDataAdmin() {
+        try {
+            semuaAdmin.setAll(userDAO.getSemuaAdmin());
+            adminTable.setItems(semuaAdmin);
+        } catch (SQLException e) {
+            adminTable.setPlaceholder(new Label("Gagal memuat data admin."));
+            e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleCari(KeyEvent event) {
+        String kataKunci = cariField.getText().trim().toLowerCase();
         ObservableList<Admin> hasilCari = FXCollections.observableArrayList();
 
-        for (Admin admin : semuaAdmin){
-            if (admin.getNama().toLowerCase().contains(kataKunci)){
+        for (Admin admin : semuaAdmin) {
+            boolean cocokNama = admin.getNama().toLowerCase().contains(kataKunci);
+            boolean cocokEmail = admin.getEmail().toLowerCase().contains(kataKunci);
+
+            if (cocokNama || cocokEmail) {
                 hasilCari.add(admin);
             }
         }
 
         adminTable.setItems(hasilCari);
-    }
-
-    public static class Admin {
-        private String nama;
-        private String email;
-        private String password;
-
-        public Admin (String nama, String email, String password){
-            this.nama = nama;
-            this.email = email;
-            this.password = password;
-        }
-
-        public String getNama(){
-            return nama;
-        }
-
-        public String getEmail(){
-            return email;
-        }
-
-        public String getPassword(){
-            return password;
-        }
     }
 }

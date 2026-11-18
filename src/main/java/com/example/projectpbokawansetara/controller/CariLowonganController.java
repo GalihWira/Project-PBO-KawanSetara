@@ -94,23 +94,22 @@ public class CariLowonganController {
     private int halamanSekarang = 1;
     private final int jumlahPerHalaman = 5;
     private List<Keahlian> keahlianPelamar = new ArrayList<>();
-    private final PelamarDAO pelamarDAO = new PelamarDAO(); 
+    private final PelamarDAO pelamarDAO = new PelamarDAO();
 
     @FXML
     private void initialize() {
         urutkanComboBox.getItems().addAll(
-            "Paling cocok",
-            "Gaji tertinggi",
-            "Gaji terendah",
-            "Nama pekerjaan A-Z"
-        );
+                "Paling cocok",
+                "Gaji tertinggi",
+                "Gaji terendah",
+                "Nama pekerjaan A-Z");
 
         urutkanComboBox.setValue("Paling cocok");
         urutkanComboBox.setOnAction(event -> terapkanFilter());
 
         muatLowongan();
         terapkanFilter();
-        
+
         kataKunciField.textProperty().addListener((observable, nilaiLama, nilaiBaru) -> {
             terapkanFilter();
         });
@@ -150,9 +149,7 @@ public class CariLowonganController {
 
         try {
             if (!gajiMinimumField.getText().isBlank()) {
-                gajiMinimum = Double.parseDouble(
-                        gajiMinimumField.getText().replaceAll("[^0-9]", "")
-                );
+                gajiMinimum = Double.parseDouble(ambilAngka(gajiMinimumField.getText()));
             }
         } catch (NumberFormatException e) {
             gajiMinimum = 0;
@@ -160,70 +157,57 @@ public class CariLowonganController {
 
         final double batasGaji = gajiMinimum;
 
-        List<String> lokasiDipilih = new ArrayList<>();
-
-        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
-            if (node instanceof CheckBox checkBox) {
-                if (checkBox.isSelected()) {
-                    lokasiDipilih.add(checkBox.getText());
-                }
-            }
-        }
+        List<String> lokasiDipilih = ambilLokasiDipilih();
 
         List<Lowongan> hasilFilter = new ArrayList<>(
-            semuaLowongan.stream().filter(lowongan -> {
-                String namaPekerjaan = lowongan.getNamaPekerjaan() != null
-                        ? lowongan.getNamaPekerjaan().toLowerCase()
-                        : "";
+                semuaLowongan.stream().filter(lowongan -> {
+                    String namaPekerjaan = lowongan.getNamaPekerjaan() != null
+                            ? lowongan.getNamaPekerjaan().toLowerCase()
+                            : "";
 
-                String namaPerusahaan = lowongan.getPerusahaan() != null
-                        && lowongan.getPerusahaan().getNamaPerusahaan() != null
-                        ? lowongan.getPerusahaan().getNamaPerusahaan().toLowerCase()
-                        : "";
+                    String namaPerusahaan = lowongan.getPerusahaan() != null
+                            && lowongan.getPerusahaan().getNamaPerusahaan() != null
+                                    ? lowongan.getPerusahaan().getNamaPerusahaan().toLowerCase()
+                                    : "";
 
-                boolean cocokKataKunci = namaPekerjaan.contains(kataKunci)
-                        || namaPerusahaan.contains(kataKunci);
+                    boolean cocokKataKunci = namaPekerjaan.contains(kataKunci)
+                            || namaPerusahaan.contains(kataKunci);
 
-                boolean cocokJenis = false;
+                    boolean cocokJenis = false;
 
-                if (fullTimeCheckBox.isSelected()
-                        && "full time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
-                    cocokJenis = true;
-                }
+                    if (fullTimeCheckBox.isSelected()
+                            && "full time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
+                        cocokJenis = true;
+                    }
 
-                if (partTimeCheckBox.isSelected()
-                        && "part time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
-                    cocokJenis = true;
-                }
+                    if (partTimeCheckBox.isSelected()
+                            && "part time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
+                        cocokJenis = true;
+                    }
 
-                boolean cocokLokasi = lokasiDipilih.isEmpty()
-                        || lokasiDipilih.stream().anyMatch(lokasi ->
-                                lokasi.equalsIgnoreCase(lowongan.getLokasi()));
+                    boolean cocokLokasi = lokasiDipilih.isEmpty()
+                            || lokasiDipilih.stream().anyMatch(lokasi -> lokasi.equalsIgnoreCase(lowongan.getLokasi()));
 
-                boolean cocokGaji = lowongan.getGaji() >= batasGaji;
-                return cocokKataKunci && cocokJenis && cocokLokasi && cocokGaji;
-            })
-            .toList()       
-        );
+                    boolean cocokGaji = lowongan.getGaji() >= batasGaji;
+                    return cocokKataKunci && cocokJenis && cocokLokasi && cocokGaji;
+                })
+                        .toList());
 
         String urutan = urutkanComboBox.getValue();
 
         if (urutan != null) {
             switch (urutan) {
                 case "Gaji tertinggi":
-                    hasilFilter.sort((a, b) ->
-                            Double.compare(b.getGaji(), a.getGaji()));
+                    hasilFilter.sort((a, b) -> Double.compare(b.getGaji(), a.getGaji()));
                     break;
 
                 case "Gaji terendah":
-                    hasilFilter.sort((a, b) ->
-                            Double.compare(a.getGaji(), b.getGaji()));
+                    hasilFilter.sort((a, b) -> Double.compare(a.getGaji(), b.getGaji()));
                     break;
 
                 case "Nama pekerjaan A-Z":
-                    hasilFilter.sort((a, b) ->
-                            a.getNamaPekerjaan().compareToIgnoreCase(
-                                    b.getNamaPekerjaan()));
+                    hasilFilter.sort((a, b) -> a.getNamaPekerjaan().compareToIgnoreCase(
+                            b.getNamaPekerjaan()));
                     break;
             }
         }
@@ -249,14 +233,12 @@ public class CariLowonganController {
     private void buatFilterLokasi() {
         lokasiFilterBox.getChildren().clear();
 
-        // Hitung jumlah per lokasi
         Map<String, Long> jumlahPerLokasi = semuaLowongan.stream()
                 .filter(l -> l.getLokasi() != null && !l.getLokasi().isBlank())
                 .collect(Collectors.groupingBy(
                         l -> l.getLokasi().trim(),
                         TreeMap::new,
-                        Collectors.counting()
-                ));
+                        Collectors.counting()));
 
         for (Map.Entry<String, Long> entry : jumlahPerLokasi.entrySet()) {
             String lokasi = entry.getKey();
@@ -296,14 +278,16 @@ public class CariLowonganController {
             avatar.setMaxWidth(44);
 
             Label nama = new Label(lowongan.getNamaPekerjaan() != null
-                    ? lowongan.getNamaPekerjaan() : "-");
+                    ? lowongan.getNamaPekerjaan()
+                    : "-");
             nama.getStyleClass().add("nama-lowongan");
             nama.setMaxWidth(Double.MAX_VALUE);
-            nama.setWrapText(false);         
-            nama.setEllipsisString("...");   
+            nama.setWrapText(false);
+            nama.setEllipsisString("...");
 
             String lokasi = (lowongan.getLokasi() != null && !lowongan.getLokasi().isBlank())
-                    ? lowongan.getLokasi() : "-";
+                    ? lowongan.getLokasi()
+                    : "-";
 
             Label perusahaanLokasi = new Label(namaPerusahaan + " · " + lokasi);
             perusahaanLokasi.getStyleClass().add("perusahaan-lowongan");
@@ -312,7 +296,7 @@ public class CariLowonganController {
 
             VBox identitas = new VBox(3, nama, perusahaanLokasi);
             identitas.setAlignment(Pos.CENTER_LEFT);
-            HBox.setHgrow(identitas, Priority.ALWAYS);   
+            HBox.setHgrow(identitas, Priority.ALWAYS);
 
             String jenisTeks = kapitalisasi(lowongan.getJenisLowongan());
             Label jenis = new Label(jenisTeks);
@@ -320,8 +304,8 @@ public class CariLowonganController {
 
             String durasiTeks = (lowongan.getDurasiKerja() != null
                     && !lowongan.getDurasiKerja().isBlank())
-                    ? lowongan.getDurasiKerja()
-                    : "Durasi belum tersedia";
+                            ? lowongan.getDurasiKerja()
+                            : "Durasi belum tersedia";
 
             Label durasi = new Label(durasiTeks);
             durasi.getStyleClass().add("detail-lowongan");
@@ -352,12 +336,12 @@ public class CariLowonganController {
             kolomCocok.setPrefWidth(95);
             kolomCocok.setMaxWidth(95);
 
-           Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
+            Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
             gaji.getStyleClass().add("gaji-lowongan");
             gaji.setAlignment(Pos.CENTER_RIGHT);
             gaji.setMaxWidth(Double.MAX_VALUE);
 
-            Label update = new Label("Baru saja"); 
+            Label update = new Label("Baru saja");
             update.getStyleClass().add("detail-lowongan");
             update.setAlignment(Pos.CENTER_RIGHT);
             update.setMaxWidth(Double.MAX_VALUE);
@@ -376,11 +360,10 @@ public class CariLowonganController {
 
             kartu.getChildren().addAll(
                     avatar,
-                    identitas,      
+                    identitas,
                     kolomJenis,
                     kolomCocok,
-                    kolomGaji
-            );
+                    kolomGaji);
 
             kartu.setOnMouseClicked(e -> {
                 if (dashboardController != null) {
@@ -406,15 +389,18 @@ public class CariLowonganController {
     }
 
     private String buatInisial(String nama) {
-        if (nama == null || nama.isBlank()) return "?";
+        if (nama == null || nama.isBlank())
+            return "?";
 
-        String[] kata = nama.trim().split("\\s+");
+        String[] kata = nama.trim().split(" ");
         StringBuilder sb = new StringBuilder();
 
         for (String k : kata) {
-            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank()) continue;
+            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank())
+                continue;
             sb.append(Character.toUpperCase(k.charAt(0)));
-            if (sb.length() >= 2) break;
+            if (sb.length() >= 2)
+                break;
         }
 
         if (sb.length() == 0) {
@@ -424,7 +410,8 @@ public class CariLowonganController {
     }
 
     private String tentukanWarnaAvatar(String nama) {
-        if (nama == null) return "avatar-biru";
+        if (nama == null)
+            return "avatar-biru";
         int hash = Math.abs(nama.hashCode() % 6);
         return switch (hash) {
             case 0 -> "avatar-biru";
@@ -437,7 +424,8 @@ public class CariLowonganController {
     }
 
     private String kapitalisasi(String teks) {
-        if (teks == null || teks.isBlank()) return "-";
+        if (teks == null || teks.isBlank())
+            return "-";
         return teks.substring(0, 1).toUpperCase() + teks.substring(1).toLowerCase();
     }
 
@@ -460,8 +448,7 @@ public class CariLowonganController {
             infoHalamanLabel.setText("Menampilkan 0 dari 0");
         } else {
             infoHalamanLabel.setText(
-                "Menampilkan " + (indeksAwal + 1) + "-" + indeksAkhir + " dari " + totalLowongan
-            );
+                    "Menampilkan " + (indeksAwal + 1) + "-" + indeksAkhir + " dari " + totalLowongan);
         }
 
         sebelumnyaButton.setDisable(halamanSekarang <= 1);
@@ -477,37 +464,34 @@ public class CariLowonganController {
             bagian.add("Part time");
         }
 
-        List<String> lokasiDipilih = new ArrayList<>();
-        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
-            if (node instanceof HBox hbox) {
-                for (javafx.scene.Node child : hbox.getChildren()) {
-                    if (child instanceof CheckBox cb && cb.isSelected()) {
-                        lokasiDipilih.add(cb.getText());
-                    }
-                }
-            }
-        }
+        List<String> lokasiDipilih = ambilLokasiDipilih();
         if (!lokasiDipilih.isEmpty()) {
             bagian.add(String.join(", ", lokasiDipilih));
         }
 
-        String gajiTeks = gajiMinimumField.getText().replaceAll("[^0-9]", "");
+        String gajiTeks = ambilAngka(gajiMinimumField.getText());
         if (!gajiTeks.isBlank() && !gajiTeks.equals("0")) {
-            bagian.add("min. Rp" + NumberFormat.getInstance(new Locale("id", "ID")).format(Long.parseLong(gajiTeks)));
+            try {
+                bagian.add(
+                        "min. Rp" + NumberFormat.getInstance(new Locale("id", "ID")).format(Long.parseLong(gajiTeks)));
+            } catch (NumberFormatException e) {
+                bagian.add("gaji tidak valid");
+            }
         }
 
-        if (bagian.isEmpty()) return "";
+        if (bagian.isEmpty())
+            return "";
         return " · " + String.join(" · ", bagian);
     }
 
     private int[] hitungSkorKecocokan(Lowongan lowongan) {
         List<Keahlian> dibutuhkan = lowongan.getDaftarKeahlian();
         if (dibutuhkan == null || dibutuhkan.isEmpty()) {
-            return new int[]{0, 0};
+            return new int[] { 0, 0 };
         }
 
         if (keahlianPelamar == null || keahlianPelamar.isEmpty()) {
-            return new int[]{0, dibutuhkan.size()};
+            return new int[] { 0, dibutuhkan.size() };
         }
 
         java.util.Set<Integer> idKeahlianPelamar = new java.util.HashSet<>();
@@ -522,7 +506,7 @@ public class CariLowonganController {
             }
         }
 
-        return new int[]{jumlahCocok, dibutuhkan.size()};
+        return new int[] { jumlahCocok, dibutuhkan.size() };
     }
 
     @FXML
@@ -538,10 +522,8 @@ public class CariLowonganController {
         fullTimeCheckBox.setSelected(true);
         partTimeCheckBox.setSelected(false);
 
-        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
-            if (node instanceof CheckBox checkBox) {
-                checkBox.setSelected(false);
-            }
+        for (CheckBox checkBox : ambilCheckBoxLokasi()) {
+            checkBox.setSelected(false);
         }
 
         urutkanComboBox.setValue("Paling cocok");
@@ -560,12 +542,45 @@ public class CariLowonganController {
     @FXML
     private void handleBerikutnya(ActionEvent event) {
         int totalHalaman = (int) Math.ceil(
-                (double) hasilFilterSaatIni.size() / jumlahPerHalaman
-        );
+                (double) hasilFilterSaatIni.size() / jumlahPerHalaman);
 
         if (halamanSekarang < totalHalaman) {
             halamanSekarang++;
             tampilkanHalaman();
         }
+    }
+
+    private List<CheckBox> ambilCheckBoxLokasi() {
+        List<CheckBox> daftarCheckBox = new ArrayList<>();
+        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
+            if (node instanceof HBox baris) {
+                for (javafx.scene.Node anak : baris.getChildren()) {
+                    if (anak instanceof CheckBox checkBox) {
+                        daftarCheckBox.add(checkBox);
+                    }
+                }
+            }
+        }
+        return daftarCheckBox;
+    }
+
+    private List<String> ambilLokasiDipilih() {
+        List<String> lokasiDipilih = new ArrayList<>();
+        for (CheckBox checkBox : ambilCheckBoxLokasi()) {
+            if (checkBox.isSelected()) {
+                lokasiDipilih.add(checkBox.getText());
+            }
+        }
+        return lokasiDipilih;
+    }
+
+    private String ambilAngka(String teks) {
+        StringBuilder angka = new StringBuilder();
+        for (char c : teks.toCharArray()) {
+            if (Character.isDigit(c)) {
+                angka.append(c);
+            }
+        }
+        return angka.toString();
     }
 }

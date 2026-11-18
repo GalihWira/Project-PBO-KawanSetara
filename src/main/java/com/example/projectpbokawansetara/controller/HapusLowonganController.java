@@ -22,28 +22,28 @@ public class HapusLowonganController {
 
     private boolean dihapus = false;
 
-    public void setData(String namaLowongan, int jumlahLamaran){
-        judulLabel.setText("Apakah Anda Ingin Menghapus Lowongan " + namaLowongan + "Ini ?" );
-        pesanLabel.setText(jumlahLamaran + "Lamaran yang Terkait pada Lowongan Ini ...");
+    public void setData(String namaLowongan, int jumlahLamaran) {
+        judulLabel.setText("Apakah Anda ingin menghapus lowongan " + namaLowongan + "?");
+        pesanLabel.setText(jumlahLamaran + " lamaran terkait lowongan ini.");
     }
 
-    public boolean isDihapus(){
+    public boolean isDihapus() {
         return dihapus;
     }
 
-    @FXML 
-    void handleBatal (ActionEvent event){
+    @FXML
+    void handleBatal(ActionEvent event) {
         dihapus = false;
         tutupDialog();
     }
 
-    @FXML 
-    void handleHapus (ActionEvent event){
+    @FXML
+    void handleHapus(ActionEvent event) {
         dihapus = true;
         tutupDialog();
     }
 
-    private void tutupDialog(){
+    private void tutupDialog() {
         Stage stage = (Stage) batalButton.getScene().getWindow();
         stage.close();
     }

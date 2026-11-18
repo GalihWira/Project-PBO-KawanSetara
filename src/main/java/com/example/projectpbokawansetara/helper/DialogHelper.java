@@ -15,11 +15,7 @@ import javafx.stage.Window;
 
 public class DialogHelper {
 
-    private static final String PATH_DIALOG_KELUAR =
-            "/com/example/projectpbokawansetara/view/KeluarDialog.fxml";
-
-    private static final String PATH_LOGIN =
-            "/com/example/projectpbokawansetara/view/LoginView.fxml";
+    private static final String PATH_DIALOG_KELUAR = "/com/example/projectpbokawansetara/view/KeluarDialog.fxml";
 
     public static void tampilkanDialogKeluar(Window owner, String pesan) {
         try {
@@ -43,8 +39,7 @@ public class DialogHelper {
             StackPane overlay = new StackPane();
 
             pembungkus.getStylesheets().add(
-                    DialogHelper.class.getResource("/css/style.css").toExternalForm()
-            );
+                    DialogHelper.class.getResource("/css/style.css").toExternalForm());
 
             overlay.getStyleClass().add("overlay-dialog");
 
@@ -53,8 +48,7 @@ public class DialogHelper {
             if (root instanceof Region) {
                 ((Region) root).setMaxSize(
                         Region.USE_PREF_SIZE,
-                        Region.USE_PREF_SIZE
-                );
+                        Region.USE_PREF_SIZE);
             }
 
             overlay.getChildren().add(root);
@@ -63,8 +57,7 @@ public class DialogHelper {
 
             pembungkus.getChildren().addAll(
                     halamanAwal,
-                    overlay
-            );
+                    overlay);
 
             Runnable tutupOverlay = () -> {
                 pembungkus.getChildren().clear();
@@ -76,7 +69,7 @@ public class DialogHelper {
             controller.setOnKeluar(() -> {
                 Session.logout();
                 tutupOverlay.run();
-                kembaliKeLogin(owner);
+                kembaliKeLogin();
             });
 
         } catch (IOException | NullPointerException e) {
@@ -85,21 +78,7 @@ public class DialogHelper {
         }
     }
 
-    private static void kembaliKeLogin(Window owner) {
-        try {
-            Parent root = FXMLLoader.load(
-                    DialogHelper.class.getResource(PATH_LOGIN));
-
-            Stage stage = (Stage) owner;
-
-            stage.setScene(new Scene(root));
-            stage.setTitle("Masuk - KawanSetara");
-            stage.sizeToScene();
-            stage.centerOnScreen();
-
-        } catch (IOException | NullPointerException e) {
-            System.err.println("Gagal membuka halaman login: " + PATH_LOGIN);
-            e.printStackTrace();
-        }
+    private static void kembaliKeLogin() {
+        SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara");
     }
 }
