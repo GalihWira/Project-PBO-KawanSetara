@@ -127,7 +127,7 @@
                     </cursor>
                 </ToggleButton>
                 <Label style="-fx-text-fill: #98A2B3; -fx-font-size: 11px; -fx-font-weight: 600; -fx-padding: 12 10 4 10;" text="PENGATURAN" />
-                <ToggleButton fx:id="akunAdminMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onMouseClicked="#handleAkunAdmin" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
+                <ToggleButton fx:id="akunAdminMenu" alignment="CENTER_LEFT" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#handleAkunAdmin" prefHeight="30.0" style="-fx-background-color: transparent; -fx-background-radius: 8; -fx-padding: 0 12;" toggleGroup="$adminMenuGroup">
                     <graphic>
                         <HBox alignment="CENTER_LEFT" prefWidth="188.0" spacing="12.0">
                             <children>
