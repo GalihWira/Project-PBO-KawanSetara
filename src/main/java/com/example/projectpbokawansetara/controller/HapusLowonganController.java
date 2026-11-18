@@ -24,7 +24,13 @@ public class HapusLowonganController {
 
     public void setData(String namaLowongan, int jumlahLamaran) {
         judulLabel.setText("Apakah Anda ingin menghapus lowongan " + namaLowongan + "?");
-        pesanLabel.setText(jumlahLamaran + " lamaran terkait lowongan ini.");
+        if (jumlahLamaran > 0) {
+            pesanLabel.setText("Lowongan ini sudah punya " + jumlahLamaran + " lamaran, jadi tidak bisa dihapus.");
+            hapusButton.setDisable(true);
+        } else {
+            pesanLabel.setText("Belum ada lamaran untuk lowongan ini.");
+            hapusButton.setDisable(false);
+        }
     }
 
     public boolean isDihapus() {
