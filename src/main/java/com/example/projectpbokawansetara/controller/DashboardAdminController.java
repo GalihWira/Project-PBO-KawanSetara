@@ -10,6 +10,7 @@ import com.example.projectpbokawansetara.helper.SceneManager;
 import com.example.projectpbokawansetara.model.DashboardStatistik;
 import com.example.projectpbokawansetara.model.LamaranTerbaru;
 import com.example.projectpbokawansetara.model.Session;
+import com.example.projectpbokawansetara.model.User;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -109,6 +110,12 @@ public class DashboardAdminController {
         loadDataDashboard();
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
+    }
+
+    private void tampilkanProfil() {
+        User user = Session.getCurrentUser();
+        namaUserLabel.setText(user.getNama());
+        peranUserLabel.setText("Admin");
     }
 
     @FXML
