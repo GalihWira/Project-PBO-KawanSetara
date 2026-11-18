@@ -13,9 +13,8 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.example.projectpbokawansetara.dao.KoneksiDB;
-import com.example.projectpbokawansetara.model.Pelamar;
 import com.example.projectpbokawansetara.model.Keahlian;
+import com.example.projectpbokawansetara.model.Pelamar;
 
 public class PelamarDAO {
 
@@ -86,8 +85,8 @@ public class PelamarDAO {
 
         String sql = """
             SELECT k.id_keahlian, k.nama_keahlian
-            FROM pelamar_keahlian pk
-            JOIN keahlian k ON pk.id_keahlian = k.id_keahlian
+            FROM Pelamar_Keahlian pk
+            JOIN Keahlian k ON pk.id_keahlian = k.id_keahlian
             WHERE pk.id_pelamar = ?
         """;
 
