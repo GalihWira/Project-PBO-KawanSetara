@@ -13,6 +13,7 @@ import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Perusahaan;
 import com.example.projectpbokawansetara.model.Session;
 
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -134,6 +135,19 @@ public class FormLowonganController {
             }
         }
         updateJumlahDipilih();
+        gajiField.textProperty().addListener((obs, lama, baru) -> {
+            String angka = baru.replace(".", "");
+            if (!ValidasiHelper.gajiValid(angka)) {
+                return;
+            }
+            String rapi = formatRibuan(angka);
+            if (!rapi.equals(baru)) {
+                Platform.runLater(() -> {
+                    gajiField.setText(rapi);
+                    gajiField.positionCaret(rapi.length());
+                });
+            }
+        });
     }
 
     private void updateJumlahDipilih() {
@@ -175,7 +189,7 @@ public class FormLowonganController {
         }
 
         double gaji = 0;
-        String gajiStr = gajiField.getText().trim();
+        String gajiStr = gajiField.getText().trim().replace(".", "");
         if (ValidasiHelper.gajiValid(gajiStr)) {
             gaji = Double.parseDouble(gajiStr);
             tampilkanError(gajiErrorLabel, false);
@@ -269,5 +283,18 @@ public class FormLowonganController {
             System.err.println("Gagal pindah ke: " + fxmlPath);
             e.printStackTrace();
         }
+    }
+
+    private String formatRibuan(String angka) {
+        StringBuilder hasil = new StringBuilder();
+        int hitung = 0;
+        for (int i = angka.length() - 1; i >= 0; i--) {
+            hasil.insert(0, angka.charAt(i));
+            hitung++;
+            if (hitung % 3 == 0 && i > 0) {
+                hasil.insert(0, '.');
+            }
+        }
+        return hasil.toString();
     }
 }
