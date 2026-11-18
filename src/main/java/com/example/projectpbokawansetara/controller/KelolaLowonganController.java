@@ -1,7 +1,18 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.IOException;
+import java.net.URL;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Set;
+import java.util.TreeSet;
+import java.util.stream.Collectors;
+
 import com.example.projectpbokawansetara.dao.LowonganDAO;
 import com.example.projectpbokawansetara.model.Lowongan;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -11,13 +22,19 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
-
-import java.net.URL;
-import java.text.NumberFormat;
-import java.util.*;
-import java.util.stream.Collectors;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class KelolaLowonganController {
 
@@ -97,12 +114,7 @@ public class KelolaLowonganController {
             private final Button hapusBtn = new Button("Hapus");
             {
                 hapusBtn.setStyle("-fx-background-color: transparent; -fx-text-fill: #B42318; -fx-font-size: 12px; -fx-cursor: hand;");
-                hapusBtn.setOnAction(e -> {
-                    Lowongan item = getTableView().getItems().get(getIndex());
-                    if (lowonganDAO.hapusLowongan(item.getIdLowongan())) {
-                        loadDataLowongan();
-                    }
-                });
+                hapusBtn.setOnAction(e -> konfirmasiHapus(getTableView().getItems().get(getIndex())));
             }
 
             @Override
@@ -112,6 +124,44 @@ public class KelolaLowonganController {
                 setGraphic(empty ? null : hapusBtn);
             }
         });
+    }
+        private void konfirmasiHapus(Lowongan lowongan) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/example/projectpbokawansetara/view/HapusLowonganDialog.fxml"));
+            Parent dialog = loader.load();
+
+            HapusLowonganController controller = loader.getController();
+            controller.setData(lowongan.getNamaPekerjaan(), lowongan.getJumlahPelamar());
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initOwner(lowonganTable.getScene().getWindow());
+            stage.setTitle("Hapus Lowongan");
+            stage.setScene(new Scene(dialog));
+            stage.showAndWait();
+
+            if (!controller.isDihapus()) {
+                return;
+            }
+
+            if (lowonganDAO.hapusLowongan(lowongan.getIdLowongan())) {
+                loadDataLowongan();
+            } else {
+                tampilkanPesanGagal("Lowongan tidak bisa dihapus karena sudah punya lamaran.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            tampilkanPesanGagal("Dialog hapus gagal dibuka.");
+        }
+    }
+
+    private void tampilkanPesanGagal(String pesan) {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Gagal");
+        alert.setHeaderText(null);
+        alert.setContentText(pesan);
+        alert.showAndWait();
     }
 
     public void loadDataLowongan() {
@@ -178,8 +228,7 @@ public class KelolaLowonganController {
 
         updateTampilanHalaman();
     }
-
-    private void updateTampilanHalaman() {
+        private void updateTampilanHalaman() {
         int totalData = lowonganTerfilter.size();
         int totalHalaman = Math.max(1, (int) Math.ceil((double) totalData / barisPerHalaman));
         if (halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;

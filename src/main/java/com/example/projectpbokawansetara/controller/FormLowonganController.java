@@ -1,8 +1,17 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.model.Admin;
 import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Perusahaan;
+import com.example.projectpbokawansetara.model.Session;
+
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -10,47 +19,77 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
 public class FormLowonganController {
 
-    @FXML private Button batalButton;
-    @FXML private Label breadcrumbLabel;
-    @FXML private TextField cariField;
-    @FXML private TextArea deskripsiArea;
-    @FXML private HBox errorBanner;
-    @FXML private Label errorBannerLabel;
-    @FXML private RadioButton fullTimeRadio;
-    @FXML private HBox gajiBox;
-    @FXML private Label gajiErrorLabel;
-    @FXML private TextField gajiField;
-    @FXML private ToggleGroup jenisGroup;
-    @FXML private Label judulHalamanLabel;
-    @FXML private Label jumlahDipilihLabel;
-    @FXML private GridPane keahlianGrid;
-    @FXML private Label lokasiErrorLabel;
-    @FXML private TextField lokasiField;
-    @FXML private HBox namaPekerjaanBox;
-    @FXML private Label namaPekerjaanErrorLabel;
-    @FXML private TextField namaPekerjaanField;
-    @FXML private RadioButton partTimeRadio;
-    @FXML private TextArea persyaratanArea;
-    @FXML private Label persyaratanErrorLabel;
-    @FXML private ComboBox<Perusahaan> perusahaanComboBox;
-    @FXML private Label perusahaanErrorLabel;
-    @FXML private Button simpanButton;
-    @FXML private ToggleGroup statusGroup;
-    @FXML private RadioButton tersediaRadio;
-    @FXML private RadioButton tidakTersediaRadio;
+    @FXML
+    private Button batalButton;
+    @FXML
+    private Label breadcrumbLabel;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private TextArea deskripsiArea;
+    @FXML
+    private HBox errorBanner;
+    @FXML
+    private Label errorBannerLabel;
+    @FXML
+    private RadioButton fullTimeRadio;
+    @FXML
+    private HBox gajiBox;
+    @FXML
+    private Label gajiErrorLabel;
+    @FXML
+    private TextField gajiField;
+    @FXML
+    private ToggleGroup jenisGroup;
+    @FXML
+    private Label judulHalamanLabel;
+    @FXML
+    private Label jumlahDipilihLabel;
+    @FXML
+    private GridPane keahlianGrid;
+    @FXML
+    private Label lokasiErrorLabel;
+    @FXML
+    private TextField lokasiField;
+    @FXML
+    private HBox namaPekerjaanBox;
+    @FXML
+    private Label namaPekerjaanErrorLabel;
+    @FXML
+    private TextField namaPekerjaanField;
+    @FXML
+    private RadioButton partTimeRadio;
+    @FXML
+    private TextArea persyaratanArea;
+    @FXML
+    private Label persyaratanErrorLabel;
+    @FXML
+    private ComboBox<Perusahaan> perusahaanComboBox;
+    @FXML
+    private Label perusahaanErrorLabel;
+    @FXML
+    private Button simpanButton;
+    @FXML
+    private ToggleGroup statusGroup;
+    @FXML
+    private RadioButton tersediaRadio;
+    @FXML
+    private RadioButton tidakTersediaRadio;
 
     private final LowonganDAO lowonganDAO = new LowonganDAO();
     private final Map<CheckBox, Integer> keahlianCheckMap = new LinkedHashMap<>();
@@ -137,9 +176,11 @@ public class FormLowonganController {
         double gaji = 0;
         String gajiStr = gajiField.getText().trim();
         try {
-            if (gajiStr.isEmpty()) throw new NumberFormatException();
+            if (gajiStr.isEmpty())
+                throw new NumberFormatException();
             gaji = Double.parseDouble(gajiStr);
-            if (gaji < 0) throw new NumberFormatException();
+            if (gaji < 0)
+                throw new NumberFormatException();
             tampilkanError(gajiErrorLabel, false);
         } catch (NumberFormatException e) {
             tampilkanError(gajiErrorLabel, true);
@@ -165,16 +206,21 @@ public class FormLowonganController {
         errorBanner.setManaged(false);
 
         Lowongan lowongan = new Lowongan(
-            0,
-            perusahaanTerpilih,
-            namaPekerjaan,
-            deskripsiArea.getText().trim(),
-            lokasi,
-            gaji,
-            fullTimeRadio.isSelected() ? "full time" : "part time",
-            tersediaRadio.isSelected() ? "tersedia" : "tidak tersedia"
-        );
-        lowongan.setIdAdmin(1);
+                0,
+                perusahaanTerpilih,
+                namaPekerjaan,
+                deskripsiArea.getText().trim(),
+                lokasi,
+                gaji,
+                fullTimeRadio.isSelected() ? "full time" : "part time",
+                tersediaRadio.isSelected() ? "tersedia" : "tidak tersedia");
+        if (!(Session.getCurrentUser() instanceof Admin admin)) {
+            errorBannerLabel.setText("Sesi admin berakhir, silakan masuk lagi.");
+            errorBanner.setVisible(true);
+            errorBanner.setManaged(true);
+            return;
+        }
+        lowongan.setIdAdmin(admin.getIdPengguna());
         lowongan.setPersyaratan(persyaratan);
 
         List<Integer> selectedKeahlianIds = new ArrayList<>();
