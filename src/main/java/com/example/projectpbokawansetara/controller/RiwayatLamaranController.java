@@ -31,6 +31,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class RiwayatLamaranController {
+    private DashboardPelamarController dashboardController;
 
     @FXML private VBox daftarLamaranBox;
     @FXML private Label kosongLabel;
@@ -77,8 +78,11 @@ public class RiwayatLamaranController {
         }
     }
 
+    public void setDashboardController(DashboardPelamarController dashboardController) {
+        this.dashboardController = dashboardController;
+    }
+
     private void perbaruiJumlahTab() {
-        // Format tanpa tanda kurung, sesuai desain yang diinginkan
         semuaTab.setText("Semua " + daftarLamaran.size());
         diprosesTab.setText("Diproses " + hitungStatus("diproses"));
         ditinjauTab.setText("Ditinjau " + hitungStatus("ditinjau"));
@@ -321,24 +325,8 @@ public class RiwayatLamaranController {
     }
 
     private void bukaDetailLowongan(Lowongan lowongan) {
-        try {
-            String lokasiFXML =
-                    "/com/example/projectpbokawansetara/view/DetailLowonganView.fxml";
-
-            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasiFXML));
-            Parent halamanDetail = loader.load();
-
-            DetailLowonganController controller = loader.getController();
-            controller.setLowongan(lowongan);
-
-            Scene scene = daftarLamaranBox.getScene();
-            Parent halamanSebelumnya = scene.getRoot();
-
-            controller.setAksiKembali(() -> scene.setRoot(halamanSebelumnya));
-            scene.setRoot(halamanDetail);
-
-        } catch (IOException | NullPointerException e) {
-            e.printStackTrace();
+        if (dashboardController != null) {
+            dashboardController.bukaDetailLowongan(lowongan);
         }
     }
 }

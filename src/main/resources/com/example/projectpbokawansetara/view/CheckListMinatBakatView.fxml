@@ -43,9 +43,9 @@
 
                     <HBox
                         alignment="CENTER_LEFT"
-                        minWidth="268.0"
-                        prefWidth="268.0"
-                        maxWidth="268.0"
+                        minWidth="180.0"
+                        prefWidth="260.0"
+                        maxWidth="320.0"
                         minHeight="30.0"
                         prefHeight="30.0"
                         maxHeight="30.0"
@@ -80,7 +80,7 @@
                 VBox.vgrow="ALWAYS">
 
                 <content>
-                    <VBox styleClass="halaman-checklist">
+                    <VBox styleClass="halaman-checklist" maxWidth="Infinity">
 
                         <padding>
                             <Insets bottom="24.0" left="24.0" right="24.0" top="20.0"/>
@@ -105,7 +105,8 @@
                                 managed="false"
                                 spacing="10.0"
                                 styleClass="banner-error"
-                                visible="false">
+                                visible="false"
+                                maxWidth="Infinity">
 
                                 <VBox.margin>
                                     <Insets top="20.0"/>
@@ -147,7 +148,8 @@
 
                             <VBox
                                 fx:id="kategoriContainer"
-                                styleClass="halaman-checklist">
+                                styleClass="halaman-checklist"
+                                maxWidth="Infinity">
 
                                 <VBox.margin>
                                     <Insets top="16.0"/>
@@ -157,14 +159,14 @@
                                     <Label
                                         fx:id="checklistKosongLabel"
                                         managed="false"
-                                        maxWidth="1.7976931348623157E308"
+                                        maxWidth="Infinity"
                                         styleClass="checklist-kosong"
                                         text="Belum ada item checklist dari admin"
                                         visible="false"/>
                                 </children>
                             </VBox>
 
-                            <HBox alignment="CENTER_LEFT" spacing="8.0">
+                            <HBox alignment="CENTER_LEFT" spacing="8.0" maxWidth="Infinity">
 
                                 <VBox.margin>
                                     <Insets top="16.0"/>
