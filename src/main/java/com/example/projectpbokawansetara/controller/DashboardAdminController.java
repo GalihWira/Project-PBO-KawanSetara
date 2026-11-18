@@ -107,6 +107,7 @@ public class DashboardAdminController {
             Platform.runLater(() -> SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara"));
             return;
         }
+        tampilkanProfil();
         loadDataDashboard();
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);

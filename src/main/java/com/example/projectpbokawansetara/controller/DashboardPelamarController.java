@@ -65,7 +65,7 @@ public class DashboardPelamarController {
             Platform.runLater(() -> SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara"));
             return;
         }
-
+        tampilkanProfil();
         halamanBeranda = mainBorderPane.getCenter();
         aturMenuAktif(berandaMenu);
     }
