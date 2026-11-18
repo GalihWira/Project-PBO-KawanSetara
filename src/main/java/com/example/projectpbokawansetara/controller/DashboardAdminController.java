@@ -1,28 +1,24 @@
 package com.example.projectpbokawansetara.controller;
 
-import com.example.projectpbokawansetara.dao.DashboardDAO;
-import com.example.projectpbokawansetara.model.DashboardStatistik;
-import com.example.projectpbokawansetara.model.LamaranTerbaru;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.control.Label;
-import java.util.List;
-
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 
+import com.example.projectpbokawansetara.dao.DashboardDAO;
 import com.example.projectpbokawansetara.helper.DialogHelper;
+import com.example.projectpbokawansetara.helper.SceneManager;
+import com.example.projectpbokawansetara.model.DashboardStatistik;
+import com.example.projectpbokawansetara.model.LamaranTerbaru;
 import com.example.projectpbokawansetara.model.Session;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
@@ -32,8 +28,9 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
-import javafx.stage.Stage;
 
 public class DashboardAdminController {
 
@@ -75,25 +72,7 @@ public class DashboardAdminController {
     @FXML
     private void initialize() {
         if (!Session.isLoggedIn()) {
-            Platform.runLater(() -> {
-                try {
-                    Parent root = FXMLLoader.load(
-                        getClass().getResource(
-                            "/com/example/projectpbokawansetara/view/LoginView.fxml"
-                        )
-                    );
-
-                    Stage stage = (Stage) mainBorderPane.getScene().getWindow();
-                    stage.setScene(new Scene(root));
-                    stage.setTitle("Masuk - KawanSetara");
-                    stage.sizeToScene();
-                    stage.centerOnScreen();
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
-
+            Platform.runLater(() -> SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara"));
             return;
         }
         loadDataDashboard();
@@ -101,7 +80,6 @@ public class DashboardAdminController {
         aturMenuAktif(dashboardMenu);
     }
 
-    // Dashboard
     @FXML
     void handleDashboardMenu(ActionEvent event) {
         kembaliKeDashboard();
@@ -114,9 +92,9 @@ public class DashboardAdminController {
 
     private void loadDataDashboard() {
         DashboardDAO dao = new DashboardDAO();
-    
+
         DashboardStatistik stat = dao.getStatistik();
-        
+
         lowonganTersediaLabel.setText(String.valueOf(stat.getLowonganTersedia()));
         lamaranMasukLabel.setText(String.valueOf(stat.getLamaranMasuk()));
         perusahaanMitraLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
@@ -132,8 +110,8 @@ public class DashboardAdminController {
         jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
 
         List<LamaranTerbaru> listLamaran = dao.getLamaranTerbaru();
-        
-        daftarLamaranBox.getChildren().clear(); 
+
+        daftarLamaranBox.getChildren().clear();
 
         if (listLamaran.isEmpty()) {
             lamaranKosongLabel.setVisible(true);
@@ -152,7 +130,7 @@ public class DashboardAdminController {
                 Label lblNama = new Label(lamaran.getNamaPelamar());
                 lblNama.setStyle("-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 500;");
                 lblNama.setPrefWidth(120.0);
-                HBox.setHgrow(lblNama, Priority.ALWAYS); // Biar responsif mengikuti header
+                HBox.setHgrow(lblNama, Priority.ALWAYS);
 
                 Label lblPosisi = new Label(lamaran.getPosisi());
                 lblPosisi.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
@@ -165,9 +143,9 @@ public class DashboardAdminController {
                 Label lblStatus = new Label(lamaran.getStatus().substring(0, 1).toUpperCase() + lamaran.getStatus().substring(1));
                 lblStatus.setPrefWidth(70.0);
                 lblStatus.setPadding(new Insets(2, 8, 2, 8));
-                lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + 
-                    (lamaran.getStatus().equals("diproses") ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;" : 
-                    (lamaran.getStatus().equals("diterima") ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;" : 
+                lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " +
+                    (lamaran.getStatus().equals("diproses") ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;" :
+                    (lamaran.getStatus().equals("diterima") ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;" :
                     "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;")));
 
                 row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
@@ -192,7 +170,7 @@ public class DashboardAdminController {
             e.printStackTrace();
         }
     }
-    // Lowongan
+
     @FXML
     void handleBukaLowongan(ActionEvent event) {
         tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
@@ -203,7 +181,6 @@ public class DashboardAdminController {
         tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
     }
 
-    // Perusahaan
     @FXML
     void handleBukaPerusahaan(ActionEvent event) {
         tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
@@ -219,7 +196,6 @@ public class DashboardAdminController {
         tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
     }
 
-    // Item Cheklist
     @FXML
     void handleBukaItemChecklist(ActionEvent event) {
         tampilkanHalaman("KelolaChecklistView.fxml", itemChecklistMenu);
@@ -230,7 +206,6 @@ public class DashboardAdminController {
         tampilkanHalaman("KelolaChecklistView.fxml", itemChecklistMenu);
     }
 
-    // Jenis disabilitas
     @FXML
     void handleBukaDisabilitas(ActionEvent event) {
         tampilkanHalaman("KelolaDisabilitasView.fxml", jenisDisabilitasMenu);
@@ -241,7 +216,6 @@ public class DashboardAdminController {
         tampilkanHalaman("KelolaDisabilitasView.fxml", jenisDisabilitasMenu);
     }
 
-    // --- AKUN ADMIN ---
     @FXML
     void handleAkunAdmin(ActionEvent event) {
         tampilkanHalaman("KelolaAkunAdminView.fxml", akunAdminMenu);
@@ -252,7 +226,6 @@ public class DashboardAdminController {
         tampilkanHalaman("KelolaAkunAdminView.fxml", akunAdminMenu);
     }
 
-    // --- KELUAR ---
     @FXML
     void handleKeluar(ActionEvent event) {
         DialogHelper.tampilkanDialogKeluar(
