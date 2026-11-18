@@ -121,7 +121,9 @@ INSERT INTO Perusahaan (nama_perusahaan, alamat, email, no_telepon, deskripsi) V
 ('PT Contoh Inklusif', 'Jl. Raya Kampus Unud, Jimbaran, Bali', 'hrd@contohinklusif.com', '0361123456', 'Perusahaan contoh untuk data awal');
 
 INSERT INTO Lowongan (id_admin, id_perusahaan, nama_pekerjaan, deskripsi, gaji, lokasi, durasi_kerja, jenis_lowongan, persyaratan) VALUES
-(1, 1, 'Staf Administrasi', 'Mengelola data dan dokumen kantor', 3500000.00, 'Denpasar', '8 jam/hari', 'full time', 'Bisa mengoperasikan komputer');
+(1, 1, 'Staf Administrasi', 'Mengelola data dan dokumen kantor', 3500000.00, 'Denpasar', '8 jam/hari', 'full time', 'Bisa mengoperasikan komputer'),
+(1, 1, 'Desainer Grafis', 'Membuat desain konten', 4000000, 'Badung', '6 jam/hari', 'full time', 'Bisa Canva'),
+(1, 1, 'Penulis Konten', 'Menulis artikel', 2500000, 'Gianyar', '4 jam/hari', 'part time', 'Bisa menulis');
 
 INSERT INTO Lowongan_Keahlian (id_lowongan, id_keahlian) VALUES
 (1, 1);

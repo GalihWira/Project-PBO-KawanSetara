@@ -14,3 +14,5 @@ Thumbs.db
 # Password MySQL per laptop
 db.properties
 .vscode/
+
+*.session.sql
