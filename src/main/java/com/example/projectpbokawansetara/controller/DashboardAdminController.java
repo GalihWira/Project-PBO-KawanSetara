@@ -26,7 +26,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -213,11 +212,6 @@ public class DashboardAdminController {
 
     @FXML
     void handleKelolaPerusahaan(ActionEvent event) {
-        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
-    }
-
-    @FXML
-    void handleBukaPerusahaanMouse(MouseEvent event) {
         tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
     }
 
