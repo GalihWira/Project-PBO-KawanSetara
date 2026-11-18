@@ -141,6 +141,7 @@ public class DialogHelper {
         } catch (IOException | NullPointerException e) {
             System.err.println("Gagal membuka dialog: " + PATH_DIALOG_LOWONGAN_BERHASIL);
             e.printStackTrace();
+            onLihatDaftar.run();
         }
     }
 }

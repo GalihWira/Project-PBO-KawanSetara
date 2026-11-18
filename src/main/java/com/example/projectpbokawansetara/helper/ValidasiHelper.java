@@ -92,7 +92,7 @@ public class ValidasiHelper {
     }
 
     public static boolean gajiValid(String gaji) {
-        if (gaji == null || gaji.isEmpty() || gaji.length() > 12) {
+        if (gaji == null || gaji.isEmpty() || gaji.length() > 10) {
             return false;
         }
         return semuaAngka(gaji);
