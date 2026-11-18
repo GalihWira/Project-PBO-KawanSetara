@@ -1,6 +1,5 @@
 package com.example.projectpbokawansetara.controller;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -15,11 +14,8 @@ import com.example.projectpbokawansetara.model.Session;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -33,23 +29,30 @@ import javafx.scene.layout.VBox;
 public class RiwayatLamaranController {
     private DashboardPelamarController dashboardController;
 
-    @FXML private VBox daftarLamaranBox;
-    @FXML private Label kosongLabel;
+    @FXML
+    private VBox daftarLamaranBox;
+    @FXML
+    private Label kosongLabel;
 
-    @FXML private ToggleButton semuaTab;
-    @FXML private ToggleButton diprosesTab;
-    @FXML private ToggleButton ditinjauTab;
-    @FXML private ToggleButton diterimaTab;
-    @FXML private ToggleButton ditolakTab;
+    @FXML
+    private ToggleButton semuaTab;
+    @FXML
+    private ToggleButton diprosesTab;
+    @FXML
+    private ToggleButton ditinjauTab;
+    @FXML
+    private ToggleButton diterimaTab;
+    @FXML
+    private ToggleButton ditolakTab;
 
     private final LamaranDAO lamaranDAO = new LamaranDAO();
     private List<Lamaran> daftarLamaran = new ArrayList<>();
 
-    private final DateTimeFormatter formatTanggal =
-            DateTimeFormatter.ofPattern("d MMM yyyy", Locale.forLanguageTag("id-ID"));
+    private final DateTimeFormatter formatTanggal = DateTimeFormatter.ofPattern("d MMM yyyy",
+            Locale.forLanguageTag("id-ID"));
 
-    private final DateTimeFormatter formatDiperbarui =
-            DateTimeFormatter.ofPattern("d MMM", Locale.forLanguageTag("id-ID"));
+    private final DateTimeFormatter formatDiperbarui = DateTimeFormatter.ofPattern("d MMM",
+            Locale.forLanguageTag("id-ID"));
 
     @FXML
     private void initialize() {
@@ -59,22 +62,29 @@ public class RiwayatLamaranController {
         diterimaTab.setUserData("diterima");
         ditolakTab.setUserData("ditolak");
 
-        muatRiwayatLamaran();
+        boolean berhasil = muatRiwayatLamaran();
         perbaruiJumlahTab();
-        tampilkanLamaran("Semua");
+        if (berhasil) {
+            tampilkanLamaran("Semua");
+        } else {
+            kosongLabel.setVisible(true);
+            kosongLabel.setManaged(true);
+        }
     }
 
-    private void muatRiwayatLamaran() {
+    private boolean muatRiwayatLamaran() {
         if (!(Session.getCurrentUser() instanceof Pelamar pelamar)) {
             kosongLabel.setText("Silakan login sebagai pelamar");
-            return;
+            return false;
         }
 
         try {
             daftarLamaran = lamaranDAO.getRiwayatLamaran(pelamar.getIdPengguna());
+            return true;
         } catch (SQLException e) {
             e.printStackTrace();
             kosongLabel.setText("Gagal memuat riwayat lamaran.");
+            return false;
         }
     }
 
@@ -107,10 +117,9 @@ public class RiwayatLamaranController {
         daftarLamaranBox.getChildren().clear();
 
         List<Lamaran> hasilFilter = daftarLamaran.stream()
-                .filter(lamaran ->
-                        "Semua".equals(filter)
+                .filter(lamaran -> "Semua".equals(filter)
                         || (lamaran.getStatus() != null
-                        && lamaran.getStatus().equalsIgnoreCase(filter)))
+                                && lamaran.getStatus().equalsIgnoreCase(filter)))
                 .toList();
 
         if (hasilFilter.isEmpty()) {
@@ -215,7 +224,8 @@ public class RiwayatLamaranController {
                 continue;
             }
             sb.append(Character.toUpperCase(k.charAt(0)));
-            if (sb.length() >= 2) break;
+            if (sb.length() >= 2)
+                break;
         }
 
         if (sb.length() == 0) {
@@ -226,7 +236,8 @@ public class RiwayatLamaranController {
     }
 
     private String tentukanWarnaAvatar(String nama) {
-        if (nama == null) return "avatar-biru";
+        if (nama == null)
+            return "avatar-biru";
 
         int hash = Math.abs(nama.hashCode() % 6);
         return switch (hash) {
@@ -282,14 +293,15 @@ public class RiwayatLamaranController {
     }
 
     private String kapitalisasiJenis(String jenis) {
-        if (jenis == null || jenis.isBlank()) return "-";
+        if (jenis == null || jenis.isBlank())
+            return "-";
         return jenis.substring(0, 1).toUpperCase() + jenis.substring(1).toLowerCase();
     }
 
     private GridPane buatGridKolom() {
         GridPane grid = new GridPane();
 
-        double[] proporsi = {30, 12, 11, 14, 12, 11, 10};
+        double[] proporsi = { 30, 12, 11, 14, 12, 11, 10 };
 
         for (double lebar : proporsi) {
             ColumnConstraints kolom = new ColumnConstraints();
@@ -314,12 +326,13 @@ public class RiwayatLamaranController {
     }
 
     private String formatStatus(String status) {
-        if (status == null) return "-";
+        if (status == null)
+            return "-";
         return switch (status.toLowerCase()) {
             case "diproses" -> "Diproses";
             case "ditinjau" -> "Ditinjau";
             case "diterima" -> "Diterima";
-            case "ditolak"  -> "Ditolak";
+            case "ditolak" -> "Ditolak";
             default -> status;
         };
     }
