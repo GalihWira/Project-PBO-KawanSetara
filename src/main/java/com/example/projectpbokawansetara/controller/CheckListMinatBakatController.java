@@ -22,8 +22,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
+import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
@@ -122,41 +121,33 @@ public class CheckListMinatBakatController {
             String namaKategori = kategori.getKey();
             List<ItemChecklist> daftarItem = kategori.getValue();
 
-            HBox baris = new HBox();
+            HBox baris = new HBox(16);
             baris.setAlignment(Pos.TOP_LEFT);
-            baris.setPadding(new Insets(18, 19, 18, 20));
+            baris.setPadding(new Insets(18, 20, 18, 20));
+            baris.setMaxWidth(Double.MAX_VALUE);
 
             VBox kiri = new VBox(3);
-            kiri.setMinWidth(190);
-            kiri.setPrefWidth(190);
-            kiri.setMaxWidth(190);
+            kiri.setMinWidth(130);
+            kiri.setPrefWidth(170);
+            kiri.setMaxWidth(200);
+            HBox.setHgrow(kiri, Priority.NEVER);
 
             Label namaLabel = new Label(namaKategori);
             namaLabel.getStyleClass().add("kategori-nama");
+            namaLabel.setWrapText(true);
 
             Label jumlahLabel = new Label();
             jumlahLabel.getStyleClass().add("kategori-jumlah");
 
             kiri.getChildren().addAll(namaLabel, jumlahLabel);
 
-            GridPane gridKeahlian = new GridPane();
-            gridKeahlian.setHgap(8);
-            gridKeahlian.setVgap(8);
-            gridKeahlian.setMaxWidth(Double.MAX_VALUE);
-            HBox.setHgrow(gridKeahlian, Priority.ALWAYS);
-
-            for (int i = 0; i < 3; i++) {
-                ColumnConstraints kolom = new ColumnConstraints();
-                kolom.setPercentWidth(100.0 / 3);
-                kolom.setHgrow(Priority.ALWAYS);
-                gridKeahlian.getColumnConstraints().add(kolom);
-            }
+            FlowPane flowKeahlian = new FlowPane(12, 10);
+            flowKeahlian.setMaxWidth(Double.MAX_VALUE);
+            HBox.setHgrow(flowKeahlian, Priority.ALWAYS);
 
             List<Integer> idKeahlianKategori = new ArrayList<>();
 
-            for (int i = 0; i < daftarItem.size(); i++) {
-                ItemChecklist item = daftarItem.get(i);
-
+            for (ItemChecklist item : daftarItem) {
                 CheckBox checkbox = new CheckBox(item.getNamaItem());
                 checkbox.setWrapText(true);
                 checkbox.getStyleClass().add("checkbox-keahlian");
@@ -173,6 +164,8 @@ public class CheckListMinatBakatController {
 
                 HBox sel = new HBox(8);
                 sel.setAlignment(Pos.CENTER_LEFT);
+                sel.setPrefWidth(170);
+                sel.setMinWidth(140);
                 sel.getChildren().add(checkbox);
 
                 if (apakahBaru(item)) {
@@ -181,10 +174,10 @@ public class CheckListMinatBakatController {
                     sel.getChildren().add(baru);
                 }
 
-                gridKeahlian.add(sel, i % 3, i / 3);
+                flowKeahlian.getChildren().add(sel);
             }
 
-            baris.getChildren().addAll(kiri, gridKeahlian);
+            baris.getChildren().addAll(kiri, flowKeahlian);
             kartuDaftar.getChildren().add(baris);
 
             keahlianPerKategori.put(namaKategori, idKeahlianKategori);

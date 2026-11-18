@@ -802,3 +802,65 @@
     -fx-font-weight: 600;
     -fx-text-fill: #98A2B3;
 }
+
+/* DASHBOARD PELAMAR: LAMARAN TERAKHIR */
+.rekomendasi-nama {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #101828;
+}
+
+.rekomendasi-detail {
+    -fx-font-size: 12px;
+    -fx-text-fill: #667085;
+}
+
+.rekomendasi-gaji {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1570EF;
+}
+
+.rekomendasi-skor {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+
+.rekomendasi-skor-kosong {
+    -fx-font-size: 11px;
+    -fx-text-fill: #98A2B3;
+}
+.lamaran-terakhir-baris {
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-cursor: hand;
+}
+
+.lamaran-terakhir-nama {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #101828;
+}
+
+.lamaran-terakhir-detail {
+    -fx-font-size: 11px;
+    -fx-text-fill: #667085;
+}
+.status-titik {
+    -fx-fill: #98A2B3;
+}
+
+.titik-diproses { -fx-fill: #F79009; }
+.titik-ditinjau { -fx-fill: #2E90FA; }
+.titik-diterima { -fx-fill: #12B76A; }
+.titik-ditolak { -fx-fill: #F04438; }
+.titik-default { -fx-fill: #98A2B3; }
+
+.status-teks {
+    -fx-font-size: 12px;
+}
+
+.teks-diproses { -fx-text-fill: #B54708; }
+.teks-ditinjau { -fx-text-fill: #175CD3; }
+.teks-diterima { -fx-text-fill: #027A48; }
+.teks-ditolak { -fx-text-fill: #B42318; }
+.teks-default { -fx-text-fill: #344054; }
