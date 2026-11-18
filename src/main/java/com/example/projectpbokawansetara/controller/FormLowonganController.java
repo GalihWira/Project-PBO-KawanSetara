@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.helper.ValidasiHelper;
 import com.example.projectpbokawansetara.model.Admin;
 import com.example.projectpbokawansetara.model.Lowongan;
 import com.example.projectpbokawansetara.model.Perusahaan;
@@ -175,14 +176,10 @@ public class FormLowonganController {
 
         double gaji = 0;
         String gajiStr = gajiField.getText().trim();
-        try {
-            if (gajiStr.isEmpty())
-                throw new NumberFormatException();
+        if (ValidasiHelper.gajiValid(gajiStr)) {
             gaji = Double.parseDouble(gajiStr);
-            if (gaji < 0)
-                throw new NumberFormatException();
             tampilkanError(gajiErrorLabel, false);
-        } catch (NumberFormatException e) {
+        } else {
             tampilkanError(gajiErrorLabel, true);
             jumlahError++;
         }
