@@ -257,6 +257,7 @@ public class FormLowonganController {
                     perusahaanTerpilih.getNamaPerusahaan(),
                     () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormLowonganView.fxml"),
                     () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml"));
+        } else {
             errorBannerLabel.setText("Terjadi kesalahan saat menyimpan ke database.");
             errorBanner.setVisible(true);
             errorBanner.setManaged(true);
