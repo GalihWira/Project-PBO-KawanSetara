@@ -13,7 +13,7 @@ public class DisabilitasDAO {
 
   public List<JenisDisabilitas> getAllDisabilitas() {
         List<JenisDisabilitas> list = new ArrayList<>();
-        String sql = "SELECT id_jenis_disabilitas, nama_disabilitas FROM Jenis_Disabilitas ORDER BY id_jenis_disabilitas ASC";
+        String sql = "SELECT id_disabilitas, nama_disabilitas FROM Jenis_Disabilitas ORDER BY id_disabilitas ASC";
 
         try (Connection conn = KoneksiDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -21,7 +21,7 @@ public class DisabilitasDAO {
 
             while (rs.next()) {
                 list.add(new JenisDisabilitas(
-                        rs.getInt("id_jenis_disabilitas"),
+                        rs.getInt("id_disabilitas"),
                         rs.getString("nama_disabilitas"),
                         0
                 ));
@@ -47,7 +47,7 @@ public class DisabilitasDAO {
     }
 
     public boolean hapusDisabilitas(int idJenisDisabilitas) {
-        String sql = "DELETE FROM Jenis_Disabilitas WHERE id_jenis_disabilitas = ?";
+        String sql = "DELETE FROM Jenis_Disabilitas WHERE id_disabilitas = ?";
 
         try (Connection conn = KoneksiDB.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
