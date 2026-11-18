@@ -1,83 +1,220 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import com.example.projectpbokawansetara.dao.ChecklistDAO;
+import com.example.projectpbokawansetara.model.ItemChecklist;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 
 public class KelolaChecklistController {
 
-    @FXML private TableColumn<?, ?> aksiColumn;
-    @FXML private TextField cariField;
+    @FXML private TableView<ItemChecklist> itemTable;
+    @FXML private TableColumn<ItemChecklist, String> idColumn;
+    @FXML private TableColumn<ItemChecklist, String> kategoriColumn;
+    @FXML private TableColumn<ItemChecklist, String> namaColumn;
+    @FXML private TableColumn<ItemChecklist, String> diLowonganColumn;
+    @FXML private TableColumn<ItemChecklist, String> dipilihColumn;
+    @FXML private TableColumn<ItemChecklist, Void> aksiColumn;
     @FXML private TextField cariItemField;
-    @FXML private TableColumn<?, ?> diLowonganColumn;
-    @FXML private TableColumn<?, ?> dipilihColumn;
-    @FXML private HBox errorBanner;
-    @FXML private Label errorBannerJudulLabel;
-    @FXML private Label errorBannerPesanLabel;
-    @FXML private ComboBox<?> filterKategoriComboBox;
-    @FXML private TableColumn<?, ?> idColumn;
-    @FXML private TableView<?> itemTable;
-    @FXML private TableColumn<?, ?> kategoriColumn;
-    @FXML private ComboBox<?> kategoriComboBox;
-    @FXML private Label kategoriErrorLabel;
-    @FXML private TableColumn<?, ?> namaColumn;
-    @FXML private HBox namaItemBox;
-    @FXML private Label namaItemErrorLabel;
-    @FXML private TextField namaItemField;
-    @FXML private VBox previewBox;
-    @FXML private CheckBox previewCheckBox;
-    @FXML private Label previewKategoriLabel;
+    @FXML private ComboBox<String> filterKategoriComboBox;
     @FXML private Label ringkasanLabel;
     @FXML private HBox suksesBanner;
     @FXML private Label suksesBannerJudulLabel;
     @FXML private Label suksesBannerPesanLabel;
-    @FXML private Button tambahButton;
+    @FXML private HBox errorBanner;
+    @FXML private Label errorBannerJudulLabel;
+    @FXML private Label errorBannerPesanLabel;
+    @FXML private TextField namaItemField;
+    @FXML private ComboBox<String> kategoriComboBox;
+    @FXML private VBox previewBox;
+    @FXML private Label previewKategoriLabel;
+    @FXML private CheckBox previewCheckBox;
+
+    private ChecklistDAO checklistDAO = new ChecklistDAO();
+    private List<ItemChecklist> semuaItem = new ArrayList<>();
 
     @FXML
     public void initialize() {
-        if (errorBanner != null) {
-            errorBanner.setVisible(false);
-            errorBanner.setManaged(false);
+        kategoriColumn.setCellValueFactory(new PropertyValueFactory<>("namaKategori"));
+        namaColumn.setCellValueFactory(new PropertyValueFactory<>("namaItem"));
+        
+        idColumn.setCellValueFactory(data -> new SimpleStringProperty("#" + data.getValue().getIdItem()));
+        diLowonganColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahDiLowongan() + " lowongan"));
+        dipilihColumn.setCellValueFactory(data -> new SimpleStringProperty(data.getValue().getJumlahDipilihPelamar() + " pelamar"));
+
+        buatTombolHapus();
+        muatKategori();
+        loadDataItem();
+
+        cariItemField.textProperty().addListener((obs, lama, baru) -> terapkanFilter());
+
+        namaItemField.textProperty().addListener((obs, lama, baru) -> updatePreview());
+        kategoriComboBox.valueProperty().addListener((obs, lama, baru) -> updatePreview());
+    }
+
+    private void muatKategori() {
+        List<String> daftarKategori = checklistDAO.getAllKategori();
+        kategoriComboBox.setItems(FXCollections.observableArrayList(daftarKategori));
+
+        List<String> opsiFilter = new ArrayList<>();
+        opsiFilter.add("Semua kategori");
+        opsiFilter.addAll(daftarKategori);
+        filterKategoriComboBox.setItems(FXCollections.observableArrayList(opsiFilter));
+        filterKategoriComboBox.getSelectionModel().selectFirst();
+    }
+
+    private void loadDataItem() {
+        semuaItem = checklistDAO.getAllItemAdmin();
+        int jumlahKategori = kategoriComboBox.getItems().size();
+        ringkasanLabel.setText(semuaItem.size() + " item · " + jumlahKategori + " kategori");
+        terapkanFilter();
+    }
+
+    private void terapkanFilter() {
+        String keyword = cariItemField.getText().toLowerCase().trim();
+        String kategoriDipilih = filterKategoriComboBox.getValue();
+
+        List<ItemChecklist> hasilFilter = new ArrayList<>();
+        for (ItemChecklist item : semuaItem) {
+            boolean cocokNama = item.getNamaItem().toLowerCase().contains(keyword);
+            boolean cocokKategori = kategoriDipilih == null 
+                    || kategoriDipilih.equals("Semua kategori") 
+                    || kategoriDipilih.equals(item.getNamaKategori());
+
+            if (cocokNama && cocokKategori) {
+                hasilFilter.add(item);
+            }
         }
-        if (suksesBanner != null) {
-            suksesBanner.setVisible(false);
-            suksesBanner.setManaged(false);
-        }
-        if (kategoriErrorLabel != null) {
-            kategoriErrorLabel.setVisible(false);
-            kategoriErrorLabel.setManaged(false);
-        }
-        if (namaItemErrorLabel != null) {
-            namaItemErrorLabel.setVisible(false);
-            namaItemErrorLabel.setManaged(false);
-        }
+        itemTable.setItems(FXCollections.observableArrayList(hasilFilter));
     }
 
     @FXML
     void handleFilter(ActionEvent event) {
+        terapkanFilter();
     }
 
     @FXML
     void handleTambah(ActionEvent event) {
+        sembunyikanSemuaBanner();
+        String nama = namaItemField.getText().trim();
+        String kategori = kategoriComboBox.getValue();
+
+        if (nama.isEmpty()) {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
+                            "Item belum ditambahkan", "Nama item wajib diisi.");
+            return;
+        }
+        if (kategori == null) {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
+                            "Item belum ditambahkan", "Pilih kategori terlebih dahulu.");
+            return;
+        }
+        for (ItemChecklist item : semuaItem) {
+            if (item.getNamaItem().equalsIgnoreCase(nama)) {
+                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
+                                "Item sudah ada", "Keahlian \"" + nama + "\" sudah terdaftar.");
+                return;
+            }
+        }
+
+        if (checklistDAO.tambahItem(nama, kategori)) {
+            namaItemField.clear();
+            kategoriComboBox.getSelectionModel().clearSelection();
+            loadDataItem();
+            tampilkanBanner(suksesBanner, suksesBannerJudulLabel, suksesBannerPesanLabel, 
+                            "“" + nama + "” ditambahkan ke " + kategori, "Pelamar langsung melihatnya di checklist.");
+        } else {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
+                            "Gagal menyimpan", "Terjadi kesalahan saat menyimpan ke database.");
+        }
     }
 
-    @FXML
-    void handleCari(ActionEvent event) {
+    private void buatTombolHapus() {
+        aksiColumn.setCellFactory(param -> new TableCell<ItemChecklist, Void>() {
+            @Override
+            protected void updateItem(Void item, boolean empty) {
+                super.updateItem(item, empty);
+                if (empty) {
+                    setGraphic(null);
+                } else {
+                    Button btnHapus = new Button("Hapus");
+                    btnHapus.setStyle("-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
+                    btnHapus.setOnAction(event -> {
+                        ItemChecklist data = getTableView().getItems().get(getIndex());
+                        prosesHapus(data);
+                    });
+                    setGraphic(btnHapus);
+                }
+            }
+        });
     }
 
-    @FXML
-    void handleBatal(ActionEvent event) {
+    private void prosesHapus(ItemChecklist item) {
+        sembunyikanSemuaBanner();
+        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION, "Yakin ingin menghapus \"" + item.getNamaItem() + "\"?");
+        Optional<ButtonType> hasil = konfirmasi.showAndWait();
+
+        if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
+            if (checklistDAO.hapusItem(item.getIdItem())) {
+                loadDataItem();
+            } else {
+                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel, 
+                                "Tidak bisa dihapus", "Item ini masih dipakai pada lowongan atau pelamar.");
+            }
+        }
     }
 
-    @FXML
-    void handleSimpan(ActionEvent event) {
+    private void updatePreview() {
+        String nama = namaItemField.getText().trim();
+        String kategori = kategoriComboBox.getValue();
+
+        if (nama.isEmpty() && kategori == null) {
+            previewBox.setVisible(false);
+            previewBox.setManaged(false);
+        } else {
+            if (kategori == null) {
+                previewKategoriLabel.setText("Pilih kategori");
+            } else {
+                previewKategoriLabel.setText(kategori);
+            }
+
+            if (nama.isEmpty()) {
+                previewCheckBox.setText("Nama item...");
+            } else {
+                previewCheckBox.setText(nama);
+            }
+
+            previewBox.setVisible(true);
+            previewBox.setManaged(true);
+        }
+    }
+    private void tampilkanBanner(HBox banner, Label labelJudul, Label labelPesan, String judul, String pesan) {
+        labelJudul.setText(judul);
+        labelPesan.setText(pesan);
+        banner.setVisible(true);
+        banner.setManaged(true);
+    }
+    private void sembunyikanSemuaBanner() {
+        suksesBanner.setVisible(false);
+        suksesBanner.setManaged(false);
+        errorBanner.setVisible(false);
+        errorBanner.setManaged(false);
     }
 }
