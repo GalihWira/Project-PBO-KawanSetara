@@ -36,42 +36,77 @@ public class DashboardAdminController {
 
     private Node halamanDashboardAwal;
 
-    @FXML private ToggleGroup adminMenuGroup;
-    @FXML private ToggleButton akunAdminMenu;
-    @FXML private ImageView avatarImage;
-    @FXML private TextField cariField;
-    @FXML private VBox daftarLamaranBox;
-    @FXML private ToggleButton dashboardMenu;
-    @FXML private ToggleButton itemChecklistMenu;
-    @FXML private ToggleButton jenisDisabilitasMenu;
-    @FXML private Label jumlahAdminMenuLabel;
-    @FXML private Label jumlahChecklistMenuLabel;
-    @FXML private Label jumlahDisabilitasMenuLabel;
-    @FXML private Label jumlahLowonganMenuLabel;
-    @FXML private Label jumlahPerusahaanMenuLabel;
-    @FXML private Button keluarButton;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label lamaranMasukInfoLabel;
-    @FXML private Label lamaranMasukLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private ToggleButton lowonganMenu;
-    @FXML private Label lowonganTersediaInfoLabel;
-    @FXML private Label lowonganTersediaLabel;
-    @FXML private BorderPane mainBorderPane;
-    @FXML private Label namaUserLabel;
-    @FXML private Label pelamarTerdaftarInfoLabel;
-    @FXML private Label pelamarTerdaftarLabel;
-    @FXML private Label peranUserLabel;
-    @FXML private ToggleButton perusahaanMenu;
-    @FXML private Label perusahaanMitraInfoLabel;
-    @FXML private Label perusahaanMitraLabel;
-    @FXML private Label tanggalLabel;
-    @FXML private VBox tindakLanjutBox;
-    @FXML private Label tindakLanjutKosongLabel;
+    @FXML
+    private ToggleGroup adminMenuGroup;
+    @FXML
+    private ToggleButton akunAdminMenu;
+    @FXML
+    private ImageView avatarImage;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private VBox daftarLamaranBox;
+    @FXML
+    private ToggleButton dashboardMenu;
+    @FXML
+    private ToggleButton itemChecklistMenu;
+    @FXML
+    private ToggleButton jenisDisabilitasMenu;
+    @FXML
+    private Label jumlahAdminMenuLabel;
+    @FXML
+    private Label jumlahChecklistMenuLabel;
+    @FXML
+    private Label jumlahDisabilitasMenuLabel;
+    @FXML
+    private Label jumlahLamaranMenuLabel;
+    @FXML
+    private Label jumlahLowonganMenuLabel;
+    @FXML
+    private Label jumlahPerusahaanMenuLabel;
+    @FXML
+    private Button keluarButton;
+    @FXML
+    private ToggleButton lamaranMenu;
+    @FXML
+    private Label lamaranKosongLabel;
+    @FXML
+    private Label lamaranMasukInfoLabel;
+    @FXML
+    private Label lamaranMasukLabel;
+    @FXML
+    private Hyperlink lihatSemuaLink;
+    @FXML
+    private ToggleButton lowonganMenu;
+    @FXML
+    private Label lowonganTersediaInfoLabel;
+    @FXML
+    private Label lowonganTersediaLabel;
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private Label namaUserLabel;
+    @FXML
+    private Label pelamarTerdaftarInfoLabel;
+    @FXML
+    private Label pelamarTerdaftarLabel;
+    @FXML
+    private Label peranUserLabel;
+    @FXML
+    private ToggleButton perusahaanMenu;
+    @FXML
+    private Label perusahaanMitraInfoLabel;
+    @FXML
+    private Label perusahaanMitraLabel;
+    @FXML
+    private Label tanggalLabel;
+    @FXML
+    private VBox tindakLanjutBox;
+    @FXML
+    private Label tindakLanjutKosongLabel;
 
     @FXML
     private void initialize() {
-        //pastiin admin login (noted:gy)
         if (!Session.isLoggedIn()) {
             Platform.runLater(() -> SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara"));
             return;
@@ -80,7 +115,6 @@ public class DashboardAdminController {
         tampilkanProfil();
         loadDataDashboard();
 
-        // Simpan tampilan tengah awal supaya nanti gampang balik ke dashboard
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
     }
@@ -95,26 +129,23 @@ public class DashboardAdminController {
         DashboardDAO dao = new DashboardDAO();
         DashboardStatistik stat = dao.getStatistik();
 
-        // Isi angka kartu statistik utama
         lowonganTersediaLabel.setText(String.valueOf(stat.getLowonganTersedia()));
         lamaranMasukLabel.setText(String.valueOf(stat.getLamaranMasuk()));
         perusahaanMitraLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
         pelamarTerdaftarLabel.setText(String.valueOf(stat.getPelamarTerdaftar()));
 
-        // Isi keterangan kecil di bawah angka statistik
         lowonganTersediaInfoLabel.setText(stat.getLowonganDitutup() + " lowongan ditutup");
         lamaranMasukInfoLabel.setText(stat.getLamaranBelumDitinjau() + " belum ditinjau");
         perusahaanMitraInfoLabel.setText(stat.getPerusahaanTanpaLowongan() + " belum buka lowongan");
         pelamarTerdaftarInfoLabel.setText(stat.getPelamarAktifMelamar() + " aktif melamar");
 
-        // Isi angka badge di menu sidebar kiri
         jumlahLowonganMenuLabel.setText(String.valueOf(stat.getTotalLowongan()));
         jumlahPerusahaanMenuLabel.setText(String.valueOf(stat.getPerusahaanMitra()));
         jumlahChecklistMenuLabel.setText(String.valueOf(stat.getTotalChecklist()));
         jumlahDisabilitasMenuLabel.setText(String.valueOf(stat.getTotalDisabilitas()));
         jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
+        jumlahLamaranMenuLabel.setText(String.valueOf(stat.getLamaranBelumDitinjau()));
 
-        // Tampilkan daftar lamaran terbaru
         tampilkanDaftarLamaran(dao.getLamaranTerbaru());
     }
 
@@ -150,7 +181,6 @@ public class DashboardAdminController {
             lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
             lblTanggal.setPrefWidth(70.0);
 
-            // Ubah huruf pertama status jadi huruf besar (misal: "diproses" -> "Diproses")
             String statusText = lamaran.getStatus();
             String statusKapital = statusText.substring(0, 1).toUpperCase() + statusText.substring(1);
 
@@ -158,7 +188,6 @@ public class DashboardAdminController {
             lblStatus.setPrefWidth(70.0);
             lblStatus.setPadding(new Insets(2, 8, 2, 8));
 
-            // Atur warna label status pakai if-else biasa
             String warnaStatus;
             if (statusText.equals("diproses")) {
                 warnaStatus = "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;";
@@ -174,14 +203,12 @@ public class DashboardAdminController {
         }
     }
 
-    // Navigasi Menu Sidebar 
-
     @FXML
     void handleDashboardMenu(ActionEvent event) {
         if (halamanDashboardAwal != null) {
             mainBorderPane.setCenter(halamanDashboardAwal);
         }
-        loadDataDashboard(); // Sekalian refresh angka statistik terbaru
+        loadDataDashboard();
         aturMenuAktif(dashboardMenu);
     }
 
@@ -193,6 +220,11 @@ public class DashboardAdminController {
     @FXML
     void handleKelolaLowongan(ActionEvent event) {
         tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
+    }
+
+    @FXML
+    void handleKelolaLamaran(ActionEvent event) {
+        tampilkanHalaman("KelolaLamaranView.fxml", lamaranMenu);
     }
 
     @FXML
@@ -242,7 +274,6 @@ public class DashboardAdminController {
                 "Kamu perlu masuk lagi untuk mengelola data lowongan dan pelamar.");
     }
 
-    // Method bantu untuk ganti isi bagian tengah BorderPane
     private void tampilkanHalaman(String namaFile, ToggleButton menuTujuan) {
         try {
             String lokasi = "/com/example/projectpbokawansetara/view/" + namaFile;
@@ -255,8 +286,7 @@ public class DashboardAdminController {
             FXMLLoader loader = new FXMLLoader(url);
             Parent halaman = loader.load();
 
-            // Kalau FXML tujuan berbentuk BorderPane, ambil bagian centernya aja
-            if(halaman instanceof BorderPane){
+            if (halaman instanceof BorderPane) {
                 BorderPane bp = (BorderPane) halaman;
                 if (bp.getCenter() != null) {
                     mainBorderPane.setCenter(bp.getCenter());
@@ -274,14 +304,13 @@ public class DashboardAdminController {
         }
     }
 
-    // method kasi warna pas klik
     private void aturMenuAktif(ToggleButton menuAktif) {
         String styleAktif = "-fx-background-color: #DCE9F5; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8;";
         String styleTidakAktif = "-fx-background-color: transparent; -fx-text-fill: #344054; -fx-background-radius: 8;";
 
         ToggleButton[] semuaMenu = {
-            dashboardMenu, lowonganMenu, perusahaanMenu,
-            itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
+                dashboardMenu, lowonganMenu, lamaranMenu, perusahaanMenu,
+                itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
         };
 
         for (ToggleButton menu : semuaMenu) {
