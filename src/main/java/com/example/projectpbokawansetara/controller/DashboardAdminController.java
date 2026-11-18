@@ -36,38 +36,70 @@ public class DashboardAdminController {
 
     private Node halamanDashboardAwal;
 
-    @FXML private ToggleGroup adminMenuGroup;
-    @FXML private ToggleButton akunAdminMenu;
-    @FXML private ImageView avatarImage;
-    @FXML private TextField cariField;
-    @FXML private VBox daftarLamaranBox;
-    @FXML private ToggleButton dashboardMenu;
-    @FXML private ToggleButton itemChecklistMenu;
-    @FXML private ToggleButton jenisDisabilitasMenu;
-    @FXML private Label jumlahAdminMenuLabel;
-    @FXML private Label jumlahChecklistMenuLabel;
-    @FXML private Label jumlahDisabilitasMenuLabel;
-    @FXML private Label jumlahLowonganMenuLabel;
-    @FXML private Label jumlahPerusahaanMenuLabel;
-    @FXML private Button keluarButton;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label lamaranMasukInfoLabel;
-    @FXML private Label lamaranMasukLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private ToggleButton lowonganMenu;
-    @FXML private Label lowonganTersediaInfoLabel;
-    @FXML private Label lowonganTersediaLabel;
-    @FXML private BorderPane mainBorderPane;
-    @FXML private Label namaUserLabel;
-    @FXML private Label pelamarTerdaftarInfoLabel;
-    @FXML private Label pelamarTerdaftarLabel;
-    @FXML private Label peranUserLabel;
-    @FXML private ToggleButton perusahaanMenu;
-    @FXML private Label perusahaanMitraInfoLabel;
-    @FXML private Label perusahaanMitraLabel;
-    @FXML private Label tanggalLabel;
-    @FXML private VBox tindakLanjutBox;
-    @FXML private Label tindakLanjutKosongLabel;
+    @FXML
+    private ToggleGroup adminMenuGroup;
+    @FXML
+    private ToggleButton akunAdminMenu;
+    @FXML
+    private ImageView avatarImage;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private VBox daftarLamaranBox;
+    @FXML
+    private ToggleButton dashboardMenu;
+    @FXML
+    private ToggleButton itemChecklistMenu;
+    @FXML
+    private ToggleButton jenisDisabilitasMenu;
+    @FXML
+    private Label jumlahAdminMenuLabel;
+    @FXML
+    private Label jumlahChecklistMenuLabel;
+    @FXML
+    private Label jumlahDisabilitasMenuLabel;
+    @FXML
+    private Label jumlahLowonganMenuLabel;
+    @FXML
+    private Label jumlahPerusahaanMenuLabel;
+    @FXML
+    private Button keluarButton;
+    @FXML
+    private Label lamaranKosongLabel;
+    @FXML
+    private Label lamaranMasukInfoLabel;
+    @FXML
+    private Label lamaranMasukLabel;
+    @FXML
+    private Hyperlink lihatSemuaLink;
+    @FXML
+    private ToggleButton lowonganMenu;
+    @FXML
+    private Label lowonganTersediaInfoLabel;
+    @FXML
+    private Label lowonganTersediaLabel;
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private Label namaUserLabel;
+    @FXML
+    private Label pelamarTerdaftarInfoLabel;
+    @FXML
+    private Label pelamarTerdaftarLabel;
+    @FXML
+    private Label peranUserLabel;
+    @FXML
+    private ToggleButton perusahaanMenu;
+    @FXML
+    private Label perusahaanMitraInfoLabel;
+    @FXML
+    private Label perusahaanMitraLabel;
+    @FXML
+    private Label tanggalLabel;
+    @FXML
+    private VBox tindakLanjutBox;
+    @FXML
+    private Label tindakLanjutKosongLabel;
 
     @FXML
     private void initialize() {
@@ -82,11 +114,6 @@ public class DashboardAdminController {
 
     @FXML
     void handleDashboardMenu(ActionEvent event) {
-        kembaliKeDashboard();
-    }
-
-    @FXML
-    void handleDashboardMenuClick(MouseEvent event) {
         kembaliKeDashboard();
     }
 
@@ -140,13 +167,16 @@ public class DashboardAdminController {
                 lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
                 lblTanggal.setPrefWidth(70.0);
 
-                Label lblStatus = new Label(lamaran.getStatus().substring(0, 1).toUpperCase() + lamaran.getStatus().substring(1));
+                Label lblStatus = new Label(
+                        lamaran.getStatus().substring(0, 1).toUpperCase() + lamaran.getStatus().substring(1));
                 lblStatus.setPrefWidth(70.0);
                 lblStatus.setPadding(new Insets(2, 8, 2, 8));
                 lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " +
-                    (lamaran.getStatus().equals("diproses") ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;" :
-                    (lamaran.getStatus().equals("diterima") ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;" :
-                    "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;")));
+                        (lamaran.getStatus().equals("diproses")
+                                ? "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;"
+                                : (lamaran.getStatus().equals("diterima")
+                                        ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
+                                        : "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;")));
 
                 row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
                 daftarLamaranBox.getChildren().add(row);
@@ -179,11 +209,6 @@ public class DashboardAdminController {
     @FXML
     void handleKelolaLowongan(ActionEvent event) {
         tampilkanHalaman("KelolaLowonganView.fxml", lowonganMenu);
-    }
-
-    @FXML
-    void handleBukaPerusahaan(ActionEvent event) {
-        tampilkanHalaman("KelolaPerusahaanView.fxml", perusahaanMenu);
     }
 
     @FXML
@@ -260,20 +285,18 @@ public class DashboardAdminController {
     }
 
     private void aturMenuAktif(ToggleButton menuAktif) {
-        String styleAktif =
-                "-fx-background-color: #DCE9F5;" +
+        String styleAktif = "-fx-background-color: #DCE9F5;" +
                 "-fx-text-fill: #1F4E8C;" +
                 "-fx-font-weight: 600;" +
                 "-fx-background-radius: 8;";
 
-        String styleTidakAktif =
-                "-fx-background-color: transparent;" +
+        String styleTidakAktif = "-fx-background-color: transparent;" +
                 "-fx-text-fill: #344054;" +
                 "-fx-background-radius: 8;";
 
         ToggleButton[] semuaMenu = {
-            dashboardMenu, lowonganMenu, perusahaanMenu,
-            itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
+                dashboardMenu, lowonganMenu, perusahaanMenu,
+                itemChecklistMenu, jenisDisabilitasMenu, akunAdminMenu
         };
 
         for (ToggleButton menu : semuaMenu) {
