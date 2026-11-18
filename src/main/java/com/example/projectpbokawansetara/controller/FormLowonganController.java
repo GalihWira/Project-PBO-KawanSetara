@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.helper.ValidasiHelper;
 import com.example.projectpbokawansetara.model.Admin;
 import com.example.projectpbokawansetara.model.Lowongan;
@@ -250,8 +251,12 @@ public class FormLowonganController {
                 badgeLowongan.setText(String.valueOf(totalSekarang));
             }
 
-            pindahHalaman(event, "/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml");
-        } else {
+            DialogHelper.tampilkanDialogLowonganBerhasil(
+                    scene.getWindow(),
+                    lowongan.getNamaPekerjaan(),
+                    perusahaanTerpilih.getNamaPerusahaan(),
+                    () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/FormLowonganView.fxml"),
+                    () -> pindahHalaman(event, "/com/example/projectpbokawansetara/view/KelolaLowonganView.fxml"));
             errorBannerLabel.setText("Terjadi kesalahan saat menyimpan ke database.");
             errorBanner.setVisible(true);
             errorBanner.setManaged(true);
