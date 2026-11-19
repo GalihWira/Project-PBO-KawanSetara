@@ -102,6 +102,17 @@ public class ValidasiHelper {
         return semuaAngka(gaji);
     }
 
+    public static boolean panjangMaksimal(String teks, int maksimal) {
+        return teks != null && teks.length() <= maksimal;
+    }
+
+    public static boolean teleponKantorValid(String telepon) {
+        if (telepon == null || telepon.length() < 8 || telepon.length() > 15) {
+            return false;
+        }
+        return semuaAngka(telepon);
+    }
+
     public static boolean tanggalLahirValid(LocalDate tanggalLahir) {
         if (tanggalLahir == null || tanggalLahir.isAfter(LocalDate.now())) {
             return false;
