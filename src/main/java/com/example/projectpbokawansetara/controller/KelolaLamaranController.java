@@ -1,5 +1,6 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -13,8 +14,11 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
@@ -24,6 +28,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 public class KelolaLamaranController {
 
@@ -196,7 +202,7 @@ public class KelolaLamaranController {
                     btnTerima.setDisable(data.getStatus().equals("diterima"));
                     btnTolak.setDisable(data.getStatus().equals("ditolak"));
 
-                    btnTinjau.setOnAction(event -> prosesUbahStatus(data, "ditinjau"));
+                    btnTinjau.setOnAction(event -> bukaDialogTinjau(data));                    
                     btnTerima.setOnAction(event -> prosesUbahStatus(data, "diterima"));
                     btnTolak.setOnAction(event -> prosesUbahStatus(data, "ditolak"));
 
@@ -212,6 +218,29 @@ public class KelolaLamaranController {
         Button tombol = new Button(teks);
         tombol.setStyle("-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 4 10; -fx-cursor: hand; " + warna);
         return tombol;
+    }
+
+    private void bukaDialogTinjau(Lamaran lamaran) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(
+                    "/com/example/projectpbokawansetara/view/TinjauLamaranDialog.fxml"));
+            Parent dialog = loader.load();
+
+            TinjauLamaranController controller = loader.getController();
+            controller.setData(lamaran);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setTitle("Tinjau Lamaran");
+            stage.setScene(new Scene(dialog));
+            stage.showAndWait();
+
+            if (controller.isDitandai()) {
+                prosesUbahStatus(lamaran, "ditinjau");
+            }
+        } catch (IOException e) {
+            tampilkanPesan("Dialog tinjau gagal dibuka.", false);
+        }
     }
 
     private void prosesUbahStatus(Lamaran lamaran, String statusBaru) {
