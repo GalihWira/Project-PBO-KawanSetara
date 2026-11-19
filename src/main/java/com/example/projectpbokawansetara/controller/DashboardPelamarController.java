@@ -47,36 +47,59 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.input.MouseEvent;
 
 public class DashboardPelamarController {
 
     private Node halamanCariLowongan;
     private Node halamanBeranda;
 
-    @FXML private BorderPane mainBorderPane;
-    @FXML private ToggleButton berandaMenu;
-    @FXML private ToggleButton cariLowonganMenu;
-    @FXML private ToggleButton riwayatMenu;
-    @FXML private ToggleButton checklistMenu;
-    @FXML private ToggleGroup menuGroup;
-    @FXML private Label riwayatMenuLabel;
-    @FXML private Label jumlahRiwayatLabel;
-    @FXML private Button btnKeluar;
-    @FXML private TextField cariField;
-    @FXML private Label namaUserLabel;
-    @FXML private Label emailUserLabel;
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private ToggleButton berandaMenu;
+    @FXML
+    private ToggleButton cariLowonganMenu;
+    @FXML
+    private ToggleButton riwayatMenu;
+    @FXML
+    private ToggleButton checklistMenu;
+    @FXML
+    private ToggleGroup menuGroup;
+    @FXML
+    private Label riwayatMenuLabel;
+    @FXML
+    private Label jumlahRiwayatLabel;
+    @FXML
+    private Button btnKeluar;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private Label namaUserLabel;
+    @FXML
+    private Label emailUserLabel;
 
     // === Label & container di Beranda ===
-    @FXML private Label sapaanLabel;
-    @FXML private Label ringkasanLabel;
-    @FXML private VBox rekomendasiBox;
-    @FXML private Label rekomendasiKosongLabel;
-    @FXML private VBox lamaranTerakhirBox;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label checklistInfoLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private Hyperlink lihatRiwayatLink;
-    @FXML private Hyperlink perbaruiChecklistLink;
+    @FXML
+    private Label sapaanLabel;
+    @FXML
+    private Label ringkasanLabel;
+    @FXML
+    private VBox rekomendasiBox;
+    @FXML
+    private Label rekomendasiKosongLabel;
+    @FXML
+    private VBox lamaranTerakhirBox;
+    @FXML
+    private Label lamaranKosongLabel;
+    @FXML
+    private Label checklistInfoLabel;
+    @FXML
+    private Hyperlink lihatSemuaLink;
+    @FXML
+    private Hyperlink lihatRiwayatLink;
+    @FXML
+    private Hyperlink perbaruiChecklistLink;
 
     private final LowonganDAO lowonganDAO = new LowonganDAO();
     private final LamaranDAO lamaranDAO = new LamaranDAO();
@@ -104,6 +127,10 @@ public class DashboardPelamarController {
         User user = Session.getCurrentUser();
         namaUserLabel.setText(user.getNama());
         emailUserLabel.setText(user.getEmail());
+    }
+
+    public void perbaruiInfoPengguna() {
+        tampilkanProfil();
     }
 
     private void muatDataBeranda() {
@@ -148,14 +175,18 @@ public class DashboardPelamarController {
 
     private String buatSapaan() {
         int jam = LocalTime.now().getHour();
-        if (jam >= 4 && jam < 11) return "Selamat pagi";
-        if (jam >= 11 && jam < 15) return "Selamat siang";
-        if (jam >= 15 && jam < 18) return "Selamat sore";
+        if (jam >= 4 && jam < 11)
+            return "Selamat pagi";
+        if (jam >= 11 && jam < 15)
+            return "Selamat siang";
+        if (jam >= 15 && jam < 18)
+            return "Selamat sore";
         return "Selamat malam";
     }
 
     private String ambilNamaDepan(String namaLengkap) {
-        if (namaLengkap == null || namaLengkap.isBlank()) return "Pengguna";
+        if (namaLengkap == null || namaLengkap.isBlank())
+            return "Pengguna";
         return namaLengkap.trim().split("\\s+")[0];
     }
 
@@ -177,7 +208,8 @@ public class DashboardPelamarController {
             int[] skorB = hitungSkorKecocokan(b);
 
             int cmp = Integer.compare(skorB[0], skorA[0]);
-            if (cmp != 0) return cmp;
+            if (cmp != 0)
+                return cmp;
             return Integer.compare(skorB[1], skorA[1]);
         });
 
@@ -202,7 +234,8 @@ public class DashboardPelamarController {
 
     private HBox buatKartuRekomendasi(Lowongan lowongan, NumberFormat formatRupiah) {
         String namaPerusahaan = lowongan.getPerusahaan() != null
-                ? lowongan.getPerusahaan().getNamaPerusahaan() : "Perusahaan";
+                ? lowongan.getPerusahaan().getNamaPerusahaan()
+                : "Perusahaan";
 
         Label avatar = buatAvatar(namaPerusahaan);
         avatar.setMinSize(40, 40);
@@ -282,10 +315,12 @@ public class DashboardPelamarController {
 
     private HBox buatBarisLamaranTerakhir(Lamaran lamaran, DateTimeFormatter formatTanggal) {
         Lowongan lowongan = lamaran.getLowongan();
-        if (lowongan == null) return new HBox();
+        if (lowongan == null)
+            return new HBox();
 
         String namaPerusahaan = lowongan.getPerusahaan() != null
-                ? lowongan.getPerusahaan().getNamaPerusahaan() : "-";
+                ? lowongan.getPerusahaan().getNamaPerusahaan()
+                : "-";
 
         Label nama = new Label(lowongan.getNamaPekerjaan() != null ? lowongan.getNamaPekerjaan() : "-");
         nama.getStyleClass().add("rekomendasi-nama");
@@ -293,7 +328,8 @@ public class DashboardPelamarController {
         nama.setEllipsisString("...");
 
         String tanggalStr = lamaran.getTanggalLamar() != null
-                ? lamaran.getTanggalLamar().format(formatTanggal) : "-";
+                ? lamaran.getTanggalLamar().format(formatTanggal)
+                : "-";
 
         Label detail = new Label(namaPerusahaan + " · " + tanggalStr);
         detail.getStyleClass().add("rekomendasi-detail");
@@ -372,10 +408,10 @@ public class DashboardPelamarController {
     private int[] hitungSkorKecocokan(Lowongan lowongan) {
         List<Keahlian> dibutuhkan = lowongan.getDaftarKeahlian();
         if (dibutuhkan == null || dibutuhkan.isEmpty()) {
-            return new int[]{0, 0};
+            return new int[] { 0, 0 };
         }
         if (keahlianPelamar == null || keahlianPelamar.isEmpty()) {
-            return new int[]{0, dibutuhkan.size()};
+            return new int[] { 0, dibutuhkan.size() };
         }
 
         Set<Integer> idPelamar = new HashSet<>();
@@ -385,9 +421,10 @@ public class DashboardPelamarController {
 
         int cocok = 0;
         for (Keahlian k : dibutuhkan) {
-            if (idPelamar.contains(k.getIdKeahlian())) cocok++;
+            if (idPelamar.contains(k.getIdKeahlian()))
+                cocok++;
         }
-        return new int[]{cocok, dibutuhkan.size()};
+        return new int[] { cocok, dibutuhkan.size() };
     }
 
     private Label buatAvatar(String namaPerusahaan) {
@@ -399,20 +436,25 @@ public class DashboardPelamarController {
     }
 
     private String buatInisial(String nama) {
-        if (nama == null || nama.isBlank()) return "?";
+        if (nama == null || nama.isBlank())
+            return "?";
         String[] kata = nama.trim().split("\\s+");
         StringBuilder sb = new StringBuilder();
         for (String k : kata) {
-            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank()) continue;
+            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank())
+                continue;
             sb.append(Character.toUpperCase(k.charAt(0)));
-            if (sb.length() >= 2) break;
+            if (sb.length() >= 2)
+                break;
         }
-        if (sb.length() == 0) sb.append(Character.toUpperCase(nama.charAt(0)));
+        if (sb.length() == 0)
+            sb.append(Character.toUpperCase(nama.charAt(0)));
         return sb.toString();
     }
 
     private String tentukanWarnaAvatar(String nama) {
-        if (nama == null) return "avatar-biru";
+        if (nama == null)
+            return "avatar-biru";
         int hash = Math.abs(nama.hashCode() % 6);
         return switch (hash) {
             case 0 -> "avatar-biru";
@@ -425,17 +467,19 @@ public class DashboardPelamarController {
     }
 
     private String kapitalisasi(String teks) {
-        if (teks == null || teks.isBlank()) return "-";
+        if (teks == null || teks.isBlank())
+            return "-";
         return teks.substring(0, 1).toUpperCase() + teks.substring(1).toLowerCase();
     }
 
     private String formatStatus(String status) {
-        if (status == null) return "-";
+        if (status == null)
+            return "-";
         return switch (status.toLowerCase()) {
             case "diproses" -> "Diproses";
             case "ditinjau" -> "Ditinjau";
             case "diterima" -> "Diterima";
-            case "ditolak"  -> "Ditolak";
+            case "ditolak" -> "Ditolak";
             default -> status;
         };
     }
@@ -444,7 +488,7 @@ public class DashboardPelamarController {
     void handleBukaBeranda(ActionEvent event) {
         mainBorderPane.setCenter(halamanBeranda);
         aturMenuAktif(berandaMenu);
-        muatDataBeranda(); 
+        muatDataBeranda();
     }
 
     @FXML
@@ -460,6 +504,11 @@ public class DashboardPelamarController {
     @FXML
     void handleBukaChecklist(ActionEvent event) {
         tampilkanHalaman("CheckListMinatBakatView.fxml");
+    }
+
+    @FXML
+    void handleBukaProfil(MouseEvent event) {
+        tampilkanHalaman("ProfilView.fxml");
     }
 
     @FXML
@@ -479,8 +528,12 @@ public class DashboardPelamarController {
         for (ToggleButton menu : daftarMenu) {
             menu.getStyleClass().remove("menu-aktif");
         }
-        menuAktif.setSelected(true);
-        menuAktif.getStyleClass().add("menu-aktif");
+        if (menuAktif == null) {
+            menuGroup.selectToggle(null);
+        } else {
+            menuAktif.setSelected(true);
+            menuAktif.getStyleClass().add("menu-aktif");
+        }
 
         riwayatMenuLabel.getStyleClass().remove("menu-label-aktif");
         if (menuAktif == riwayatMenu) {
@@ -505,7 +558,12 @@ public class DashboardPelamarController {
                     RiwayatLamaranController controller = loader.getController();
                     controller.setDashboardController(this);
                 }
-                case "CheckListMinatBakatView.fxml" -> { }
+                case "CheckListMinatBakatView.fxml" -> {
+                }
+                case "ProfilView.fxml" -> {
+                    ProfilController controller = loader.getController();
+                    controller.setDashboardController(this);
+                }
             }
 
             mainBorderPane.setCenter(halamanBorder.getCenter());
@@ -514,6 +572,7 @@ public class DashboardPelamarController {
                 case "CariLowonganView.fxml" -> aturMenuAktif(cariLowonganMenu);
                 case "RiwayatLamaranView.fxml" -> aturMenuAktif(riwayatMenu);
                 case "CheckListMinatBakatView.fxml" -> aturMenuAktif(checklistMenu);
+                case "ProfilView.fxml" -> aturMenuAktif(null);
             }
 
         } catch (IOException | NullPointerException e) {
@@ -525,8 +584,7 @@ public class DashboardPelamarController {
     public void bukaDetailLowongan(Lowongan lowongan) {
         try {
             Node halamanSebelumnya = mainBorderPane.getCenter();
-            ToggleButton menuSebelumnya =
-                    (ToggleButton) menuGroup.getSelectedToggle();
+            ToggleButton menuSebelumnya = (ToggleButton) menuGroup.getSelectedToggle();
 
             String lokasi = "/com/example/projectpbokawansetara/view/DetailLowonganView.fxml";
             FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasi));

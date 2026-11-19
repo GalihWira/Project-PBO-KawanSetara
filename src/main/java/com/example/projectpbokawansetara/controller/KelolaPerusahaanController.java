@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.projectpbokawansetara.dao.PerusahaanDAO;
+import com.example.projectpbokawansetara.exception.ValidationException;
 import com.example.projectpbokawansetara.model.Perusahaan;
+import com.example.projectpbokawansetara.service.PerusahaanService;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
@@ -23,35 +25,57 @@ import javafx.scene.layout.HBox;
 
 public class KelolaPerusahaanController {
 
-    @FXML private TableView<Perusahaan> perusahaanTable;
-    @FXML private TableColumn<Perusahaan, String> namaColumn;
-    @FXML private TableColumn<Perusahaan, String> alamatColumn;
-    @FXML private TableColumn<Perusahaan, String> emailColumn;
-    @FXML private TableColumn<Perusahaan, String> noTeleponColumn;
+    @FXML
+    private TableView<Perusahaan> perusahaanTable;
+    @FXML
+    private TableColumn<Perusahaan, String> namaColumn;
+    @FXML
+    private TableColumn<Perusahaan, String> alamatColumn;
+    @FXML
+    private TableColumn<Perusahaan, String> emailColumn;
+    @FXML
+    private TableColumn<Perusahaan, String> noTeleponColumn;
 
-    @FXML private TextField cariPerusahaanField;
-    @FXML private Label ringkasanLabel;
-    @FXML private Label infoTampilLabel;
-    @FXML private Button sebelumnyaButton;
-    @FXML private Button berikutnyaButton;
+    @FXML
+    private TextField cariPerusahaanField;
+    @FXML
+    private Label ringkasanLabel;
+    @FXML
+    private Label infoTampilLabel;
+    @FXML
+    private Button sebelumnyaButton;
+    @FXML
+    private Button berikutnyaButton;
 
-    @FXML private Label judulFormLabel;
-    @FXML private Label jumlahLowonganAktifLabel;
-    @FXML private HBox errorBanner;
-    @FXML private Label errorBannerJudulLabel;
-    @FXML private Label errorBannerPesanLabel;
+    @FXML
+    private Label judulFormLabel;
+    @FXML
+    private Label jumlahLowonganAktifLabel;
+    @FXML
+    private HBox errorBanner;
+    @FXML
+    private Label errorBannerJudulLabel;
+    @FXML
+    private Label errorBannerPesanLabel;
 
-    @FXML private TextField namaPerusahaanField;
-    @FXML private TextArea alamatArea;
-    @FXML private TextField emailField;
-    @FXML private TextField noTeleponField;
-    @FXML private TextArea deskripsiArea;
-    @FXML private Button hapusButton;
+    @FXML
+    private TextField namaPerusahaanField;
+    @FXML
+    private TextArea alamatArea;
+    @FXML
+    private TextField emailField;
+    @FXML
+    private TextField noTeleponField;
+    @FXML
+    private TextArea deskripsiArea;
+    @FXML
+    private Button hapusButton;
 
     private final PerusahaanDAO perusahaanDAO = new PerusahaanDAO();
+    private final PerusahaanService perusahaanService = new PerusahaanService();
     private List<Perusahaan> semuaPerusahaan = new ArrayList<>();
     private List<Perusahaan> perusahaanTerfilter = new ArrayList<>();
-    private Perusahaan perusahaanDipilih = null; 
+    private Perusahaan perusahaanDipilih = null;
 
     private int halamanSekarang = 1;
     private final int barisPerHalaman = 8;
@@ -91,7 +115,8 @@ public class KelolaPerusahaanController {
     }
 
     private void terapkanFilter() {
-        String keyword = cariPerusahaanField.getText() == null ? "" : cariPerusahaanField.getText().toLowerCase().trim();
+        String keyword = cariPerusahaanField.getText() == null ? ""
+                : cariPerusahaanField.getText().toLowerCase().trim();
         perusahaanTerfilter.clear();
 
         for (Perusahaan p : semuaPerusahaan) {
@@ -107,13 +132,16 @@ public class KelolaPerusahaanController {
     private void updateTampilanHalaman() {
         int totalData = perusahaanTerfilter.size();
         int totalHalaman = Math.max(1, (int) Math.ceil((double) totalData / barisPerHalaman));
-        if (halamanSekarang > totalHalaman) halamanSekarang = totalHalaman;
+        if (halamanSekarang > totalHalaman)
+            halamanSekarang = totalHalaman;
 
         int dariIndex = (halamanSekarang - 1) * barisPerHalaman;
         int sampaiIndex = Math.min(dariIndex + barisPerHalaman, totalData);
 
-        perusahaanTable.setItems(FXCollections.observableArrayList(perusahaanTerfilter.subList(dariIndex, sampaiIndex)));
-        infoTampilLabel.setText(totalData == 0 ? "Menampilkan 0 dari 0" : "Menampilkan " + (dariIndex + 1) + "–" + sampaiIndex + " dari " + totalData);
+        perusahaanTable
+                .setItems(FXCollections.observableArrayList(perusahaanTerfilter.subList(dariIndex, sampaiIndex)));
+        infoTampilLabel.setText(totalData == 0 ? "Menampilkan 0 dari 0"
+                : "Menampilkan " + (dariIndex + 1) + "–" + sampaiIndex + " dari " + totalData);
         sebelumnyaButton.setDisable(halamanSekarang <= 1);
         berikutnyaButton.setDisable(halamanSekarang >= totalHalaman);
     }
@@ -166,21 +194,11 @@ public class KelolaPerusahaanController {
         String telepon = noTeleponField.getText().trim();
         String deskripsi = deskripsiArea.getText().trim();
 
-        if (nama.isEmpty()) {
-            setError(true, "Data belum lengkap", "Nama perusahaan wajib diisi.");
+        try {
+            perusahaanService.validasiPerusahaan(nama, email, telepon);
+        } catch (ValidationException e) {
+            setError(true, "Data belum valid", e.getMessage());
             return;
-        }
-        if (!email.isEmpty() && !email.contains("@")) {
-            setError(true, "Format salah", "Email harus mengandung tanda @.");
-            return;
-        }
-        if (!telepon.isEmpty()) {
-            try {
-                Long.parseLong(telepon);
-            } catch (NumberFormatException e) {
-                setError(true, "Format salah", "Nomor telepon hanya boleh berisi angka.");
-                return;
-            }
         }
 
         boolean berhasil;
@@ -205,9 +223,11 @@ public class KelolaPerusahaanController {
 
     @FXML
     void handleHapus(ActionEvent event) {
-        if (perusahaanDipilih == null) return;
+        if (perusahaanDipilih == null)
+            return;
 
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION, "Hapus " + perusahaanDipilih.getNamaPerusahaan() + "?");
+        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
+                "Hapus " + perusahaanDipilih.getNamaPerusahaan() + "?");
         Optional<ButtonType> hasil = konfirmasi.showAndWait();
 
         if (hasil.isPresent() && hasil.get() == ButtonType.OK) {

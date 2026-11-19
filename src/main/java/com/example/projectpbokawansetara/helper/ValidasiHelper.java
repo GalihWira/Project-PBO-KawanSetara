@@ -1,5 +1,8 @@
 package com.example.projectpbokawansetara.helper;
 
+import java.time.LocalDate;
+import java.time.Period;
+
 public class ValidasiHelper {
 
     private static final String[] DOMAIN_DIIZINKAN = {
@@ -11,6 +14,7 @@ public class ValidasiHelper {
             "icloud.com",
             "kawansetara.com"
     };
+    private static final long UKURAN_MAKS_FILE = 2 * 1024 * 1024;
 
     private ValidasiHelper() {
     }
@@ -96,6 +100,41 @@ public class ValidasiHelper {
             return false;
         }
         return semuaAngka(gaji);
+    }
+
+    public static boolean panjangMaksimal(String teks, int maksimal) {
+        return teks != null && teks.length() <= maksimal;
+    }
+
+    public static boolean teleponKantorValid(String telepon) {
+        if (telepon == null || telepon.length() < 8 || telepon.length() > 15) {
+            return false;
+        }
+        return semuaAngka(telepon);
+    }
+
+    public static boolean tanggalLahirValid(LocalDate tanggalLahir) {
+        if (tanggalLahir == null || tanggalLahir.isAfter(LocalDate.now())) {
+            return false;
+        }
+        int usia = Period.between(tanggalLahir, LocalDate.now()).getYears();
+        return usia >= 15 && usia <= 100;
+    }
+
+    public static boolean pdfValid(String namaFile) {
+        return namaFile != null && namaFile.toLowerCase().endsWith(".pdf");
+    }
+
+    public static boolean ukuranFileValid(long ukuran) {
+        return ukuran > 0 && ukuran <= UKURAN_MAKS_FILE;
+    }
+
+    public static boolean gambarValid(String namaFile) {
+        if (namaFile == null) {
+            return false;
+        }
+        String nama = namaFile.toLowerCase();
+        return nama.endsWith(".jpg") || nama.endsWith(".jpeg") || nama.endsWith(".png");
     }
 
     private static boolean semuaAngka(String teks) {
