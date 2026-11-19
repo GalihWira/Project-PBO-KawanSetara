@@ -21,18 +21,18 @@ public class PelamarDAO {
     public boolean simpanPelamar(Pelamar pelamar, List<String> daftarDisabilitas) throws SQLException {
 
         String sqlPelamar = """
-            INSERT INTO Pelamar
-                (nama, email, password, no_telepon, usia, tanggal_lahir,
-                 pendidikan, ijazah, surat_ket_disabilitas, cv)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """;
+                    INSERT INTO Pelamar
+                        (nama, email, password, no_telepon, usia, tanggal_lahir,
+                         pendidikan, ijazah, surat_ket_disabilitas, cv)
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                """;
 
         String sqlDisabilitas = """
-            INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas)
-            SELECT ?, id_disabilitas
-            FROM Jenis_Disabilitas
-            WHERE nama_disabilitas = ?
-        """;
+                    INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas)
+                    SELECT ?, id_disabilitas
+                    FROM Jenis_Disabilitas
+                    WHERE nama_disabilitas = ?
+                """;
 
         String passwordHash = BCrypt.hashpw(pelamar.getPassword(), BCrypt.gensalt(12));
         LocalDate tanggalLahir = pelamar.getTanggalLahir();
@@ -84,16 +84,15 @@ public class PelamarDAO {
         List<Keahlian> list = new ArrayList<>();
 
         String sql = """
-            SELECT k.id_keahlian, k.nama_keahlian
-            FROM Pelamar_Keahlian pk
-            JOIN Keahlian k ON pk.id_keahlian = k.id_keahlian
-            WHERE pk.id_pelamar = ?
-        """;
+                    SELECT k.id_keahlian, k.nama_keahlian
+                    FROM Pelamar_Keahlian pk
+                    JOIN Keahlian k ON pk.id_keahlian = k.id_keahlian
+                    WHERE pk.id_pelamar = ?
+                """;
 
         try (
-            Connection conn = KoneksiDB.getConnection();
-            PreparedStatement stmt = conn.prepareStatement(sql)
-        ) {
+                Connection conn = KoneksiDB.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
             stmt.setInt(1, idPelamar);
             ResultSet rs = stmt.executeQuery();
 
@@ -107,4 +106,123 @@ public class PelamarDAO {
 
         return list;
     }
+
 }
+
+    public Pelamar getPelamarById(int idPelamar) throws SQLException {
+        String sql = """
+                    SELECT id_pelamar, nama, email, no_telepon, tanggal_lahir,
+                           pendidikan, ijazah, surat_ket_disabilitas, cv
+                    FROM Pelamar
+                    WHERE id_pelamar = ?
+                """;
+
+        try (
+                Connection conn = KoneksiDB.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idPelamar);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (!rs.next()) {
+                    return null;
+                }
+
+                Date tanggal = rs.getDate("tanggal_lahir");
+
+                return new Pelamar(
+                        rs.getInt("id_pelamar"),
+                        rs.getString("nama"),
+                        rs.getString("email"),
+                        null,
+                        rs.getString("no_telepon"),
+                        tanggal != null ? tanggal.toLocalDate() : null,
+                        rs.getString("pendidikan"),
+                        null,
+                        rs.getString("ijazah"),
+                        rs.getString("surat_ket_disabilitas"),
+                        rs.getString("cv"));
+            }
+        }
+    }
+
+    public List<Integer> getIdDisabilitasPelamar(int idPelamar) throws SQLException {
+        List<Integer> daftarId = new ArrayList<>();
+
+        String sql = """
+                    SELECT id_disabilitas
+                    FROM Pelamar_Disabilitas
+                    WHERE id_pelamar = ?
+                """;
+
+        try (
+                Connection conn = KoneksiDB.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idPelamar);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    daftarId.add(rs.getInt("id_disabilitas"));
+                }
+            }
+        }
+
+        return daftarId;
+    }
+
+    public boolean perbaruiProfil(Pelamar pelamar, List<Integer> daftarIdDisabilitas) throws SQLException {
+
+        String sqlPelamar = """
+            UPDATE Pelamar
+            SET nama = ?, no_telepon = ?, tanggal_lahir = ?, usia = ?, pendidikan = ?,
+                ijazah = ?, surat_ket_disabilitas = ?, cv = ?
+            WHERE id_pelamar = ?
+        """;
+
+        String sqlHapusDisabilitas = "DELETE FROM Pelamar_Disabilitas WHERE id_pelamar = ?";
+
+        String sqlTambahDisabilitas = """
+            INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas)
+            VALUES (?, ?)
+        """;
+
+        LocalDate tanggalLahir = pelamar.getTanggalLahir();
+
+        try (Connection conn = KoneksiDB.getConnection()) {
+            conn.setAutoCommit(false);
+
+            try {
+                try (PreparedStatement stmt = conn.prepareStatement(sqlPelamar)) {
+                    stmt.setString(1, pelamar.getNama());
+                    stmt.setString(2, pelamar.getNoTelepon());
+                    stmt.setDate(3, Date.valueOf(tanggalLahir));
+                    stmt.setInt(4, Period.between(tanggalLahir, LocalDate.now()).getYears());
+                    stmt.setString(5, pelamar.getPendidikan());
+                    stmt.setString(6, pelamar.getIjazah());
+                    stmt.setString(7, pelamar.getSuratKeteranganDisabilitas());
+                    stmt.setString(8, pelamar.getCv());
+                    stmt.setInt(9, pelamar.getIdPengguna());
+                    stmt.executeUpdate();
+                }
+
+                try (PreparedStatement stmt = conn.prepareStatement(sqlHapusDisabilitas)) {
+                    stmt.setInt(1, pelamar.getIdPengguna());
+                    stmt.executeUpdate();
+                }
+
+                try (PreparedStatement stmt = conn.prepareStatement(sqlTambahDisabilitas)) {
+                    for (int idDisabilitas : daftarIdDisabilitas) {
+                        stmt.setInt(1, pelamar.getIdPengguna());
+                        stmt.setInt(2, idDisabilitas);
+                        stmt.executeUpdate();
+                    }
+                }
+
+                conn.commit();
+                return true;
+
+            } catch (SQLException e) {
+                conn.rollback();
+                throw e;
+            }
+        }
+    }

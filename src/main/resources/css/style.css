@@ -864,3 +864,185 @@
 .teks-diterima { -fx-text-fill: #027A48; }
 .teks-ditolak { -fx-text-fill: #B42318; }
 .teks-default { -fx-text-fill: #344054; }
+
+.kartu-profil {
+    -fx-background-color: white;
+    -fx-border-color: #EAECF0;
+    -fx-background-radius: 12;
+    -fx-border-radius: 12;
+    -fx-padding: 20;
+}
+
+.judul-kartu-profil {
+    -fx-font-size: 16px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.subjudul-kartu-profil {
+    -fx-font-size: 13px;
+    -fx-text-fill: #667085;
+}
+
+.label-profil {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #344054;
+}
+
+.input-profil {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-background-radius: 8;
+    -fx-border-radius: 8;
+    -fx-font-size: 14px;
+}
+
+.text-field.input-profil {
+    -fx-padding: 0 12;
+    -fx-text-fill: #101828;
+    -fx-prompt-text-fill: #98A2B3;
+}
+
+.input-profil:focused {
+    -fx-border-color: #1F4E8C;
+}
+
+.input-profil-terkunci {
+    -fx-background-color: #F2F4F7;
+    -fx-text-fill: #667085;
+}
+
+.date-picker.input-profil > .text-field {
+    -fx-font-size: 14px;
+    -fx-padding: 0 12;
+    -fx-background-color: transparent;
+}
+
+.combo-box.input-profil .list-cell {
+    -fx-font-size: 14px;
+    -fx-padding: 0 0 0 12;
+}
+
+.input-profil.input-error {
+    -fx-border-color: #D92D20;
+}
+
+.error-profil {
+    -fx-font-size: 13px;
+    -fx-text-fill: #B42318;
+}
+
+.info-profil {
+    -fx-font-size: 12px;
+    -fx-text-fill: #667085;
+}
+
+.avatar-profil {
+    -fx-background-color: #DCE9F5;
+    -fx-background-radius: 50;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 20px;
+    -fx-font-weight: bold;
+}
+
+.nama-profil {
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #101828;
+}
+
+.email-profil {
+    -fx-font-size: 14px;
+    -fx-text-fill: #667085;
+}
+
+.nama-dokumen {
+    -fx-font-size: 14px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #101828;
+}
+
+.file-dokumen {
+    -fx-font-size: 13px;
+    -fx-text-fill: #667085;
+}
+
+.file-dokumen-baru {
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+}
+
+.tombol-ganti {
+    -fx-background-color: #DCE9F5;
+    -fx-background-radius: 8;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 0 18;
+    -fx-cursor: hand;
+}
+
+.tombol-ganti:hover {
+    -fx-background-color: #C7DCF0;
+}
+
+.tombol-profil {
+    -fx-font-size: 14px;
+}
+
+.checkbox-profil {
+    -fx-font-size: 14px;
+}
+
+.banner-judul-profil {
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+}
+
+.banner-detail-profil {
+    -fx-font-size: 13px;
+}
+
+.kotak-profil-sidebar {
+    -fx-background-radius: 8;
+    -fx-cursor: hand;
+}
+
+.kotak-profil-sidebar:hover {
+    -fx-background-color: #F2F4F7;
+}
+
+.badge-kamera {
+    -fx-background-color: white;
+    -fx-background-radius: 13;
+    -fx-border-color: #D0D5DD;
+    -fx-border-radius: 13;
+}
+
+.tombol-ganti-foto {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-text-fill: #344054;
+    -fx-font-size: 14px;
+    -fx-font-weight: bold;
+    -fx-padding: 0 16;
+    -fx-cursor: hand;
+}
+
+.tombol-ganti-foto:hover {
+    -fx-background-color: #F9FAFB;
+}
+
+.info-foto {
+    -fx-font-size: 13px;
+    -fx-text-fill: #667085;
+}
+
+.foto-baru {
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #1F4E8C;
+}
