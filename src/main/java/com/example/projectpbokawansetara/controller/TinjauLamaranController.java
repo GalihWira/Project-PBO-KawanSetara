@@ -11,14 +11,24 @@ import javafx.stage.Stage;
 
 public class TinjauLamaranController {
 
-    @FXML private Label namaLabel;
-    @FXML private Label emailLabel;
-    @FXML private Label posisiLabel;
-    @FXML private Label cvLabel;
-    @FXML private Label pesanLabel;
-    @FXML private Button bukaCvButton;
-    @FXML private Button tutupButton;
-    @FXML private Button tandaiButton;
+    @FXML
+    private Label namaLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private Label posisiLabel;
+    @FXML
+    private Label cvLabel;
+    @FXML
+    private Label pesanLabel;
+    @FXML
+    private Label infoStatusLabel;
+    @FXML
+    private Button bukaCvButton;
+    @FXML
+    private Button tutupButton;
+    @FXML
+    private Button tandaiButton;
 
     private String pathCv;
     private boolean ditandai = false;
@@ -34,6 +44,7 @@ public class TinjauLamaranController {
         } else {
             cvLabel.setText("CV: " + pathCv);
         }
+        aturTombolTandai(lamaran.getStatus());
     }
 
     public boolean isDitandai() {
@@ -61,5 +72,23 @@ public class TinjauLamaranController {
     private void tutupDialog() {
         Stage stage = (Stage) tutupButton.getScene().getWindow();
         stage.close();
+    }
+
+    private void aturTombolTandai(String status) {
+        boolean masihDiproses = "diproses".equals(status);
+        tandaiButton.setDisable(!masihDiproses);
+
+        if (masihDiproses) {
+            infoStatusLabel.setText("");
+            infoStatusLabel.setVisible(false);
+            infoStatusLabel.setManaged(false);
+            tandaiButton.setAccessibleHelp("Tandai lamaran ini sebagai sudah ditinjau.");
+        } else {
+            String pesan = "Lamaran ini sudah " + status + ". Kamu tetap bisa membuka CV-nya.";
+            infoStatusLabel.setText(pesan);
+            infoStatusLabel.setVisible(true);
+            infoStatusLabel.setManaged(true);
+            tandaiButton.setAccessibleHelp(pesan);
+        }
     }
 }

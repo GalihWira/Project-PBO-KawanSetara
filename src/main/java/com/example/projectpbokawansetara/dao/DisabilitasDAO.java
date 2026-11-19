@@ -23,7 +23,7 @@ public class DisabilitasDAO {
                 list.add(new JenisDisabilitas(
                         rs.getInt("id_disabilitas"),
                         rs.getString("nama_disabilitas"),
-                        0));
+                        rs.getInt("jumlah_pelamar")));
             }
         } catch (SQLException e) {
             e.printStackTrace();
