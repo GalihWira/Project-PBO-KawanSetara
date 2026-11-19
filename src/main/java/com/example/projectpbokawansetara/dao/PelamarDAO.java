@@ -107,8 +107,6 @@ public class PelamarDAO {
         return list;
     }
 
-}
-
     public Pelamar getPelamarById(int idPelamar) throws SQLException {
         String sql = """
                     SELECT id_pelamar, nama, email, no_telepon, tanggal_lahir,
@@ -172,18 +170,18 @@ public class PelamarDAO {
     public boolean perbaruiProfil(Pelamar pelamar, List<Integer> daftarIdDisabilitas) throws SQLException {
 
         String sqlPelamar = """
-            UPDATE Pelamar
-            SET nama = ?, no_telepon = ?, tanggal_lahir = ?, usia = ?, pendidikan = ?,
-                ijazah = ?, surat_ket_disabilitas = ?, cv = ?
-            WHERE id_pelamar = ?
-        """;
+                    UPDATE Pelamar
+                    SET nama = ?, no_telepon = ?, tanggal_lahir = ?, usia = ?, pendidikan = ?,
+                        ijazah = ?, surat_ket_disabilitas = ?, cv = ?
+                    WHERE id_pelamar = ?
+                """;
 
         String sqlHapusDisabilitas = "DELETE FROM Pelamar_Disabilitas WHERE id_pelamar = ?";
 
         String sqlTambahDisabilitas = """
-            INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas)
-            VALUES (?, ?)
-        """;
+                    INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas)
+                    VALUES (?, ?)
+                """;
 
         LocalDate tanggalLahir = pelamar.getTanggalLahir();
 
@@ -226,3 +224,4 @@ public class PelamarDAO {
             }
         }
     }
+}
