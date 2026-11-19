@@ -4,6 +4,7 @@ module com.example.projectpbokawansetara {
     requires java.sql;
     requires jbcrypt;
     requires java.prefs;
+    requires java.desktop;
 
     opens com.example.projectpbokawansetara to javafx.fxml;
     exports com.example.projectpbokawansetara;

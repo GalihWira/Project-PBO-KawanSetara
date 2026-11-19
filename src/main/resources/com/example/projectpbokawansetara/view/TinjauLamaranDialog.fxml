@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox spacing="10" prefWidth="420" style="-fx-background-color: white;"
+      xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.example.projectpbokawansetara.controller.TinjauLamaranController">
+   <padding>
+      <Insets top="24" right="24" bottom="24" left="24" />
+   </padding>
+
+   <Label text="Tinjau Lamaran" style="-fx-font-size: 18px; -fx-font-weight: bold;" />
+   <Label fx:id="namaLabel" />
+   <Label fx:id="emailLabel" />
+   <Label fx:id="posisiLabel" />
+   <Label fx:id="cvLabel" />
+   <Button fx:id="bukaCvButton" text="Buka CV" onAction="#handleBukaCv" />
+   <Label fx:id="pesanLabel" style="-fx-text-fill: #D92D20;" wrapText="true" />
+
+   <HBox spacing="8" alignment="CENTER_RIGHT">
+      <Button fx:id="tutupButton" text="Tutup" onAction="#handleTutup" />
+      <Button fx:id="tandaiButton" text="Tandai sudah ditinjau" onAction="#handleTandai" />
+   </HBox>
+</VBox>

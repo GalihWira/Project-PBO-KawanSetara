@@ -149,6 +149,7 @@ public class LamaranDAO {
                         pe.nama,
                         pe.email,
                         pe.no_telepon,
+                        pe.cv,
                         l.id_lowongan,
                         l.nama_pekerjaan,
                         l.deskripsi,
@@ -186,7 +187,7 @@ public class LamaranDAO {
                         null,
                         null,
                         null,
-                        null);
+                        rs.getString("cv"));
 
                 Perusahaan perusahaan = new Perusahaan(
                         rs.getInt("id_perusahaan"),

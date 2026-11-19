@@ -1,6 +1,7 @@
 package com.example.projectpbokawansetara.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
@@ -10,6 +11,7 @@ import java.util.List;
 import com.example.projectpbokawansetara.dao.PelamarDAO;
 import com.example.projectpbokawansetara.dao.UserDAO;
 import com.example.projectpbokawansetara.exception.ValidationException;
+import com.example.projectpbokawansetara.helper.FileHelper;
 import com.example.projectpbokawansetara.helper.SceneManager;
 import com.example.projectpbokawansetara.model.Pelamar;
 import com.example.projectpbokawansetara.service.AuthService;
@@ -349,27 +351,33 @@ public class RegisterController {
             return;
         }
 
-        Pelamar pelamar = new Pelamar(
-            0,
-            namaField.getText().trim(),
-            emailField.getText().trim().toLowerCase(),
-            ambilPassword(),
-            ambilTelepon(),
-            tanggalLahirPicker.getValue(),
-            pendidikanComboBox.getValue(),
-            String.join(", ", daftarDisabilitas),
-            fileIjazah.getAbsolutePath(),
-            fileSkd.getAbsolutePath(),
-            fileCv.getAbsolutePath()
-        );
-
         try {
+            String email = emailField.getText().trim().toLowerCase();
+            String pathCv = FileHelper.simpanPdf(fileCv, "cv", email);
+            String pathIjazah = FileHelper.simpanPdf(fileIjazah, "ijazah", email);
+            String pathSkd = FileHelper.simpanPdf(fileSkd, "skd", email);
+
+            Pelamar pelamar = new Pelamar(
+                0,
+                namaField.getText().trim(),
+                email,
+                ambilPassword(),
+                ambilTelepon(),
+                tanggalLahirPicker.getValue(),
+                pendidikanComboBox.getValue(),
+                String.join(", ", daftarDisabilitas),
+                pathIjazah,
+                pathSkd,
+                pathCv
+            );
+
             if (pelamarDAO.simpanPelamar(pelamar, daftarDisabilitas)) {
                 SceneManager.pindah("LoginView.fxml", "Masuk - KawanSetara");
             }
+        } catch (IOException e) {
+            tampilkanPesan(skdErrorLabel, "File gagal disimpan. Silakan pilih ulang.");
         } catch (SQLException e) {
             tampilkanPesan(skdErrorLabel, "Gagal mendaftar, silakan coba lagi.");
-            e.printStackTrace();
         }
     }
 
