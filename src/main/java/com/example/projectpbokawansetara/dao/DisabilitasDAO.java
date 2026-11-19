@@ -13,8 +13,14 @@ public class DisabilitasDAO {
 
     public List<JenisDisabilitas> getAllDisabilitas() {
         List<JenisDisabilitas> list = new ArrayList<>();
-        String sql = "SELECT id_disabilitas, nama_disabilitas FROM Jenis_Disabilitas ORDER BY id_disabilitas ASC";
-
+        String sql = """
+                SELECT jd.id_disabilitas, jd.nama_disabilitas,
+                COUNT(pd.id_pelamar) AS jumlah_pelamar
+                FROM Jenis_Disabilitas jd
+                LEFT JOIN Pelamar_Disabilitas pd ON jd.id_disabilitas = pd.id_disabilitas
+                GROUP BY jd.id_disabilitas, jd.nama_disabilitas
+                ORDER BY jd.id_disabilitas ASC
+                """;
         try (Connection conn = KoneksiDB.getConnection();
                 PreparedStatement ps = conn.prepareStatement(sql);
                 ResultSet rs = ps.executeQuery()) {
