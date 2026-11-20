@@ -195,8 +195,10 @@ public class DashboardAdminController {
                 warnaStatus = "-fx-background-color: #D1E9FF; -fx-text-fill: #175CD3;";
             } else if (statusText.equals("diterima")) {
                 warnaStatus = "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;";
-            } else {
+            } else if (statusText.equals("ditolak")) {
                 warnaStatus = "-fx-background-color: #FEE4E2; -fx-text-fill: #B42318;";
+            } else {
+                warnaStatus = "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;";
             }
             lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + warnaStatus);
 
