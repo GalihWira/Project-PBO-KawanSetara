@@ -191,10 +191,12 @@ public class DashboardAdminController {
             String warnaStatus;
             if (statusText.equals("diproses")) {
                 warnaStatus = "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;";
+            } else if (statusText.equals("ditinjau")) {
+                warnaStatus = "-fx-background-color: #D1E9FF; -fx-text-fill: #175CD3;";
             } else if (statusText.equals("diterima")) {
                 warnaStatus = "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;";
             } else {
-                warnaStatus = "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;";
+                warnaStatus = "-fx-background-color: #FEE4E2; -fx-text-fill: #B42318;";
             }
             lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + warnaStatus);
 

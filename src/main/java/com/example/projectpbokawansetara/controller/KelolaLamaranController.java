@@ -198,11 +198,10 @@ public class KelolaLamaranController {
                     Button btnTerima = buatTombol("Terima", "-fx-background-color: #027A48; -fx-text-fill: white;");
                     Button btnTolak = buatTombol("Tolak", "-fx-background-color: white; -fx-border-color: #D92D20; -fx-text-fill: #D92D20;");
 
-                    btnTinjau.setDisable(!data.getStatus().equals("diproses"));
                     btnTerima.setDisable(data.getStatus().equals("diterima"));
                     btnTolak.setDisable(data.getStatus().equals("ditolak"));
 
-                    btnTinjau.setOnAction(event -> bukaDialogTinjau(data));                    
+                    btnTinjau.setOnAction(event -> bukaDialogTinjau(data));
                     btnTerima.setOnAction(event -> prosesUbahStatus(data, "diterima"));
                     btnTolak.setOnAction(event -> prosesUbahStatus(data, "ditolak"));
 

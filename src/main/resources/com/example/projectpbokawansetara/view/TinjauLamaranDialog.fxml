@@ -20,6 +20,7 @@
    <Label fx:id="cvLabel" />
    <Button fx:id="bukaCvButton" text="Buka CV" onAction="#handleBukaCv" />
    <Label fx:id="pesanLabel" style="-fx-text-fill: #D92D20;" wrapText="true" />
+   <Label fx:id="infoStatusLabel" managed="false" visible="false" wrapText="true" style="-fx-text-fill: #475467; -fx-font-size: 13px;" />
 
    <HBox spacing="8" alignment="CENTER_RIGHT">
       <Button fx:id="tutupButton" text="Tutup" onAction="#handleTutup" />

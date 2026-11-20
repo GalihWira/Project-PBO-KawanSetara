@@ -62,13 +62,22 @@ CREATE TABLE Lamaran(
     id_lowongan INT NOT NULL,
     tanggal_lamar DATE NOT NULL,
     status ENUM('diproses', 'ditinjau', 'diterima', 'ditolak') NOT NULL DEFAULT 'diproses',
+    tanggal_diperbarui DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    CONSTRAINT unik_lamaran UNIQUE (id_pelamar, id_lowongan),
     FOREIGN KEY (id_pelamar) REFERENCES Pelamar(id_pelamar),
     FOREIGN KEY (id_lowongan) REFERENCES Lowongan(id_lowongan)
 );
 
+CREATE TABLE KategoriKeahlian(
+    id_kategori INT AUTO_INCREMENT PRIMARY KEY,
+    nama_kategori VARCHAR(100) NOT NULL
+);
+
 CREATE TABLE Keahlian(
     id_keahlian INT AUTO_INCREMENT PRIMARY KEY,
-    nama_keahlian VARCHAR(255) NOT NULL
+    nama_keahlian VARCHAR(255) NOT NULL,
+    id_kategori INT,
+    CONSTRAINT fk_keahlian_kategori FOREIGN KEY (id_kategori) REFERENCES KategoriKeahlian(id_kategori)
 );
 
 CREATE TABLE Pelamar_Disabilitas(
@@ -96,10 +105,17 @@ CREATE TABLE Lowongan_Keahlian(
 );
 
 INSERT INTO Admin (nama, email, password) VALUES
-('Admin Utama', 'admin@kawansetara.com', 'admin12345');
+('Admin Utama', 'admin@kawansetara.com', '$2a$12$QhMWdG7Ds7BttGV6Kf0Mqu7rQmAhvFn652tDMZmuf6Qu1vRklJCyu');
 
-INSERT INTO Pelamar (nama, email, password, no_telepon, tanggal_lahir, pendidikan) VALUES
-('Pelamar Coba', 'pelamar@gmail.com', 'pelamar123', '081234567890', '2004-05-10', 'SMA/SMK');
+INSERT INTO Perusahaan (nama_perusahaan, alamat, email, no_telepon, deskripsi) VALUES
+('PT Contoh Inklusif', 'Jl. Raya Kampus Unud, Jimbaran, Bali', 'hrd@contohinklusif.com', '0361123456', 'Perusahaan contoh untuk data awal'),
+('CV Kreatif Setara', 'Jl. Teuku Umar No. 10, Denpasar', 'info@kreatifsetara.com', '0361765432', 'Studio desain yang ramah disabilitas'),
+('PT Belum Buka Lowongan', 'Jl. Bypass Ngurah Rai, Badung', NULL, NULL, 'Perusahaan mitra tanpa lowongan, untuk tes statistik dashboard');
+
+INSERT INTO Pelamar (nama, email, password, no_telepon, usia, tanggal_lahir, pendidikan, ijazah, surat_ket_disabilitas, cv) VALUES
+('Pelamar Coba', 'pelamar@gmail.com', '$2a$12$/2QDVkHGJ.Qro9j9/te/q..xgd//.BMDg5RFSiikMyrmc.hGzmiua', '081234567890', 22, '2004-05-10', 'SMA', 'uploads/ijazah/contoh_ijazah_pelamar.pdf', 'uploads/skd/contoh_skd_pelamar.pdf', 'uploads/cv/contoh_cv_pelamar.pdf'),
+('Budi Santoso', 'budi@gmail.com', '$2a$12$DmY5mEjDtaaqIgmbGrbG5O6doc4Kz2L49iPYHNVkcAepHNLRfKxYy', '081298765432', 24, '2002-08-17', 'Sarjana', 'uploads/ijazah/contoh_ijazah_budi.pdf', 'uploads/skd/contoh_skd_budi.pdf', 'uploads/cv/contoh_cv_budi.pdf'),
+('Sari Dewi', 'sari@yahoo.com', '$2a$12$ZqiD/S8CP8rc9J84kOk03OtWvp5zpgIiz/WGFIytpRaMeqASrBQ.2', '085712345678', 23, '2003-01-25', 'Lainnya', 'uploads/ijazah/contoh_ijazah_sari.pdf', 'uploads/skd/contoh_skd_sari.pdf', 'uploads/cv/contoh_cv_sari.pdf');
 
 INSERT INTO Jenis_Disabilitas (nama_disabilitas, deskripsi) VALUES
 ('Disabilitas Fisik', 'Keterbatasan gerak atau fungsi anggota tubuh'),
@@ -109,41 +125,6 @@ INSERT INTO Jenis_Disabilitas (nama_disabilitas, deskripsi) VALUES
 ('Disabilitas Intelektual', 'Keterbatasan fungsi kognitif'),
 ('Disabilitas Mental', 'Gangguan psikososial atau perkembangan');
 
-INSERT INTO Keahlian (nama_keahlian) VALUES
-('Mengetik / Administrasi'),
-('Desain Grafis'),
-('Pemrograman'),
-('Customer Service'),
-('Kerajinan Tangan'),
-('Akuntansi');
-
-INSERT INTO Perusahaan (nama_perusahaan, alamat, email, no_telepon, deskripsi) VALUES
-('PT Contoh Inklusif', 'Jl. Raya Kampus Unud, Jimbaran, Bali', 'hrd@contohinklusif.com', '0361123456', 'Perusahaan contoh untuk data awal');
-
-INSERT INTO Lowongan (id_admin, id_perusahaan, nama_pekerjaan, deskripsi, gaji, lokasi, durasi_kerja, jenis_lowongan, persyaratan) VALUES
-(1, 1, 'Staf Administrasi', 'Mengelola data dan dokumen kantor', 3500000.00, 'Denpasar', '8 jam/hari', 'full time', 'Bisa mengoperasikan komputer'),
-(1, 1, 'Desainer Grafis', 'Membuat desain konten', 4000000, 'Badung', '6 jam/hari', 'full time', 'Bisa Canva'),
-(1, 1, 'Penulis Konten', 'Menulis artikel', 2500000, 'Gianyar', '4 jam/hari', 'part time', 'Bisa menulis');
-
-INSERT INTO Lowongan_Keahlian (id_lowongan, id_keahlian) VALUES
-(1, 1);
-
-INSERT INTO Lamaran (id_pelamar, id_lowongan, tanggal_lamar) VALUES
-(1, 1, CURDATE());
-
-CREATE TABLE KategoriKeahlian (
-    id_kategori INT AUTO_INCREMENT PRIMARY KEY,
-    nama_kategori VARCHAR(100) NOT NULL
-);
-
-ALTER TABLE Keahlian
-ADD COLUMN id_kategori INT;
-
-ALTER TABLE Keahlian
-ADD CONSTRAINT fk_keahlian_kategori
-FOREIGN KEY (id_kategori)
-REFERENCES KategoriKeahlian(id_kategori);
-
 INSERT INTO KategoriKeahlian (nama_kategori) VALUES
 ('Administrasi'),
 ('Desain'),
@@ -152,26 +133,42 @@ INSERT INTO KategoriKeahlian (nama_kategori) VALUES
 ('Kreativitas'),
 ('Keuangan');
 
-UPDATE Keahlian SET id_kategori = 1 WHERE id_keahlian = 1;
-UPDATE Keahlian SET id_kategori = 2 WHERE id_keahlian = 2;
-UPDATE Keahlian SET id_kategori = 3 WHERE id_keahlian = 3;
-UPDATE Keahlian SET id_kategori = 4 WHERE id_keahlian = 4;
-UPDATE Keahlian SET id_kategori = 5 WHERE id_keahlian = 5;
-UPDATE Keahlian SET id_kategori = 6 WHERE id_keahlian = 6;
+INSERT INTO Keahlian (nama_keahlian, id_kategori) VALUES
+('Mengetik / Administrasi', 1),
+('Desain Grafis', 2),
+('Pemrograman', 3),
+('Customer Service', 4),
+('Kerajinan Tangan', 5),
+('Akuntansi', 6);
 
-SELECT 
-    KategoriKeahlian.nama_kategori,
-    Keahlian.id_keahlian,
-    Keahlian.nama_keahlian
-FROM Keahlian
-JOIN KategoriKeahlian
-ON Keahlian.id_kategori = KategoriKeahlian.id_kategori;
+INSERT INTO Lowongan (id_admin, id_perusahaan, nama_pekerjaan, deskripsi, gaji, lokasi, durasi_kerja, jenis_lowongan, persyaratan, status) VALUES
+(1, 1, 'Staf Administrasi', 'Mengelola data dan dokumen kantor', 3500000, 'Denpasar', '8 jam/hari', 'full time', 'Bisa mengoperasikan komputer', 'tersedia'),
+(1, 2, 'Desainer Grafis', 'Membuat desain konten', 4000000, 'Badung', '6 jam/hari', 'full time', 'Bisa Canva', 'tersedia'),
+(1, 1, 'Penulis Konten', 'Menulis artikel', 2500000, 'Gianyar', '4 jam/hari', 'part time', 'Bisa menulis', 'tidak tersedia');
 
-ALTER TABLE Lamaran
-ADD CONSTRAINT unik_lamaran
-UNIQUE (id_pelamar, id_lowongan);
+INSERT INTO Lowongan_Keahlian (id_lowongan, id_keahlian) VALUES
+(1, 1),
+(1, 4),
+(2, 2),
+(2, 5),
+(3, 4);
 
-ALTER TABLE Lamaran
-ADD COLUMN tanggal_diperbarui DATETIME
-DEFAULT CURRENT_TIMESTAMP
-ON UPDATE CURRENT_TIMESTAMP;
+INSERT INTO Pelamar_Disabilitas (id_pelamar, id_disabilitas) VALUES
+(1, 1),
+(1, 2),
+(2, 1),
+(2, 3),
+(3, 4);
+
+INSERT INTO Pelamar_Keahlian (id_pelamar, id_keahlian) VALUES
+(1, 1),
+(1, 4),
+(2, 2),
+(3, 1),
+(3, 6);
+
+INSERT INTO Lamaran (id_pelamar, id_lowongan, tanggal_lamar, status) VALUES
+(1, 1, CURDATE(), 'diproses'),
+(2, 2, CURDATE() - INTERVAL 2 DAY, 'ditinjau'),
+(3, 1, CURDATE() - INTERVAL 5 DAY, 'diterima'),
+(1, 2, CURDATE() - INTERVAL 7 DAY, 'ditolak');
