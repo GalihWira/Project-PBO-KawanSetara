@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
+import java.io.File;
 
 import com.example.projectpbokawansetara.dao.LamaranDAO;
 import com.example.projectpbokawansetara.dao.LowonganDAO;
@@ -25,6 +26,9 @@ import com.example.projectpbokawansetara.model.Pelamar;
 import com.example.projectpbokawansetara.model.Session;
 import com.example.projectpbokawansetara.model.User;
 
+import javafx.geometry.Rectangle2D;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -55,6 +59,8 @@ public class DashboardPelamarController {
     private Node halamanBeranda;
 
     @FXML
+    private ImageView avatarImage;
+    @FXML
     private BorderPane mainBorderPane;
     @FXML
     private ToggleButton berandaMenu;
@@ -78,8 +84,6 @@ public class DashboardPelamarController {
     private Label namaUserLabel;
     @FXML
     private Label emailUserLabel;
-
-    // === Label & container di Beranda ===
     @FXML
     private Label sapaanLabel;
     @FXML
@@ -127,10 +131,64 @@ public class DashboardPelamarController {
         User user = Session.getCurrentUser();
         namaUserLabel.setText(user.getNama());
         emailUserLabel.setText(user.getEmail());
+        tampilkanAvatarSidebar(user);
     }
 
     public void perbaruiInfoPengguna() {
         tampilkanProfil();
+    }
+
+    private void tampilkanAvatarSidebar(User user) {
+        if (avatarImage == null) {
+            return;
+        }
+
+        String pathFoto = null;
+        if (user instanceof Pelamar pelamar) {
+            pathFoto = pelamar.getFoto();
+            if (pathFoto == null || pathFoto.isEmpty()) {
+                try {
+                    Pelamar lengkap = pelamarDAO.getPelamarById(pelamar.getIdPengguna());
+                    if (lengkap != null && lengkap.getFoto() != null && !lengkap.getFoto().isEmpty()) {
+                        pathFoto = lengkap.getFoto();
+                        pelamar.setFoto(pathFoto);
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
+        if (pathFoto != null && !pathFoto.isEmpty()) {
+            File file = new File(pathFoto);
+            if (file.exists()) {
+                Image gambar = new Image(file.toURI().toString());
+                if (!gambar.isError()) {
+                    double sisi = Math.min(gambar.getWidth(), gambar.getHeight());
+                    double x = (gambar.getWidth() - sisi) / 2;
+                    double y = (gambar.getHeight() - sisi) / 2;
+
+                    avatarImage.setClip(new Circle(17, 17, 17));
+                    avatarImage.setImage(gambar);
+                    avatarImage.setViewport(new Rectangle2D(x, y, sisi, sisi));
+                    avatarImage.setFitWidth(34);
+                    avatarImage.setFitHeight(34);
+                    avatarImage.setPreserveRatio(false);
+                    return;
+                }
+            }
+        }
+
+        // Fallback: icon default
+        try {
+            Image defaultIcon = new Image(getClass()
+                    .getResourceAsStream("/com/example/projectpbokawansetara/images/icon_user.png"));
+            avatarImage.setClip(null);
+            avatarImage.setViewport(null);
+            avatarImage.setImage(defaultIcon);
+            avatarImage.setPreserveRatio(true);
+        } catch (Exception ignored) {
+        }
     }
 
     private void muatDataBeranda() {

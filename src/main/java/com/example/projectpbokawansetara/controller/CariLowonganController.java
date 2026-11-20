@@ -196,8 +196,17 @@ public class CariLowonganController {
         if (urutan != null) {
             switch (urutan) {
                 case "Paling cocok":
-                    hasilFilter.sort((a, b) -> Integer.compare(
-                            hitungSkorKecocokan(b)[0], hitungSkorKecocokan(a)[0]));
+                    hasilFilter.sort((a, b) -> {
+                        int[] skorB = hitungSkorKecocokan(b);
+                        int[] skorA = hitungSkorKecocokan(a);
+                        double rasioB = skorB[1] == 0 ? 0.0 : (double) skorB[0] / skorB[1];
+                        double rasioA = skorA[1] == 0 ? 0.0 : (double) skorA[0] / skorA[1];
+                        int bandingRasio = Double.compare(rasioB, rasioA);
+                        if (bandingRasio != 0) {
+                            return bandingRasio;
+                        }
+                        return Integer.compare(skorB[0], skorA[0]);
+                    });
                     break;
                 case "Gaji tertinggi":
                     hasilFilter.sort((a, b) -> Double.compare(b.getGaji(), a.getGaji()));
@@ -491,7 +500,6 @@ public class CariLowonganController {
         if (dibutuhkan == null || dibutuhkan.isEmpty()) {
             return new int[] { 0, 0 };
         }
-
         if (keahlianPelamar == null || keahlianPelamar.isEmpty()) {
             return new int[] { 0, dibutuhkan.size() };
         }
@@ -507,7 +515,6 @@ public class CariLowonganController {
                 jumlahCocok++;
             }
         }
-
         return new int[] { jumlahCocok, dibutuhkan.size() };
     }
 

@@ -77,6 +77,7 @@
                                 </children>
                             </HBox>
 
+                            <!-- Kartu foto profil (tanpa tombol Lihat/Ganti CV) -->
                             <HBox alignment="CENTER_LEFT" spacing="18.0" styleClass="kartu-profil">
                                 <children>
                                     <StackPane fx:id="avatarPane" onMouseClicked="#handleKlikAvatar" maxHeight="72.0" maxWidth="72.0" minHeight="72.0" minWidth="72.0" prefHeight="72.0" prefWidth="72.0">
@@ -190,6 +191,7 @@
                                 </children>
                             </VBox>
 
+                            <!-- Kartu dokumen -->
                             <VBox spacing="4.0" styleClass="kartu-profil">
                                 <children>
                                     <VBox spacing="2.0">
@@ -202,6 +204,7 @@
                                         </children>
                                     </VBox>
 
+                                    <!-- CV: satu baris saja -->
                                     <HBox alignment="CENTER_LEFT" spacing="14.0">
                                         <padding>
                                             <Insets bottom="10.0" top="10.0"/>
@@ -218,10 +221,17 @@
                                                     <Label fx:id="cvFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
                                                 </children>
                                             </VBox>
-                                            <Button mnemonicParsing="false" onAction="#handleGantiCv" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatCvButton" mnemonicParsing="false" onAction="#handleLihatCv"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiCv" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
                                         </children>
                                     </HBox>
 
+                                    <!-- Ijazah -->
                                     <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="baris-pemisah">
                                         <padding>
                                             <Insets bottom="10.0" top="10.0"/>
@@ -238,10 +248,17 @@
                                                     <Label fx:id="ijazahFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
                                                 </children>
                                             </VBox>
-                                            <Button mnemonicParsing="false" onAction="#handleGantiIjazah" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatIjazahButton" mnemonicParsing="false" onAction="#handleLihatIjazah"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiIjazah" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
                                         </children>
                                     </HBox>
 
+                                    <!-- SKD -->
                                     <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="baris-pemisah">
                                         <padding>
                                             <Insets bottom="10.0" top="10.0"/>
@@ -258,7 +275,13 @@
                                                     <Label fx:id="skdFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
                                                 </children>
                                             </VBox>
-                                            <Button mnemonicParsing="false" onAction="#handleGantiSkd" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatSkdButton" mnemonicParsing="false" onAction="#handleLihatSkd"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiSkd" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
                                         </children>
                                     </HBox>
 

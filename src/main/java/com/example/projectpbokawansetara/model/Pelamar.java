@@ -10,8 +10,13 @@ public class Pelamar extends User {
     private String ijazah;
     private String suratKeteranganDisabilitas;
     private String cv;
+    private String foto;
 
-    public Pelamar(int idPengguna, String nama, String email, String password, String noTelepon,LocalDate tanggalLahir, String pendidikan, String jenisDisabilitas, String ijazah, String suratKeteranganDisabilitas, String cv){
+    public Pelamar(int idPengguna, String nama, String email, String password, String noTelepon, LocalDate tanggalLahir, String pendidikan, String jenisDisabilitas, String ijazah, String suratKeteranganDisabilitas, String cv) {
+        this(idPengguna, nama, email, password, noTelepon, tanggalLahir, pendidikan, jenisDisabilitas, ijazah, suratKeteranganDisabilitas, cv, null);
+    }
+
+    public Pelamar(int idPengguna, String nama, String email, String password, String noTelepon, LocalDate tanggalLahir, String pendidikan, String jenisDisabilitas, String ijazah, String suratKeteranganDisabilitas, String cv, String foto) {
         super(idPengguna, nama, email, password);
         this.noTelepon = noTelepon;
         this.tanggalLahir = tanggalLahir;
@@ -20,29 +25,35 @@ public class Pelamar extends User {
         this.ijazah = ijazah;
         this.suratKeteranganDisabilitas = suratKeteranganDisabilitas;
         this.cv = cv;
+        this.foto = foto;
     }
+
     @Override
-    public String tampilkanDashboard(){
+    public String tampilkanDashboard() {
         return "DashboardPelamarView.fxml";
     }
-    public String getNoTelepon(){return noTelepon;}
-    public void setNoTelepon(String noTelepon){this.noTelepon = noTelepon;}
 
-    public LocalDate getTanggalLahir(){return tanggalLahir;}
-    public void setTanggalLahir(LocalDate tanggalLahir){this.tanggalLahir = tanggalLahir;}
+    public String getNoTelepon() { return noTelepon; }
+    public void setNoTelepon(String noTelepon) { this.noTelepon = noTelepon; }
 
-    public String getPendidikan(){return pendidikan;}
-    public void setPendidikan(String pendidikan){this.pendidikan = pendidikan;}
+    public LocalDate getTanggalLahir() { return tanggalLahir; }
+    public void setTanggalLahir(LocalDate tanggalLahir) { this.tanggalLahir = tanggalLahir; }
 
-    public String getJenisDisabilitas(){return jenisDisabilitas;}
-    public void setJenisDisabilitas(String jenisDisabilitas){this.jenisDisabilitas = jenisDisabilitas;}
+    public String getPendidikan() { return pendidikan; }
+    public void setPendidikan(String pendidikan) { this.pendidikan = pendidikan; }
 
-    public String getIjazah(){return ijazah;}
-    public void setIjazah(String ijazah){this.ijazah = ijazah;}
+    public String getJenisDisabilitas() { return jenisDisabilitas; }
+    public void setJenisDisabilitas(String jenisDisabilitas) { this.jenisDisabilitas = jenisDisabilitas; }
 
-    public String getSuratKeteranganDisabilitas(){return suratKeteranganDisabilitas;}
-    public void setSuratKeteranganDisabilitas(String suratKeteranganDisabilitas){this.suratKeteranganDisabilitas = suratKeteranganDisabilitas;}
+    public String getIjazah() { return ijazah; }
+    public void setIjazah(String ijazah) { this.ijazah = ijazah; }
 
-    public String getCv(){return cv;}
-    public void setCv(String cv){this.cv = cv;}
+    public String getSuratKeteranganDisabilitas() { return suratKeteranganDisabilitas; }
+    public void setSuratKeteranganDisabilitas(String suratKeteranganDisabilitas) { this.suratKeteranganDisabilitas = suratKeteranganDisabilitas; }
+
+    public String getCv() { return cv; }
+    public void setCv(String cv) { this.cv = cv; }
+
+    public String getFoto() { return foto; }
+    public void setFoto(String foto) { this.foto = foto; }
 }

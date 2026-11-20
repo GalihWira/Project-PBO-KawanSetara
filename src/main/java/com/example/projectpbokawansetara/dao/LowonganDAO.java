@@ -28,12 +28,13 @@ public class LowonganDAO {
                 l.durasi_kerja,
                 l.jenis_lowongan,
                 l.status,
+                l.persyaratan,
                 p.id_perusahaan,
                 p.nama_perusahaan,
-                p.alamat
+                p.alamat,
+                (SELECT COUNT(*) FROM Lamaran la WHERE la.id_lowongan = l.id_lowongan) AS jumlah_pelamar
             FROM Lowongan l
-            JOIN Perusahaan p 
-                ON l.id_perusahaan = p.id_perusahaan
+            JOIN Perusahaan p ON l.id_perusahaan = p.id_perusahaan
             WHERE l.status = 'tersedia'
             ORDER BY l.id_lowongan DESC
         """;
@@ -65,7 +66,8 @@ public class LowonganDAO {
                 );
 
                 lowongan.setDurasiKerja(rs.getString("durasi_kerja"));
-
+                lowongan.setPersyaratan(rs.getString("persyaratan"));
+                lowongan.setJumlahPelamar(rs.getInt("jumlah_pelamar"));
                 lowongan.setDaftarKeahlian(getKeahlianByLowongan(lowongan.getIdLowongan()));
 
                 daftarLowongan.add(lowongan);
