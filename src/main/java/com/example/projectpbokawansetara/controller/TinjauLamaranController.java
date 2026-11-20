@@ -84,7 +84,9 @@ public class TinjauLamaranController {
             infoStatusLabel.setManaged(false);
             tandaiButton.setAccessibleHelp("Tandai lamaran ini sebagai sudah ditinjau.");
         } else {
-            String pesan = "Lamaran ini sudah " + status + ". Kamu tetap bisa membuka CV-nya.";
+            String pesan = status == null
+                    ? "Status lamaran ini tidak diketahui. Kamu tetap bisa membuka CV-nya."
+                    : "Lamaran ini sudah " + status + ". Kamu tetap bisa membuka CV-nya.";
             infoStatusLabel.setText(pesan);
             infoStatusLabel.setVisible(true);
             infoStatusLabel.setManaged(true);
