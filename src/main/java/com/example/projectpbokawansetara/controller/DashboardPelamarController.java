@@ -1,9 +1,9 @@
 package com.example.projectpbokawansetara.controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -12,7 +12,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Set;
-import java.io.File;
 
 import com.example.projectpbokawansetara.dao.LamaranDAO;
 import com.example.projectpbokawansetara.dao.LowonganDAO;
@@ -26,15 +25,13 @@ import com.example.projectpbokawansetara.model.Pelamar;
 import com.example.projectpbokawansetara.model.Session;
 import com.example.projectpbokawansetara.model.User;
 
-import javafx.geometry.Rectangle2D;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -44,14 +41,14 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.input.MouseEvent;
 
 public class DashboardPelamarController {
 
@@ -187,7 +184,8 @@ public class DashboardPelamarController {
             avatarImage.setViewport(null);
             avatarImage.setImage(defaultIcon);
             avatarImage.setPreserveRatio(true);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -245,7 +243,10 @@ public class DashboardPelamarController {
     private String ambilNamaDepan(String namaLengkap) {
         if (namaLengkap == null || namaLengkap.isBlank())
             return "Pengguna";
-        return namaLengkap.trim().split("\\s+")[0];
+        List<String> bagian = pecahKata(namaLengkap.trim());
+        if (bagian.isEmpty())
+            return "Pengguna";
+        return bagian.get(0);
     }
 
     private long hitungJumlahLowonganCocok() {
@@ -496,7 +497,7 @@ public class DashboardPelamarController {
     private String buatInisial(String nama) {
         if (nama == null || nama.isBlank())
             return "?";
-        String[] kata = nama.trim().split("\\s+");
+        List<String> kata = pecahKata(nama.trim());
         StringBuilder sb = new StringBuilder();
         for (String k : kata) {
             if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank())
@@ -508,6 +509,30 @@ public class DashboardPelamarController {
         if (sb.length() == 0)
             sb.append(Character.toUpperCase(nama.charAt(0)));
         return sb.toString();
+    }
+
+    private List<String> pecahKata(String teks) {
+        List<String> hasil = new ArrayList<>();
+        if (teks == null || teks.isEmpty()) {
+            return hasil;
+        }
+
+        StringBuilder kata = new StringBuilder();
+        for (int i = 0; i < teks.length(); i++) {
+            char c = teks.charAt(i);
+            if (Character.isWhitespace(c)) {
+                if (kata.length() > 0) {
+                    hasil.add(kata.toString());
+                    kata.setLength(0);
+                }
+            } else {
+                kata.append(c);
+            }
+        }
+        if (kata.length() > 0) {
+            hasil.add(kata.toString());
+        }
+        return hasil;
     }
 
     private String tentukanWarnaAvatar(String nama) {

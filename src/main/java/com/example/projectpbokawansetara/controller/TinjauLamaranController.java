@@ -4,6 +4,7 @@ import java.io.File;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.projectpbokawansetara.dao.PelamarDAO;
@@ -25,23 +26,40 @@ import javafx.stage.Stage;
 
 public class TinjauLamaranController {
 
-    @FXML private Label inisialLabel;
-    @FXML private ImageView fotoImageView;
-    @FXML private Label namaLabel;
-    @FXML private Label umurLabel;
-    @FXML private Label emailLabel;
-    @FXML private FlowPane disabilitasChipPane;
-    @FXML private Label disabilitasKosongLabel;
-    @FXML private Label posisiLabel;
-    @FXML private Label perusahaanLabel;
-    @FXML private Label cvLabel;
-    @FXML private Label skdLabel;
-    @FXML private Label pesanLabel;
-    @FXML private Label infoStatusLabel;
-    @FXML private Button bukaCvButton;
-    @FXML private Button bukaSkdButton;
-    @FXML private Button tutupButton;
-    @FXML private Button tandaiButton;
+    @FXML
+    private Label inisialLabel;
+    @FXML
+    private ImageView fotoImageView;
+    @FXML
+    private Label namaLabel;
+    @FXML
+    private Label umurLabel;
+    @FXML
+    private Label emailLabel;
+    @FXML
+    private FlowPane disabilitasChipPane;
+    @FXML
+    private Label disabilitasKosongLabel;
+    @FXML
+    private Label posisiLabel;
+    @FXML
+    private Label perusahaanLabel;
+    @FXML
+    private Label cvLabel;
+    @FXML
+    private Label skdLabel;
+    @FXML
+    private Label pesanLabel;
+    @FXML
+    private Label infoStatusLabel;
+    @FXML
+    private Button bukaCvButton;
+    @FXML
+    private Button bukaSkdButton;
+    @FXML
+    private Button tutupButton;
+    @FXML
+    private Button tandaiButton;
 
     private final PelamarDAO pelamarDAO = new PelamarDAO();
 
@@ -49,8 +67,7 @@ public class TinjauLamaranController {
     private String pathSkd;
     private boolean ditandai = false;
 
-    private static final String STYLE_CHIP =
-            "-fx-background-color: #EFF4FF;"
+    private static final String STYLE_CHIP = "-fx-background-color: #EFF4FF;"
             + "-fx-text-fill: #1F4E8C;"
             + "-fx-font-size: 12px;"
             + "-fx-font-weight: 600;"
@@ -204,11 +221,40 @@ public class TinjauLamaranController {
         if (nama == null || nama.isBlank() || "-".equals(nama)) {
             return "?";
         }
-        String[] bagian = nama.trim().split("\\s+");
-        if (bagian.length == 1) {
-            return bagian[0].substring(0, 1).toUpperCase();
+        List<String> bagian = pecahKata(nama.trim());
+        if (bagian.isEmpty()) {
+            return "?";
         }
-        return (bagian[0].substring(0, 1) + bagian[bagian.length - 1].substring(0, 1)).toUpperCase();
+        if (bagian.size() == 1) {
+            return bagian.get(0).substring(0, 1).toUpperCase();
+        }
+        String pertama = bagian.get(0);
+        String terakhir = bagian.get(bagian.size() - 1);
+        return (pertama.substring(0, 1) + terakhir.substring(0, 1)).toUpperCase();
+    }
+
+    private List<String> pecahKata(String teks) {
+        List<String> hasil = new ArrayList<>();
+        if (teks == null || teks.isEmpty()) {
+            return hasil;
+        }
+
+        StringBuilder kata = new StringBuilder();
+        for (int i = 0; i < teks.length(); i++) {
+            char c = teks.charAt(i);
+            if (Character.isWhitespace(c)) {
+                if (kata.length() > 0) {
+                    hasil.add(kata.toString());
+                    kata.setLength(0);
+                }
+            } else {
+                kata.append(c);
+            }
+        }
+        if (kata.length() > 0) {
+            hasil.add(kata.toString());
+        }
+        return hasil;
     }
 
     private String namaFile(String path) {

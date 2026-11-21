@@ -2,10 +2,10 @@ package com.example.projectpbokawansetara.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.projectpbokawansetara.dao.PerusahaanDAO;
 import com.example.projectpbokawansetara.exception.ValidationException;
+import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.Perusahaan;
 import com.example.projectpbokawansetara.service.PerusahaanService;
 
@@ -13,9 +13,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -226,16 +224,18 @@ public class KelolaPerusahaanController {
         if (perusahaanDipilih == null)
             return;
 
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
-                "Hapus " + perusahaanDipilih.getNamaPerusahaan() + "?");
-        Optional<ButtonType> hasil = konfirmasi.showAndWait();
+        boolean yakin = DialogHelper.tampilkanKonfirmasiHapus(
+                perusahaanTable.getScene().getWindow(),
+                "Hapus " + perusahaanDipilih.getNamaPerusahaan() + "?",
+                "Tindakan ini tidak bisa dibatalkan.");
+        if (!yakin) {
+            return;
+        }
 
-        if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
-            if (perusahaanDAO.hapusPerusahaan(perusahaanDipilih.getIdPerusahaan())) {
-                loadDataPerusahaan();
-            } else {
-                setError(true, "Tidak bisa dihapus", "Perusahaan ini masih memiliki lowongan aktif.");
-            }
+        if (perusahaanDAO.hapusPerusahaan(perusahaanDipilih.getIdPerusahaan())) {
+            loadDataPerusahaan();
+        } else {
+            setError(true, "Tidak bisa dihapus", "Perusahaan ini masih memiliki lowongan aktif.");
         }
     }
 

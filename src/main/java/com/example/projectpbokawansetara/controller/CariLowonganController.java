@@ -403,7 +403,7 @@ public class CariLowonganController {
         if (nama == null || nama.isBlank())
             return "?";
 
-        String[] kata = nama.trim().split(" ");
+        List<String> kata = pecahKata(nama.trim());
         StringBuilder sb = new StringBuilder();
 
         for (String k : kata) {
@@ -418,6 +418,30 @@ public class CariLowonganController {
             sb.append(Character.toUpperCase(nama.charAt(0)));
         }
         return sb.toString();
+    }
+
+    private List<String> pecahKata(String teks) {
+        List<String> hasil = new ArrayList<>();
+        if (teks == null || teks.isEmpty()) {
+            return hasil;
+        }
+
+        StringBuilder kata = new StringBuilder();
+        for (int i = 0; i < teks.length(); i++) {
+            char c = teks.charAt(i);
+            if (Character.isWhitespace(c)) {
+                if (kata.length() > 0) {
+                    hasil.add(kata.toString());
+                    kata.setLength(0);
+                }
+            } else {
+                kata.append(c);
+            }
+        }
+        if (kata.length() > 0) {
+            hasil.add(kata.toString());
+        }
+        return hasil;
     }
 
     private String tentukanWarnaAvatar(String nama) {
