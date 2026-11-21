@@ -13,6 +13,7 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
+import com.example.projectpbokawansetara.dao.KoneksiDB;
 import com.example.projectpbokawansetara.model.Keahlian;
 import com.example.projectpbokawansetara.model.Pelamar;
 
@@ -110,7 +111,7 @@ public class PelamarDAO {
     public Pelamar getPelamarById(int idPelamar) throws SQLException {
         String sql = """
                     SELECT id_pelamar, nama, email, no_telepon, tanggal_lahir,
-                           pendidikan, ijazah, surat_ket_disabilitas, cv
+                        pendidikan, ijazah, surat_ket_disabilitas, cv, foto
                     FROM Pelamar
                     WHERE id_pelamar = ?
                 """;
@@ -138,7 +139,8 @@ public class PelamarDAO {
                         null,
                         rs.getString("ijazah"),
                         rs.getString("surat_ket_disabilitas"),
-                        rs.getString("cv"));
+                        rs.getString("cv"),
+                        rs.getString("foto"));
             }
         }
     }
@@ -168,13 +170,12 @@ public class PelamarDAO {
     }
 
     public boolean perbaruiProfil(Pelamar pelamar, List<Integer> daftarIdDisabilitas) throws SQLException {
-
         String sqlPelamar = """
-                    UPDATE Pelamar
-                    SET nama = ?, no_telepon = ?, tanggal_lahir = ?, usia = ?, pendidikan = ?,
-                        ijazah = ?, surat_ket_disabilitas = ?, cv = ?
-                    WHERE id_pelamar = ?
-                """;
+                UPDATE Pelamar
+                SET nama = ?, no_telepon = ?, tanggal_lahir = ?, usia = ?, pendidikan = ?,
+                    ijazah = ?, surat_ket_disabilitas = ?, cv = ?, foto = ?
+                WHERE id_pelamar = ?
+            """;
 
         String sqlHapusDisabilitas = "DELETE FROM Pelamar_Disabilitas WHERE id_pelamar = ?";
 
@@ -198,7 +199,8 @@ public class PelamarDAO {
                     stmt.setString(6, pelamar.getIjazah());
                     stmt.setString(7, pelamar.getSuratKeteranganDisabilitas());
                     stmt.setString(8, pelamar.getCv());
-                    stmt.setInt(9, pelamar.getIdPengguna());
+                    stmt.setString(9, pelamar.getFoto());
+                    stmt.setInt(10, pelamar.getIdPengguna());
                     stmt.executeUpdate();
                 }
 
@@ -223,5 +225,31 @@ public class PelamarDAO {
                 throw e;
             }
         }
+    }
+
+    public List<String> getNamaDisabilitasPelamar(int idPelamar) throws SQLException {
+        List<String> daftarNama = new ArrayList<>();
+
+        String sql = """
+                    SELECT jd.nama_disabilitas
+                    FROM Pelamar_Disabilitas pd
+                    JOIN Jenis_Disabilitas jd ON pd.id_disabilitas = jd.id_disabilitas
+                    WHERE pd.id_pelamar = ?
+                    ORDER BY jd.nama_disabilitas
+                """;
+
+        try (
+                Connection conn = KoneksiDB.getConnection();
+                PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setInt(1, idPelamar);
+
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    daftarNama.add(rs.getString("nama_disabilitas"));
+                }
+            }
+        }
+
+        return daftarNama;
     }
 }

@@ -52,7 +52,6 @@ public class ProfilController {
     private Label pesanJudulLabel;
     @FXML
     private Label pesanDetailLabel;
-
     @FXML
     private StackPane avatarPane;
     @FXML
@@ -71,7 +70,6 @@ public class ProfilController {
     private Label namaHeaderLabel;
     @FXML
     private Label emailHeaderLabel;
-
     @FXML
     private TextField namaField;
     @FXML
@@ -84,7 +82,6 @@ public class ProfilController {
     private ComboBox<String> pendidikanComboBox;
     @FXML
     private Label usiaLabel;
-
     @FXML
     private Label namaErrorLabel;
     @FXML
@@ -93,12 +90,10 @@ public class ProfilController {
     private Label tanggalLahirErrorLabel;
     @FXML
     private Label pendidikanErrorLabel;
-
     @FXML
     private FlowPane disabilitasPane;
     @FXML
     private Label disabilitasErrorLabel;
-
     @FXML
     private Label cvFileLabel;
     @FXML
@@ -107,11 +102,16 @@ public class ProfilController {
     private Label skdFileLabel;
     @FXML
     private Label dokumenErrorLabel;
-
     @FXML
     private Button batalButton;
     @FXML
     private Button simpanButton;
+    @FXML 
+    private Button lihatCvButton;
+    @FXML 
+    private Button lihatIjazahButton;
+    @FXML 
+    private Button lihatSkdButton;
 
     private final PelamarDAO pelamarDAO = new PelamarDAO();
     private final DisabilitasDAO disabilitasDAO = new DisabilitasDAO();
@@ -126,6 +126,7 @@ public class ProfilController {
     private String pathCv;
     private String pathIjazah;
     private String pathSkd;
+    private String pathFoto;
     private File fileFoto;
     private File fileCvBaru;
     private File fileIjazahBaru;
@@ -208,14 +209,19 @@ public class ProfilController {
         pathCv = pelamarAwal.getCv();
         pathIjazah = pelamarAwal.getIjazah();
         pathSkd = pelamarAwal.getSuratKeteranganDisabilitas();
+        pathFoto = pelamarAwal.getFoto();
 
         fileCvBaru = null;
         fileIjazahBaru = null;
         fileSkdBaru = null;
+        fileFoto = null;
 
         tampilkanNamaFile(cvFileLabel, pathCv, false);
         tampilkanNamaFile(ijazahFileLabel, pathIjazah, false);
         tampilkanNamaFile(skdFileLabel, pathSkd, false);
+        perbaruiTombolLihatDokumen();
+
+        muatFotoTersimpan();
 
         perbaruiHeader();
         perbaruiUsia(pelamarAwal.getTanggalLahir());
@@ -279,14 +285,30 @@ public class ProfilController {
 
     private void resetFoto() {
         fileFoto = null;
+        sembunyikanPesan(fotoErrorLabel);
+        muatFotoTersimpan();
+    }
+
+    private void muatFotoTersimpan() {
+        tampilkanLabel(fotoBaruLabel, false);
+
+        if (pathFoto != null && !pathFoto.isEmpty()) {
+            File file = new File(pathFoto);
+            if (file.exists()) {
+                Image gambar = new Image(file.toURI().toString());
+                if (!gambar.isError()) {
+                    tampilkanFoto(gambar);
+                    tampilkanLabel(fotoInfoLabel, true);
+                    tampilkanLabel(fotoBaruLabel, false);
+                    return;
+                }
+            }
+        }
 
         fotoImageView.setImage(null);
         fotoImageView.setVisible(false);
         inisialLabel.setVisible(true);
-
         tampilkanLabel(fotoInfoLabel, true);
-        tampilkanLabel(fotoBaruLabel, false);
-        sembunyikanPesan(fotoErrorLabel);
     }
 
     private void tampilkanLabel(Label label, boolean tampil) {
@@ -301,6 +323,7 @@ public class ProfilController {
             fileCvBaru = file;
             pathCv = file.getAbsolutePath();
             tampilkanNamaFile(cvFileLabel, pathCv, true);
+            aturTombolLihat(lihatCvButton, pathCv);
         }
     }
 
@@ -311,6 +334,7 @@ public class ProfilController {
             fileIjazahBaru = file;
             pathIjazah = file.getAbsolutePath();
             tampilkanNamaFile(ijazahFileLabel, pathIjazah, true);
+            aturTombolLihat(lihatIjazahButton, pathIjazah);
         }
     }
 
@@ -321,7 +345,43 @@ public class ProfilController {
             fileSkdBaru = file;
             pathSkd = file.getAbsolutePath();
             tampilkanNamaFile(skdFileLabel, pathSkd, true);
+            aturTombolLihat(lihatSkdButton, pathSkd);
         }
+    }
+
+    @FXML
+    void handleLihatCv(ActionEvent event) {
+        bukaDokumen(pathCv);
+    }
+
+    @FXML
+    void handleLihatIjazah(ActionEvent event) {
+        bukaDokumen(pathIjazah);
+    }
+
+    @FXML
+    void handleLihatSkd(ActionEvent event) {
+        bukaDokumen(pathSkd);
+    }
+
+    private void bukaDokumen(String path) {
+        sembunyikanPesan(dokumenErrorLabel);
+        FileHelper.bukaFile(path, dokumenErrorLabel);
+        if (dokumenErrorLabel.getText() != null && !dokumenErrorLabel.getText().isBlank()) {
+            dokumenErrorLabel.setVisible(true);
+            dokumenErrorLabel.setManaged(true);
+        }
+    }
+
+    private void aturTombolLihat(Button tombol, String path) {
+        if (tombol == null) return;
+        tombol.setDisable(path == null || path.isEmpty());
+    }
+
+    private void perbaruiTombolLihatDokumen() {
+        aturTombolLihat(lihatCvButton, pathCv);
+        aturTombolLihat(lihatIjazahButton, pathIjazah);
+        aturTombolLihat(lihatSkdButton, pathSkd);
     }
 
     @FXML
@@ -368,7 +428,8 @@ public class ProfilController {
                 null,
                 pathIjazah,
                 pathSkd,
-                pathCv);
+                pathCv,
+                pathFoto);
 
         try {
             pelamarDAO.perbaruiProfil(pelamarBaru, daftarIdDisabilitas);
@@ -414,6 +475,10 @@ public class ProfilController {
             pathSkd = FileHelper.simpanPdf(fileSkdBaru, "skd", email);
             fileSkdBaru = null;
         }
+        if (fileFoto != null) {
+            pathFoto = FileHelper.simpanGambar(fileFoto, email);
+            fileFoto = null;
+        }
     }
 
     private void perbaruiSession(Pelamar pelamarBaru) {
@@ -423,6 +488,7 @@ public class ProfilController {
             pelamarSession.setTanggalLahir(pelamarBaru.getTanggalLahir());
             pelamarSession.setPendidikan(pelamarBaru.getPendidikan());
             pelamarSession.setCv(pelamarBaru.getCv());
+            pelamarSession.setFoto(pelamarBaru.getFoto());
             pelamarSession.setIjazah(pelamarBaru.getIjazah());
             pelamarSession.setSuratKeteranganDisabilitas(pelamarBaru.getSuratKeteranganDisabilitas());
         }

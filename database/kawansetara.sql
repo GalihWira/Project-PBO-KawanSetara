@@ -47,6 +47,7 @@ CREATE TABLE Pelamar(
     ijazah VARCHAR(255),
     surat_ket_disabilitas VARCHAR(255),
     cv VARCHAR(255),
+    foto VARCHAR(255),
     role ENUM('pelamar') NOT NULL DEFAULT 'pelamar'
 );
 

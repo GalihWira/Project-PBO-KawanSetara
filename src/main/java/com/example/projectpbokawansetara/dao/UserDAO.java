@@ -59,7 +59,8 @@ public class UserDAO {
                             null,
                             rs.getString("ijazah"),
                             rs.getString("surat_ket_disabilitas"),
-                            rs.getString("cv"));
+                            rs.getString("cv"),
+                            rs.getString("foto"));
                 }
             }
         }
@@ -151,7 +152,6 @@ public class UserDAO {
     }
 
     private boolean passwordCocok(String password, String passwordDB) {
-
         if (passwordDB == null) {
             return false;
         }

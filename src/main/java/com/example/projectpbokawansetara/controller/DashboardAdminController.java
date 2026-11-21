@@ -170,23 +170,30 @@ public class DashboardAdminController {
 
             Label lblNama = new Label(lamaran.getNamaPelamar());
             lblNama.setStyle("-fx-text-fill: #101828; -fx-font-size: 13px; -fx-font-weight: 500;");
-            lblNama.setPrefWidth(120.0);
+            lblNama.setMinWidth(140.0);
+            lblNama.setPrefWidth(140.0);
+            lblNama.setMaxWidth(Double.MAX_VALUE);
             HBox.setHgrow(lblNama, Priority.ALWAYS);
 
             Label lblPosisi = new Label(lamaran.getPosisi());
             lblPosisi.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
-            lblPosisi.setPrefWidth(110.0);
+            lblPosisi.setMinWidth(150.0);
+            lblPosisi.setPrefWidth(150.0);
+            lblPosisi.setMaxWidth(150.0);
+            lblPosisi.setEllipsisString("...");
 
             Label lblTanggal = new Label(lamaran.getTanggalMasuk());
             lblTanggal.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
-            lblTanggal.setPrefWidth(70.0);
+            lblTanggal.setMinWidth(100.0);
+            lblTanggal.setPrefWidth(100.0);
+            lblTanggal.setMaxWidth(100.0);
 
-            String statusText = lamaran.getStatus();
+            String statusText = lamaran.getStatus() != null ? lamaran.getStatus() : "-";
             String statusKapital = statusText.substring(0, 1).toUpperCase() + statusText.substring(1);
 
             Label lblStatus = new Label(statusKapital);
-            lblStatus.setPrefWidth(70.0);
             lblStatus.setPadding(new Insets(2, 8, 2, 8));
+            lblStatus.setAlignment(Pos.CENTER);
 
             String warnaStatus;
             if (statusText.equals("diproses")) {
@@ -202,7 +209,13 @@ public class DashboardAdminController {
             }
             lblStatus.setStyle("-fx-font-size: 12px; -fx-background-radius: 10; -fx-alignment: center; " + warnaStatus);
 
-            row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, lblStatus);
+            HBox statusBox = new HBox(lblStatus);
+            statusBox.setAlignment(Pos.CENTER_LEFT);
+            statusBox.setMinWidth(100.0);
+            statusBox.setPrefWidth(100.0);
+            statusBox.setMaxWidth(100.0);
+
+            row.getChildren().addAll(lblNama, lblPosisi, lblTanggal, statusBox);
             daftarLamaranBox.getChildren().add(row);
         }
     }
