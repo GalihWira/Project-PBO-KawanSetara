@@ -13,7 +13,6 @@ import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 
-import com.example.projectpbokawansetara.dao.KoneksiDB;
 import com.example.projectpbokawansetara.model.Keahlian;
 import com.example.projectpbokawansetara.model.Pelamar;
 
