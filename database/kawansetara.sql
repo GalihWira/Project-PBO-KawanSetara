@@ -106,7 +106,7 @@ CREATE TABLE Lowongan_Keahlian(
 );
 
 INSERT INTO Admin (nama, email, password) VALUES
-('Admin Utama', 'admin@kawansetara.com', '$2a$12$QhMWdG7Ds7BttGV6Kf0Mqu7rQmAhvFn652tDMZmuf6Qu1vRklJCyu');
+('Admin Utama', 'admin@kawansetara.com', 'admin12345');
 
 INSERT INTO Perusahaan (nama_perusahaan, alamat, email, no_telepon, deskripsi) VALUES
 ('PT Contoh Inklusif', 'Jl. Raya Kampus Unud, Jimbaran, Bali', 'hrd@contohinklusif.com', '0361123456', 'Perusahaan contoh untuk data awal'),
@@ -114,9 +114,9 @@ INSERT INTO Perusahaan (nama_perusahaan, alamat, email, no_telepon, deskripsi) V
 ('PT Belum Buka Lowongan', 'Jl. Bypass Ngurah Rai, Badung', NULL, NULL, 'Perusahaan mitra tanpa lowongan, untuk tes statistik dashboard');
 
 INSERT INTO Pelamar (nama, email, password, no_telepon, usia, tanggal_lahir, pendidikan, ijazah, surat_ket_disabilitas, cv) VALUES
-('Pelamar Coba', 'pelamar@gmail.com', '$2a$12$/2QDVkHGJ.Qro9j9/te/q..xgd//.BMDg5RFSiikMyrmc.hGzmiua', '081234567890', 22, '2004-05-10', 'SMA', 'uploads/ijazah/contoh_ijazah_pelamar.pdf', 'uploads/skd/contoh_skd_pelamar.pdf', 'uploads/cv/contoh_cv_pelamar.pdf'),
-('Budi Santoso', 'budi@gmail.com', '$2a$12$DmY5mEjDtaaqIgmbGrbG5O6doc4Kz2L49iPYHNVkcAepHNLRfKxYy', '081298765432', 24, '2002-08-17', 'Sarjana', 'uploads/ijazah/contoh_ijazah_budi.pdf', 'uploads/skd/contoh_skd_budi.pdf', 'uploads/cv/contoh_cv_budi.pdf'),
-('Sari Dewi', 'sari@yahoo.com', '$2a$12$ZqiD/S8CP8rc9J84kOk03OtWvp5zpgIiz/WGFIytpRaMeqASrBQ.2', '085712345678', 23, '2003-01-25', 'Lainnya', 'uploads/ijazah/contoh_ijazah_sari.pdf', 'uploads/skd/contoh_skd_sari.pdf', 'uploads/cv/contoh_cv_sari.pdf');
+('Pelamar Coba', 'pelamar@gmail.com', 'pelamar123', '081234567890', 22, '2004-05-10', 'SMA', 'uploads/ijazah/contoh_ijazah_pelamar.pdf', 'uploads/skd/contoh_skd_pelamar.pdf', 'uploads/cv/contoh_cv_pelamar.pdf'),
+('Budi Santoso', 'budi@gmail.com', 'budi12345', '081298765432', 24, '2002-08-17', 'Sarjana', 'uploads/ijazah/contoh_ijazah_budi.pdf', 'uploads/skd/contoh_skd_budi.pdf', 'uploads/cv/contoh_cv_budi.pdf'),
+('Sari Dewi', 'sari@yahoo.com', 'sari12345', '085712345678', 23, '2003-01-25', 'Lainnya', 'uploads/ijazah/contoh_ijazah_sari.pdf', 'uploads/skd/contoh_skd_sari.pdf', 'uploads/cv/contoh_cv_sari.pdf');
 
 INSERT INTO Jenis_Disabilitas (nama_disabilitas, deskripsi) VALUES
 ('Disabilitas Fisik', 'Keterbatasan gerak atau fungsi anggota tubuh'),
