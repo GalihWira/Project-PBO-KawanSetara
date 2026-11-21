@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+
+<BorderPane prefHeight="640.0" prefWidth="1000.0" style="-fx-background-color: white;" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.RiwayatLamaranController">
+   <center>
+      <VBox style="-fx-background-color: white;">
+         <children>
+            <HBox alignment="CENTER_LEFT" minHeight="48.0" prefHeight="48.0" style="-fx-background-color: white; -fx-border-color: transparent transparent #EAECF0 transparent;">
+               <padding>
+                  <Insets left="24.0" right="24.0" />
+               </padding>
+               <children>
+                  <Label style="-fx-text-fill: #101828; -fx-font-size: 13px;" text="Riwayat lamaran" />
+               </children>
+            </HBox>
+            <ScrollPane fitToWidth="true" style="-fx-background-color: white; -fx-background: white; -fx-border-color: transparent;" VBox.vgrow="ALWAYS">
+               <content>
+                  <VBox style="-fx-background-color: white;">
+                     <padding>
+                        <Insets bottom="24.0" left="24.0" right="24.0" top="20.0" />
+                     </padding>
+                     <children>
+                        <Label style="-fx-font-size: 18px; -fx-text-fill: #101828; -fx-font-weight: bold;" text="Riwayat lamaran" />
+                        <Label style="-fx-font-size: 12px;" styleClass="body" text="Status diperbarui oleh perusahaan melalui admin KawanSetara.">
+                           <VBox.margin>
+                              <Insets top="4.0" />
+                           </VBox.margin>
+                        </Label>
+                        <HBox spacing="12.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                           <children>
+                              <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" styleClass="tab-riwayat" text="Semua">
+                                 <toggleGroup>
+                                    <ToggleGroup fx:id="statusGroup" />
+                                 </toggleGroup>
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="diprosesTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Diproses" toggleGroup="$statusGroup">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="ditinjauTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Ditinjau" toggleGroup="$statusGroup">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="diterimaTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Diterima" toggleGroup="$statusGroup">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                              <ToggleButton fx:id="ditolakTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-riwayat" text="Ditolak" toggleGroup="$statusGroup">
+                                 <cursor>
+                                    <Cursor fx:constant="HAND" />
+                                 </cursor>
+                              </ToggleButton>
+                           </children>
+                        </HBox>
+                        <VBox style="-fx-background-color: white; -fx-border-color: #EAECF0; -fx-background-radius: 8; -fx-border-radius: 8;">
+                           <VBox.margin>
+                              <Insets top="16.0" />
+                           </VBox.margin>
+                           <children>
+                              <GridPane styleClass="riwayat-header">
+                                 <columnConstraints>
+                                    <ColumnConstraints percentWidth="30" />
+                                    <ColumnConstraints percentWidth="12" />
+                                    <ColumnConstraints percentWidth="11" />
+                                    <ColumnConstraints percentWidth="14" />
+                                    <ColumnConstraints percentWidth="12" />
+                                    <ColumnConstraints percentWidth="11" />
+                                    <ColumnConstraints percentWidth="10" />
+                                 </columnConstraints>
+                                 <children>
+                                    <Label text="Posisi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="0" />
+                                    <Label text="Lokasi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="1" />
+                                    <Label text="Jenis" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="2" />
+                                    <Label text="Tanggal Lamar" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="3" />
+                                    <Label text="Status" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="4" />
+                                    <Label text="Diperbarui" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="5" />
+                                    <Label text="Aksi" styleClass="riwayat-header-kolom"
+                                             GridPane.columnIndex="6" />
+                                 </children>
+                              </GridPane>
+                              <VBox fx:id="daftarLamaranBox" />
+                              <Label fx:id="kosongLabel" managed="false" maxWidth="1.7976931348623157E308" style="-fx-text-fill: #667085; -fx-font-size: 12px; -fx-alignment: center; -fx-padding: 32;" text="Belum ada lamaran" visible="false" />
+                           </children>
+                        </VBox>
+                     </children>
+                  </VBox>
+               </content>
+            </ScrollPane>
+         </children>
+      </VBox>
+   </center>
+</BorderPane>

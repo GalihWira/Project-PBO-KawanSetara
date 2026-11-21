@@ -1,0 +1,17 @@
+module com.example.projectpbokawansetara {
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires java.sql;
+    requires jbcrypt;
+    requires java.prefs;
+    requires java.desktop;
+
+    opens com.example.projectpbokawansetara to javafx.fxml;
+    exports com.example.projectpbokawansetara;
+
+    exports com.example.projectpbokawansetara.controller;
+    opens com.example.projectpbokawansetara.controller to javafx.fxml;
+
+    exports com.example.projectpbokawansetara.model;
+    opens com.example.projectpbokawansetara.model to javafx.base;
+}

@@ -1,0 +1,86 @@
+package com.example.projectpbokawansetara.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.projectpbokawansetara.model.JenisDisabilitas;
+
+public class DisabilitasDAO {
+
+    public List<JenisDisabilitas> getAllDisabilitas() {
+        List<JenisDisabilitas> list = new ArrayList<>();
+        String sql = """
+                SELECT jd.id_disabilitas, jd.nama_disabilitas,
+                COUNT(pd.id_pelamar) AS jumlah_pelamar
+                FROM Jenis_Disabilitas jd
+                LEFT JOIN Pelamar_Disabilitas pd ON jd.id_disabilitas = pd.id_disabilitas
+                GROUP BY jd.id_disabilitas, jd.nama_disabilitas
+                ORDER BY jd.id_disabilitas ASC
+                """;
+        try (Connection conn = KoneksiDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql);
+                ResultSet rs = ps.executeQuery()) {
+
+            while (rs.next()) {
+                list.add(new JenisDisabilitas(
+                        rs.getInt("id_disabilitas"),
+                        rs.getString("nama_disabilitas"),
+                        rs.getInt("jumlah_pelamar")));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return list;
+    }
+
+    public boolean tambahDisabilitas(String namaJenis) {
+        String sql = "INSERT INTO Jenis_Disabilitas (nama_disabilitas) VALUES (?)";
+
+        try (Connection conn = KoneksiDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, namaJenis);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public boolean hapusDisabilitas(int idJenisDisabilitas) {
+        String sql = "DELETE FROM Jenis_Disabilitas WHERE id_disabilitas = ?";
+
+        try (Connection conn = KoneksiDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idJenisDisabilitas);
+            return ps.executeUpdate() > 0;
+        } catch (SQLException e) {
+            return false;
+        }
+    }
+
+    public int hitungPemakaian(int idJenisDisabilitas) {
+        String sql = "SELECT COUNT(*) FROM Pelamar_Disabilitas WHERE id_disabilitas = ?";
+
+        try (Connection conn = KoneksiDB.getConnection();
+                PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, idJenisDisabilitas);
+
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return -1;
+        }
+        return 0;
+    }
+}

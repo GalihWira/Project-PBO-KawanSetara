@@ -1,0 +1,144 @@
+package com.example.projectpbokawansetara.model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Lowongan {
+    private int idLowongan;
+    private Perusahaan perusahaan;
+    private String namaPekerjaan;
+    private String deskripsi;
+    private String lokasi;
+    private double gaji;
+    private String jenisLowongan;
+    private String status;
+    private int idAdmin;
+    private String persyaratan;
+    private int jumlahPelamar;
+
+    private String durasiKerja;
+    private List<Keahlian> daftarKeahlian = new ArrayList<>();
+
+    public String getDurasiKerja() {
+        return durasiKerja;
+    }
+
+    public void setDurasiKerja(String durasiKerja) {
+        this.durasiKerja = durasiKerja;
+    }
+
+    public List<Keahlian> getDaftarKeahlian() {
+        return daftarKeahlian;
+    }
+
+    public void setDaftarKeahlian(List<Keahlian> daftarKeahlian) {
+        this.daftarKeahlian = daftarKeahlian;
+    }
+
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String status) {
+        this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);
+    }
+
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String jenisLowongan, String status) {
+        this.idLowongan = idLowongan;
+        this.perusahaan = perusahaan;
+        this.namaPekerjaan = namaPekerjaan;
+        this.deskripsi = deskripsi;
+        this.lokasi = lokasi;
+        this.gaji = gaji;
+        this.jenisLowongan = jenisLowongan;
+        this.status = status;
+    }
+
+    public int getIdLowongan() {
+        return idLowongan;
+    }
+
+    public void setIdLowongan(int idLowongan) {
+        this.idLowongan = idLowongan;
+    }
+
+    public Perusahaan getPerusahaan() {
+        return perusahaan;
+    }
+
+    public void setPerusahaan(Perusahaan perusahaan) {
+        this.perusahaan = perusahaan;
+    }
+
+    public String getNamaPekerjaan() {
+        return namaPekerjaan;
+    }
+
+    public void setNamaPekerjaan(String namaPekerjaan) {
+        this.namaPekerjaan = namaPekerjaan;
+    }
+
+    public String getDeskripsi() {
+        return deskripsi;
+    }
+
+    public void setDeskripsi(String deskripsi) {
+        this.deskripsi = deskripsi;
+    }
+
+    public String getLokasi() {
+        return lokasi;
+    }
+
+    public void setLokasi(String lokasi) {
+        this.lokasi = lokasi;
+    }
+
+    public double getGaji() {
+        return gaji;
+    }
+
+    public void setGaji(double gaji) {
+        this.gaji = gaji;
+    }
+
+    public String getJenisLowongan() {
+        return jenisLowongan;
+    }
+
+    public void setJenisLowongan(String jenisLowongan) {
+        this.jenisLowongan = jenisLowongan;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getIdAdmin() { 
+        return idAdmin; 
+    }
+
+    public void setIdAdmin(int idAdmin) { 
+        this.idAdmin = idAdmin; 
+    }
+
+    public String getPersyaratan() {
+        return persyaratan; 
+    }
+
+    public void setPersyaratan(String persyaratan) {
+        this.persyaratan = persyaratan; 
+    }
+
+    public int getJumlahPelamar() { 
+        return jumlahPelamar; 
+    }
+    public void setJumlahPelamar(int jumlahPelamar) { 
+        this.jumlahPelamar = jumlahPelamar; 
+    }
+
+    @Override
+    public String toString() {
+        return namaPekerjaan;
+    }
+}
