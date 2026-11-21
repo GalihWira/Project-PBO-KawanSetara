@@ -2,9 +2,9 @@ package com.example.projectpbokawansetara.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.projectpbokawansetara.dao.DisabilitasDAO;
+import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.JenisDisabilitas;
 
 import javafx.beans.property.SimpleStringProperty;
@@ -13,7 +13,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
@@ -122,17 +121,19 @@ public class KelolaDisabilitasController {
             return;
         }
 
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
-                "Yakin ingin menghapus \"" + data.getNamaJenis() + "\"?");
-        Optional<ButtonType> hasil = konfirmasi.showAndWait();
+        boolean yakin = DialogHelper.tampilkanKonfirmasiHapus(
+                disabilitasTable.getScene().getWindow(),
+                "Yakin ingin menghapus \"" + data.getNamaJenis() + "\"?",
+                "Tindakan ini tidak bisa dibatalkan.");
+        if (!yakin) {
+            return;
+        }
 
-        if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
-            if (disabilitasDAO.hapusDisabilitas(data.getIdJenisDisabilitas())) {
-                loadDataDisabilitas();
-            } else {
-                Alert gagal = new Alert(Alert.AlertType.WARNING, "Gagal menghapus. Silakan coba lagi.");
-                gagal.showAndWait();
-            }
+        if (disabilitasDAO.hapusDisabilitas(data.getIdJenisDisabilitas())) {
+            loadDataDisabilitas();
+        } else {
+            Alert gagal = new Alert(Alert.AlertType.WARNING, "Gagal menghapus. Silakan coba lagi.");
+            gagal.showAndWait();
         }
     }
 

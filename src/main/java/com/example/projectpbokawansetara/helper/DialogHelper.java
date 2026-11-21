@@ -3,6 +3,7 @@ package com.example.projectpbokawansetara.helper;
 import java.io.IOException;
 
 import com.example.projectpbokawansetara.controller.KeluarDialogController;
+import com.example.projectpbokawansetara.controller.KonfirmasiHapusDialogController;
 import com.example.projectpbokawansetara.controller.LowonganBerhasilController;
 import com.example.projectpbokawansetara.model.Session;
 
@@ -11,6 +12,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.Window;
 
@@ -18,6 +20,7 @@ public class DialogHelper {
 
     private static final String PATH_DIALOG_KELUAR = "/com/example/projectpbokawansetara/view/KeluarDialog.fxml";
     private static final String PATH_DIALOG_LOWONGAN_BERHASIL = "/com/example/projectpbokawansetara/view/LowonganBerhasilDialog.fxml";
+    private static final String PATH_DIALOG_KONFIRMASI_HAPUS = "/com/example/projectpbokawansetara/view/KonfirmasiHapusDialog.fxml";
 
     public static void tampilkanDialogKeluar(Window owner, String pesan) {
         try {
@@ -142,6 +145,34 @@ public class DialogHelper {
             System.err.println("Gagal membuka dialog: " + PATH_DIALOG_LOWONGAN_BERHASIL);
             e.printStackTrace();
             onLihatDaftar.run();
+        }
+    }
+
+    public static boolean tampilkanKonfirmasiHapus(Window owner, String judul, String pesan) {
+        try {
+            FXMLLoader loader = new FXMLLoader(
+                    DialogHelper.class.getResource(PATH_DIALOG_KONFIRMASI_HAPUS));
+
+            Parent dialog = loader.load();
+
+            KonfirmasiHapusDialogController controller = loader.getController();
+            controller.setData(judul, pesan);
+
+            Stage stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            if (owner != null) {
+                stage.initOwner(owner);
+            }
+            stage.setTitle("Konfirmasi hapus");
+            stage.setResizable(false);
+            stage.setScene(new Scene(dialog));
+            stage.showAndWait();
+
+            return controller.isDikonfirmasi();
+        } catch (IOException | NullPointerException e) {
+            System.err.println("Gagal membuka dialog hapus: " + PATH_DIALOG_KONFIRMASI_HAPUS);
+            e.printStackTrace();
+            return false;
         }
     }
 }

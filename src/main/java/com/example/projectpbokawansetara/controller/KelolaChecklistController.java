@@ -2,18 +2,16 @@ package com.example.projectpbokawansetara.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.example.projectpbokawansetara.dao.ChecklistDAO;
+import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.ItemChecklist;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
@@ -209,17 +207,19 @@ public class KelolaChecklistController {
             return;
         }
 
-        Alert konfirmasi = new Alert(Alert.AlertType.CONFIRMATION,
-                "Yakin ingin menghapus \"" + item.getNamaItem() + "\"?");
-        Optional<ButtonType> hasil = konfirmasi.showAndWait();
+        boolean yakin = DialogHelper.tampilkanKonfirmasiHapus(
+                itemTable.getScene().getWindow(),
+                "Yakin ingin menghapus \"" + item.getNamaItem() + "\"?",
+                "Tindakan ini tidak bisa dibatalkan.");
+        if (!yakin) {
+            return;
+        }
 
-        if (hasil.isPresent() && hasil.get() == ButtonType.OK) {
-            if (checklistDAO.hapusItem(item.getIdItem())) {
-                loadDataItem();
-            } else {
-                tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
-                        "Gagal menghapus", "Silakan coba lagi.");
-            }
+        if (checklistDAO.hapusItem(item.getIdItem())) {
+            loadDataItem();
+        } else {
+            tampilkanBanner(errorBanner, errorBannerJudulLabel, errorBannerPesanLabel,
+                    "Gagal menghapus", "Silakan coba lagi.");
         }
     }
 

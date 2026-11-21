@@ -187,7 +187,8 @@ public class DashboardPelamarController {
             avatarImage.setViewport(null);
             avatarImage.setImage(defaultIcon);
             avatarImage.setPreserveRatio(true);
-        } catch (Exception ignored) {
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 

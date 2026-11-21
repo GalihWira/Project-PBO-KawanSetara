@@ -3,6 +3,7 @@ package com.example.projectpbokawansetara.controller;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.NumberFormat;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -141,15 +142,13 @@ public class DetailLowonganController {
         deskripsiLabel.setText(
                 lowongan.getDeskripsi() != null && !lowongan.getDeskripsi().isBlank()
                         ? lowongan.getDeskripsi()
-                        : "Deskripsi belum tersedia."
-        );
+                        : "Deskripsi belum tersedia.");
 
         String status = lowongan.getStatus() != null ? lowongan.getStatus() : "";
         statusLabel.setText(
                 status.equalsIgnoreCase("tersedia")
                         ? "● Tersedia"
-                        : "● Tidak tersedia"
-        );
+                        : "● Tidak tersedia");
 
         jenisLabel.setText(jenis);
         gajiLabel.setText(gaji + " / bulan");
@@ -160,13 +159,86 @@ public class DetailLowonganController {
         alamatPerusahaanLabel.setText(
                 lowongan.getPerusahaan() != null
                         && lowongan.getPerusahaan().getAlamat() != null
-                        ? lowongan.getPerusahaan().getAlamat()
-                        : "Alamat belum tersedia"
-        );
+                                ? lowongan.getPerusahaan().getAlamat()
+                                : "Alamat belum tersedia");
 
         pelamarLabel.setText(lowongan.getJumlahPelamar() + " orang");
 
         tampilkanPersyaratan();
+            private List<String> pecahPersyaratan(String teks) {
+        List<String> hasil = new ArrayList<>();
+        if (teks == null || teks.isEmpty()) {
+            return hasil;
+        }
+
+        StringBuilder potongan = new StringBuilder();
+        int i = 0;
+        int n = teks.length();
+        while (i < n) {
+            char c = teks.charAt(i);
+            boolean pemisah = false;
+            if (c == '\r') {
+                pemisah = true;
+                if (i + 1 < n && teks.charAt(i + 1) == '\n') {
+                    i++;
+                }
+            } else if (c == '\n' || c == '•' || c == ';') {
+                pemisah = true;
+            }
+            if (pemisah) {
+                String item = potongan.toString().trim();
+                if (!item.isEmpty()) {
+                    hasil.add(item);
+                }
+                potongan.setLength(0);
+            } else {
+                potongan.append(c);
+            }
+            i++;
+        }
+
+        String terakhir = potongan.toString().trim();
+        if (!terakhir.isEmpty()) {
+            hasil.add(terakhir);
+        }
+        return hasil;
+    }
+
+    private String buangNomorDepan(String teks) {
+        if (teks == null || teks.isEmpty()) {
+            return teks;
+        }
+
+        int n = teks.length();
+        int i = 0;
+        int j = 0;
+        while (j < n && Character.isDigit(teks.charAt(j))) {
+            j++;
+        }
+        if (j > 0 && j < n) {
+            char pemisah = teks.charAt(j);
+            if (pemisah == '.' || pemisah == ')') {
+                j++;
+                while (j < n && Character.isWhitespace(teks.charAt(j))) {
+                    j++;
+                }
+                i = j;
+            }
+        }
+        teks = teks.substring(i);
+        n = teks.length();
+        i = 0;
+        if (n > 0) {
+            char awal = teks.charAt(0);
+            if (awal == '-' || awal == '–') {
+                i = 1;
+                while (i < n && Character.isWhitespace(teks.charAt(i))) {
+                    i++;
+                }
+            }
+        }
+        return teks.substring(i);
+    }
         tampilkanKeahlianDanKecocokan();
     }
 
@@ -181,16 +253,11 @@ public class DetailLowonganController {
             return;
         }
 
-        String[] baris = persyaratan.split("\\r?\\n|•|;");
+        List<String> baris = pecahPersyaratan(persyaratan);
         boolean adaIsi = false;
 
         for (String item : baris) {
-            String teks = item.trim();
-            if (teks.isEmpty()) {
-                continue;
-            }
-            // buang nomor urut di awal (1. / 1) / - )
-            teks = teks.replaceFirst("^\\d+[.)]\\s*", "").replaceFirst("^[-–]\\s*", "");
+            String teks = buangNomorDepan(item);
             if (teks.isEmpty()) {
                 continue;
             }
@@ -242,11 +309,11 @@ public class DetailLowonganController {
             if (cocok) {
                 chip.setStyle(
                         "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
-                        + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
+                                + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
             } else {
                 chip.setStyle(
                         "-fx-background-color: #F2F4F7; -fx-text-fill: #475467;"
-                        + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
+                                + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
             }
             chipPane.getChildren().add(chip);
         }
@@ -283,8 +350,7 @@ public class DetailLowonganController {
 
     private String formatRupiah(double nominal) {
         NumberFormat format = NumberFormat.getCurrencyInstance(
-                new Locale("id", "ID")
-        );
+                new Locale("id", "ID"));
 
         format.setMaximumFractionDigits(0);
         format.setMinimumFractionDigits(0);
@@ -305,8 +371,7 @@ public class DetailLowonganController {
             String lokasi = "/com/example/projectpbokawansetara/view/KonfirmasiLamarDialog.fxml";
 
             FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(lokasi)
-            );
+                    getClass().getResource(lokasi));
 
             Parent halamanDialog = loader.load();
 
@@ -320,8 +385,7 @@ public class DetailLowonganController {
             StackPane overlay = new StackPane();
 
             pembungkus.getStylesheets().add(
-                    getClass().getResource("/css/style.css").toExternalForm()
-            );
+                    getClass().getResource("/css/style.css").toExternalForm());
 
             overlay.getStyleClass().add("overlay-dialog");
             overlay.setPickOnBounds(true);
@@ -329,8 +393,7 @@ public class DetailLowonganController {
             if (halamanDialog instanceof Region) {
                 ((Region) halamanDialog).setMaxSize(
                         Region.USE_PREF_SIZE,
-                        Region.USE_PREF_SIZE
-                );
+                        Region.USE_PREF_SIZE);
             }
 
             overlay.getChildren().add(halamanDialog);
@@ -339,8 +402,7 @@ public class DetailLowonganController {
 
             pembungkus.getChildren().addAll(
                     halamanAwal,
-                    overlay
-            );
+                    overlay);
 
             Runnable tutupOverlay = () -> {
                 pembungkus.getChildren().clear();
@@ -352,16 +414,13 @@ public class DetailLowonganController {
             controller.setAksiBerhasil(() -> {
                 tutupOverlay.run();
 
-                javafx.scene.control.Alert alert =
-                        new javafx.scene.control.Alert(
-                                javafx.scene.control.Alert.AlertType.INFORMATION
-                        );
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
+                        javafx.scene.control.Alert.AlertType.INFORMATION);
 
                 alert.setTitle("Lamaran Berhasil");
                 alert.setHeaderText("Lamaran berhasil dikirim!");
                 alert.setContentText(
-                        "Kamu dapat memantau status lamaran melalui Riwayat Lamaran."
-                );
+                        "Kamu dapat memantau status lamaran melalui Riwayat Lamaran.");
 
                 alert.showAndWait();
             });
