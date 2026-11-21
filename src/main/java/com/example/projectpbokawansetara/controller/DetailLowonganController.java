@@ -165,7 +165,45 @@ public class DetailLowonganController {
         pelamarLabel.setText(lowongan.getJumlahPelamar() + " orang");
 
         tampilkanPersyaratan();
-            private List<String> pecahPersyaratan(String teks) {
+        tampilkanKeahlianDanKecocokan();
+    }
+
+    private void tampilkanPersyaratan() {
+        persyaratanBox.getChildren().clear();
+
+        String persyaratan = lowongan.getPersyaratan();
+        if (persyaratan == null || persyaratan.isBlank()) {
+            Label kosong = new Label("Informasi persyaratan belum tersedia.");
+            kosong.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+            persyaratanBox.getChildren().add(kosong);
+            return;
+        }
+
+        List<String> baris = pecahPersyaratan(persyaratan);
+        boolean adaIsi = false;
+
+        for (String item : baris) {
+            String teks = buangNomorDepan(item);
+            if (teks.isEmpty()) {
+                continue;
+            }
+
+            adaIsi = true;
+            Label label = new Label("•  " + teks);
+            label.setWrapText(true);
+            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
+            persyaratanBox.getChildren().add(label);
+        }
+
+        if (!adaIsi) {
+            Label label = new Label(persyaratan.trim());
+            label.setWrapText(true);
+            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
+            persyaratanBox.getChildren().add(label);
+        }
+    }
+
+    private List<String> pecahPersyaratan(String teks) {
         List<String> hasil = new ArrayList<>();
         if (teks == null || teks.isEmpty()) {
             return hasil;
@@ -230,7 +268,7 @@ public class DetailLowonganController {
         i = 0;
         if (n > 0) {
             char awal = teks.charAt(0);
-            if (awal == '-' || awal == '–') {
+            if (awal == '-' || awal == '\u2013') {
                 i = 1;
                 while (i < n && Character.isWhitespace(teks.charAt(i))) {
                     i++;
@@ -238,43 +276,6 @@ public class DetailLowonganController {
             }
         }
         return teks.substring(i);
-    }
-        tampilkanKeahlianDanKecocokan();
-    }
-
-    private void tampilkanPersyaratan() {
-        persyaratanBox.getChildren().clear();
-
-        String persyaratan = lowongan.getPersyaratan();
-        if (persyaratan == null || persyaratan.isBlank()) {
-            Label kosong = new Label("Informasi persyaratan belum tersedia.");
-            kosong.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
-            persyaratanBox.getChildren().add(kosong);
-            return;
-        }
-
-        List<String> baris = pecahPersyaratan(persyaratan);
-        boolean adaIsi = false;
-
-        for (String item : baris) {
-            String teks = buangNomorDepan(item);
-            if (teks.isEmpty()) {
-                continue;
-            }
-
-            adaIsi = true;
-            Label label = new Label("•  " + teks);
-            label.setWrapText(true);
-            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
-            persyaratanBox.getChildren().add(label);
-        }
-
-        if (!adaIsi) {
-            Label label = new Label(persyaratan.trim());
-            label.setWrapText(true);
-            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
-            persyaratanBox.getChildren().add(label);
-        }
     }
 
     private void tampilkanKeahlianDanKecocokan() {
