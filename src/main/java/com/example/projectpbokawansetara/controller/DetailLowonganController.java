@@ -18,7 +18,6 @@ import com.example.projectpbokawansetara.model.Session;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -32,68 +31,27 @@ import javafx.scene.layout.VBox;
 
 public class DetailLowonganController {
 
-    @FXML
-    private Hyperlink kembaliLink;
-
-    @FXML
-    private Label breadcrumbLabel;
-
-    @FXML
-    private ImageView logoPerusahaanImage;
-
-    @FXML
-    private Label namaPekerjaanLabel;
-
-    @FXML
-    private Label perusahaanLabel;
-
-    @FXML
-    private Label subjudulLabel;
-
-    @FXML
-    private Label tagJenisLabel;
-
-    @FXML
-    private Label tagGajiLabel;
-
-    @FXML
-    private Label tagAksesLabel;
-
-    @FXML
-    private Button lamarButton;
-
-    @FXML
-    private Label deskripsiLabel;
-
-    @FXML
-    private VBox persyaratanBox;
-
-    @FXML
-    private Label jumlahCocokLabel;
-
-    @FXML
-    private VBox keahlianBox;
-
-    @FXML
-    private Label statusLabel;
-
-    @FXML
-    private Label jenisLabel;
-
-    @FXML
-    private Label gajiLabel;
-
-    @FXML
-    private Label lokasiLabel;
-
-    @FXML
-    private Label pelamarLabel;
-
-    @FXML
-    private Label kartuPerusahaanLabel;
-
-    @FXML
-    private Label alamatPerusahaanLabel;
+    @FXML private Hyperlink kembaliLink;
+    @FXML private Label breadcrumbLabel;
+    @FXML private ImageView logoPerusahaanImage;
+    @FXML private Label namaPekerjaanLabel;
+    @FXML private Label perusahaanLabel;
+    @FXML private Label subjudulLabel;
+    @FXML private Label tagJenisLabel;
+    @FXML private Label tagGajiLabel;
+    @FXML private Label tagAksesLabel;
+    @FXML private Button lamarButton;
+    @FXML private Label deskripsiLabel;
+    @FXML private VBox persyaratanBox;
+    @FXML private Label jumlahCocokLabel;
+    @FXML private VBox keahlianBox;
+    @FXML private Label statusLabel;
+    @FXML private Label jenisLabel;
+    @FXML private Label gajiLabel;
+    @FXML private Label lokasiLabel;
+    @FXML private Label pelamarLabel;
+    @FXML private Label kartuPerusahaanLabel;
+    @FXML private Label alamatPerusahaanLabel;
 
     private final PelamarDAO pelamarDAO = new PelamarDAO();
 
@@ -138,7 +96,6 @@ public class DetailLowonganController {
         tagGajiLabel.setText(gaji + "/bulan");
         tagAksesLabel.setText("Informasi aksesibilitas belum tersedia");
 
-        // Deskripsi
         deskripsiLabel.setText(
                 lowongan.getDeskripsi() != null && !lowongan.getDeskripsi().isBlank()
                         ? lowongan.getDeskripsi()
@@ -159,8 +116,8 @@ public class DetailLowonganController {
         alamatPerusahaanLabel.setText(
                 lowongan.getPerusahaan() != null
                         && lowongan.getPerusahaan().getAlamat() != null
-                                ? lowongan.getPerusahaan().getAlamat()
-                                : "Alamat belum tersedia");
+                        ? lowongan.getPerusahaan().getAlamat()
+                        : "Alamat belum tersedia");
 
         pelamarLabel.setText(lowongan.getJumlahPelamar() + " orang");
 
@@ -174,7 +131,7 @@ public class DetailLowonganController {
         String persyaratan = lowongan.getPersyaratan();
         if (persyaratan == null || persyaratan.isBlank()) {
             Label kosong = new Label("Informasi persyaratan belum tersedia.");
-            kosong.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+            kosong.getStyleClass().add("teks-muted");
             persyaratanBox.getChildren().add(kosong);
             return;
         }
@@ -191,14 +148,14 @@ public class DetailLowonganController {
             adaIsi = true;
             Label label = new Label("•  " + teks);
             label.setWrapText(true);
-            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
+            label.getStyleClass().add("teks-persyaratan");
             persyaratanBox.getChildren().add(label);
         }
 
         if (!adaIsi) {
             Label label = new Label(persyaratan.trim());
             label.setWrapText(true);
-            label.setStyle("-fx-text-fill: #475467; -fx-font-size: 13px;");
+            label.getStyleClass().add("teks-persyaratan");
             persyaratanBox.getChildren().add(label);
         }
     }
@@ -284,10 +241,10 @@ public class DetailLowonganController {
         List<Keahlian> dibutuhkan = lowongan.getDaftarKeahlian();
         if (dibutuhkan == null || dibutuhkan.isEmpty()) {
             jumlahCocokLabel.setText("Belum ada data keahlian");
-            jumlahCocokLabel.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px; -fx-font-weight: 600;");
+            setStyleKelas(jumlahCocokLabel, "teks-kecocokan", "teks-kecocokan-kosong");
 
             Label kosong = new Label("Informasi keahlian belum tersedia.");
-            kosong.setStyle("-fx-text-fill: #667085; -fx-font-size: 13px;");
+            kosong.getStyleClass().add("teks-muted");
             keahlianBox.getChildren().add(kosong);
             return;
         }
@@ -306,16 +263,7 @@ public class DetailLowonganController {
             }
 
             Label chip = new Label(k.getNamaKeahlian() != null ? k.getNamaKeahlian() : "-");
-            chip.setPadding(new Insets(4, 10, 4, 10));
-            if (cocok) {
-                chip.setStyle(
-                        "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
-                                + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
-            } else {
-                chip.setStyle(
-                        "-fx-background-color: #F2F4F7; -fx-text-fill: #475467;"
-                                + "-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 16;");
-            }
+            chip.getStyleClass().add(cocok ? "chip-keahlian-cocok" : "chip-keahlian-tidak-cocok");
             chipPane.getChildren().add(chip);
         }
 
@@ -323,11 +271,25 @@ public class DetailLowonganController {
 
         jumlahCocokLabel.setText(jumlahCocok + " dari " + dibutuhkan.size() + " cocok");
         if (jumlahCocok == dibutuhkan.size()) {
-            jumlahCocokLabel.setStyle("-fx-text-fill: #12B76A; -fx-font-size: 13px; -fx-font-weight: 600;");
+            setStyleKelas(jumlahCocokLabel, "teks-kecocokan", "teks-kecocokan-penuh");
         } else if (jumlahCocok > 0) {
-            jumlahCocokLabel.setStyle("-fx-text-fill: #F79009; -fx-font-size: 13px; -fx-font-weight: 600;");
+            setStyleKelas(jumlahCocokLabel, "teks-kecocokan", "teks-kecocokan-sebagian");
         } else {
-            jumlahCocokLabel.setStyle("-fx-text-fill: #F04438; -fx-font-size: 13px; -fx-font-weight: 600;");
+            setStyleKelas(jumlahCocokLabel, "teks-kecocokan", "teks-kecocokan-nol");
+        }
+    }
+
+    private void setStyleKelas(Label label, String... kelas) {
+        label.getStyleClass().removeAll(
+                "teks-kecocokan",
+                "teks-kecocokan-penuh",
+                "teks-kecocokan-sebagian",
+                "teks-kecocokan-nol",
+                "teks-kecocokan-kosong");
+        for (String k : kelas) {
+            if (!label.getStyleClass().contains(k)) {
+                label.getStyleClass().add(k);
+            }
         }
     }
 
@@ -350,12 +312,9 @@ public class DetailLowonganController {
     }
 
     private String formatRupiah(double nominal) {
-        NumberFormat format = NumberFormat.getCurrencyInstance(
-                new Locale("id", "ID"));
-
+        NumberFormat format = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
         format.setMaximumFractionDigits(0);
         format.setMinimumFractionDigits(0);
-
         return format.format(nominal);
     }
 
@@ -371,9 +330,7 @@ public class DetailLowonganController {
         try {
             String lokasi = "/com/example/projectpbokawansetara/view/KonfirmasiLamarDialog.fxml";
 
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(lokasi));
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(lokasi));
             Parent halamanDialog = loader.load();
 
             KonfirmasiLamarController controller = loader.getController();
@@ -391,19 +348,13 @@ public class DetailLowonganController {
             overlay.getStyleClass().add("overlay-dialog");
             overlay.setPickOnBounds(true);
 
-            if (halamanDialog instanceof Region) {
-                ((Region) halamanDialog).setMaxSize(
-                        Region.USE_PREF_SIZE,
-                        Region.USE_PREF_SIZE);
+            if (halamanDialog instanceof Region region) {
+                region.setMaxSize(Region.USE_PREF_SIZE, Region.USE_PREF_SIZE);
             }
 
             overlay.getChildren().add(halamanDialog);
-
             scene.setRoot(pembungkus);
-
-            pembungkus.getChildren().addAll(
-                    halamanAwal,
-                    overlay);
+            pembungkus.getChildren().addAll(halamanAwal, overlay);
 
             Runnable tutupOverlay = () -> {
                 pembungkus.getChildren().clear();
@@ -411,18 +362,15 @@ public class DetailLowonganController {
             };
 
             controller.setAksiBatal(tutupOverlay);
-
             controller.setAksiBerhasil(() -> {
                 tutupOverlay.run();
 
                 javafx.scene.control.Alert alert = new javafx.scene.control.Alert(
                         javafx.scene.control.Alert.AlertType.INFORMATION);
-
                 alert.setTitle("Lamaran Berhasil");
                 alert.setHeaderText("Lamaran berhasil dikirim!");
                 alert.setContentText(
                         "Kamu dapat memantau status lamaran melalui Riwayat Lamaran.");
-
                 alert.showAndWait();
             });
 

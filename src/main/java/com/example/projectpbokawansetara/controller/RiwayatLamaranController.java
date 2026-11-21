@@ -14,8 +14,6 @@ import com.example.projectpbokawansetara.model.Session;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ToggleButton;
@@ -140,7 +138,6 @@ public class RiwayatLamaranController {
     private GridPane buatBarisLamaran(Lamaran lamaran) {
         Lowongan lowongan = lamaran.getLowongan();
 
-        // === Avatar + Posisi ===
         String namaPerusahaan = lowongan.getPerusahaan() != null
                 ? lowongan.getPerusahaan().getNamaPerusahaan()
                 : "-";
@@ -157,10 +154,9 @@ public class RiwayatLamaranController {
         infoPosisi.getChildren().addAll(posisi, perusahaan);
 
         HBox posisiBox = new HBox(12);
-        posisiBox.setAlignment(Pos.CENTER_LEFT);
+        posisiBox.getStyleClass().add("rata-kiri-tengah");
         posisiBox.getChildren().addAll(avatar, infoPosisi);
 
-        // === Kolom lain ===
         Label lokasi = buatKolom(lowongan.getLokasi());
         Label jenis = buatKolom(kapitalisasiJenis(lowongan.getJenisLowongan()));
 
@@ -175,13 +171,10 @@ public class RiwayatLamaranController {
         Label tanggal = buatKolom(tanggalLamar);
         Label diperbarui = buatKolom(tanggalDiperbarui);
 
-        // === Status (titik + teks) ===
         HBox statusBox = buatStatusBox(lamaran.getStatus());
 
-        // === Tombol aksi ===
         Button lihatButton = new Button("Lihat lowongan");
         lihatButton.getStyleClass().add("tombol-lihat-lowongan");
-        lihatButton.setCursor(Cursor.HAND);
         lihatButton.setOnAction(event -> bukaDetailLowongan(lowongan));
 
         GridPane baris = buatGridKolom();
@@ -195,7 +188,7 @@ public class RiwayatLamaranController {
         baris.add(lihatButton, 6, 0);
 
         GridPane.setVgrow(posisiBox, Priority.ALWAYS);
-        baris.setAlignment(Pos.CENTER_LEFT);
+        baris.getStyleClass().add("rata-kiri-tengah");
         baris.getStyleClass().add("riwayat-baris");
 
         return baris;
@@ -276,7 +269,7 @@ public class RiwayatLamaranController {
 
     private HBox buatStatusBox(String status) {
         HBox box = new HBox(6);
-        box.setAlignment(Pos.CENTER_LEFT);
+        box.getStyleClass().add("rata-kiri-tengah");
 
         Region titik = new Region();
         titik.setMinSize(8, 8);
@@ -343,7 +336,7 @@ public class RiwayatLamaranController {
         Label label = new Label(teks == null || teks.isBlank() ? "-" : teks);
         label.setMaxWidth(Double.MAX_VALUE);
         label.setWrapText(true);
-        label.setAlignment(Pos.CENTER_LEFT);
+        label.getStyleClass().add("rata-kiri-tengah");
         label.getStyleClass().add("riwayat-kolom");
         GridPane.setHgrow(label, Priority.ALWAYS);
         return label;

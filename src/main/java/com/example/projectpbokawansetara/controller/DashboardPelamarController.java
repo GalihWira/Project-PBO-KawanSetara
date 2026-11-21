@@ -29,10 +29,7 @@ import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
-import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
@@ -301,24 +298,24 @@ public class DashboardPelamarController {
         avatar.setPrefSize(40, 40);
 
         Label nama = new Label(lowongan.getNamaPekerjaan() != null ? lowongan.getNamaPekerjaan() : "-");
-        nama.getStyleClass().add("lamaran-terakhir-nama");
+        nama.getStyleClass().add("rekomendasi-nama");
         nama.setMaxWidth(Double.MAX_VALUE);
         nama.setEllipsisString("...");
 
         String lokasi = lowongan.getLokasi() != null ? lowongan.getLokasi() : "-";
         String jenis = kapitalisasi(lowongan.getJenisLowongan());
         Label detail = new Label(namaPerusahaan + " · " + lokasi + " · " + jenis);
-        detail.getStyleClass().add("lamaran-terakhir-detail");
+        detail.getStyleClass().add("rekomendasi-detail");
         detail.setMaxWidth(Double.MAX_VALUE);
         detail.setEllipsisString("...");
 
         VBox identitas = new VBox(2, nama, detail);
-        identitas.setAlignment(Pos.CENTER_LEFT);
+        identitas.getStyleClass().add("rata-kiri-tengah");
         HBox.setHgrow(identitas, Priority.ALWAYS);
 
         Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
         gaji.getStyleClass().add("rekomendasi-gaji");
-        gaji.setAlignment(Pos.CENTER_RIGHT);
+        gaji.getStyleClass().add("teks-kanan");
 
         int[] skor = hitungSkorKecocokan(lowongan);
         Label skorLabel;
@@ -329,18 +326,15 @@ public class DashboardPelamarController {
             skorLabel = new Label(skor[0] + " dari " + skor[1] + " keahlian cocok");
             skorLabel.getStyleClass().add("rekomendasi-skor");
         }
-        skorLabel.setAlignment(Pos.CENTER_RIGHT);
+        skorLabel.getStyleClass().add("teks-kanan");
 
         VBox kanan = new VBox(2, gaji, skorLabel);
-        kanan.setAlignment(Pos.CENTER_RIGHT);
+        kanan.getStyleClass().add("informasi-gaji");
         kanan.setMinWidth(130);
         kanan.setPrefWidth(130);
 
         HBox kartu = new HBox(12, avatar, identitas, kanan);
-        kartu.setAlignment(Pos.CENTER_LEFT);
-        kartu.setPadding(new Insets(12, 14, 12, 14));
         kartu.getStyleClass().add("kartu-rekomendasi");
-        kartu.setCursor(Cursor.HAND);
 
         kartu.setOnMouseClicked(e -> bukaDetailLowongan(lowongan));
 
@@ -382,7 +376,7 @@ public class DashboardPelamarController {
                 : "-";
 
         Label nama = new Label(lowongan.getNamaPekerjaan() != null ? lowongan.getNamaPekerjaan() : "-");
-        nama.getStyleClass().add("rekomendasi-nama");
+        nama.getStyleClass().add("lamaran-terakhir-nama");
         nama.setMaxWidth(Double.MAX_VALUE);
         nama.setEllipsisString("...");
 
@@ -391,21 +385,18 @@ public class DashboardPelamarController {
                 : "-";
 
         Label detail = new Label(namaPerusahaan + " · " + tanggalStr);
-        detail.getStyleClass().add("rekomendasi-detail");
+        detail.getStyleClass().add("lamaran-terakhir-detail");
         detail.setMaxWidth(Double.MAX_VALUE);
         detail.setEllipsisString("...");
 
         VBox kiri = new VBox(2, nama, detail);
-        kiri.setAlignment(Pos.CENTER_LEFT);
+        kiri.getStyleClass().add("rata-kiri-tengah");
         HBox.setHgrow(kiri, Priority.ALWAYS);
 
         HBox statusBox = buatStatusBox(lamaran.getStatus());
 
         HBox baris = new HBox(10, kiri, statusBox);
-        baris.setAlignment(Pos.CENTER_LEFT);
-        baris.setPadding(new Insets(10, 14, 10, 14));
         baris.getStyleClass().add("lamaran-terakhir-baris");
-        baris.setCursor(Cursor.HAND);
 
         baris.setOnMouseClicked(e -> {
             bukaDetailLowongan(lowongan);
@@ -416,7 +407,7 @@ public class DashboardPelamarController {
 
     private HBox buatStatusBox(String status) {
         HBox box = new HBox(6);
-        box.setAlignment(Pos.CENTER_LEFT);
+        box.getStyleClass().add("rata-kiri-tengah");
 
         Circle titik = new Circle(4);
         titik.getStyleClass().add("status-titik");

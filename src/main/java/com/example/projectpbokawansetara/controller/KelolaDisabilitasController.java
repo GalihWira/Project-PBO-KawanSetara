@@ -91,8 +91,7 @@ public class KelolaDisabilitasController {
                     setGraphic(null);
                 } else {
                     Button btnHapus = new Button("Hapus");
-                    btnHapus.setStyle(
-                            "-fx-background-color: transparent; -fx-text-fill: #D92D20; -fx-font-weight: bold;");
+                    btnHapus.getStyleClass().add("tombol-hapus-teks");
                     btnHapus.setOnAction(event -> {
                         JenisDisabilitas data = getTableView().getItems().get(getIndex());
                         prosesHapus(data);

@@ -18,9 +18,6 @@ import com.example.projectpbokawansetara.model.Session;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Cursor;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ComboBox;
@@ -256,14 +253,14 @@ public class CariLowonganController {
             long jumlah = entry.getValue();
 
             CheckBox checkBox = new CheckBox(lokasi);
-            checkBox.setStyle("-fx-text-fill: #344054; -fx-font-size: 13px;");
+            checkBox.getStyleClass().add("checkbox-filter");
             checkBox.setOnAction(event -> terapkanFilter());
 
             Label jumlahLabel = new Label(String.valueOf(jumlah));
-            jumlahLabel.setStyle("-fx-text-fill: #98A2B3; -fx-font-size: 12px;");
+            jumlahLabel.getStyleClass().add("teks-jumlah-filter");
 
             HBox baris = new HBox();
-            baris.setAlignment(Pos.CENTER_LEFT);
+            baris.getStyleClass().add("rata-kiri-tengah");
             Region spacer = new Region();
             HBox.setHgrow(spacer, Priority.ALWAYS);
             baris.getChildren().addAll(checkBox, spacer, jumlahLabel);
@@ -306,7 +303,7 @@ public class CariLowonganController {
             perusahaanLokasi.setEllipsisString("...");
 
             VBox identitas = new VBox(3, nama, perusahaanLokasi);
-            identitas.setAlignment(Pos.CENTER_LEFT);
+            identitas.getStyleClass().add("rata-kiri-tengah");
             HBox.setHgrow(identitas, Priority.ALWAYS);
 
             String jenisTeks = kapitalisasi(lowongan.getJenisLowongan());
@@ -322,7 +319,7 @@ public class CariLowonganController {
             durasi.getStyleClass().add("detail-lowongan");
 
             VBox kolomJenis = new VBox(4, jenis, durasi);
-            kolomJenis.setAlignment(Pos.CENTER_LEFT);
+            kolomJenis.getStyleClass().add("rata-kiri-tengah");
             kolomJenis.setMinWidth(110);
             kolomJenis.setPrefWidth(110);
             kolomJenis.setMaxWidth(110);
@@ -342,32 +339,30 @@ public class CariLowonganController {
             ketCocok.getStyleClass().add("detail-lowongan");
 
             VBox kolomCocok = new VBox(4, kecocokan, ketCocok);
-            kolomCocok.setAlignment(Pos.CENTER_LEFT);
+            kolomCocok.getStyleClass().add("rata-kiri-tengah");
             kolomCocok.setMinWidth(95);
             kolomCocok.setPrefWidth(95);
             kolomCocok.setMaxWidth(95);
 
             Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
             gaji.getStyleClass().add("gaji-lowongan");
-            gaji.setAlignment(Pos.CENTER_RIGHT);
+            gaji.getStyleClass().add("teks-kanan");
             gaji.setMaxWidth(Double.MAX_VALUE);
 
             Label update = new Label("Baru saja");
             update.getStyleClass().add("detail-lowongan");
-            update.setAlignment(Pos.CENTER_RIGHT);
+            update.getStyleClass().add("teks-kanan");
             update.setMaxWidth(Double.MAX_VALUE);
 
             VBox kolomGaji = new VBox(4, gaji, update);
-            kolomGaji.setAlignment(Pos.CENTER_RIGHT);
+            kolomGaji.getStyleClass().add("informasi-gaji");
             kolomGaji.setMinWidth(120);
             kolomGaji.setPrefWidth(120);
             kolomGaji.setMaxWidth(120);
 
             HBox kartu = new HBox(16);
-            kartu.setAlignment(Pos.CENTER_LEFT);
             kartu.getStyleClass().add("kartu-lowongan-horizontal");
-            kartu.setCursor(Cursor.HAND);
-            kartu.setPadding(new Insets(14, 16, 14, 16));
+            
 
             kartu.getChildren().addAll(
                     avatar,

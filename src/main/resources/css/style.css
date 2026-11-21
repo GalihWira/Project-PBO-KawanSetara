@@ -239,6 +239,8 @@
 .kartu-lowongan-horizontal {
     -fx-background-color: white;
     -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-padding: 14 16;
+    -fx-alignment: center-left;
     -fx-cursor: hand;
 }
 
@@ -627,20 +629,8 @@
 
 
 /* ============================= */
-/* RIWAYAT LAMARAN */
+/* STATUS LAMARAN */
 /* ============================= */
-
-.riwayat-baris {
-    -fx-padding: 0 12 0 12;
-    -fx-min-height: 48px;
-    -fx-pref-height: 48px;
-    -fx-border-color: transparent transparent #EAECF0 transparent;
-}
-
-.riwayat-kolom {
-    -fx-font-size: 11px;
-    -fx-text-fill: #344054;
-}
 
 .status-lamaran {
     -fx-font-size: 10px;
@@ -717,6 +707,7 @@
 .riwayat-baris {
     -fx-padding: 12 16 12 16;
     -fx-min-height: 64px;
+    -fx-pref-height: 48px;
     -fx-border-color: transparent transparent #EAECF0 transparent;
 }
 
@@ -756,26 +747,6 @@
 .avatar-pink   { -fx-background-color: #FDF2FA; -fx-text-fill: #C11574; }
 
 /* Status (titik + teks) */
-.status-titik {
-    -fx-background-radius: 50%;
-}
-
-.titik-diproses { -fx-background-color: #F79009; }
-.titik-ditinjau { -fx-background-color: #2E90FA; }
-.titik-diterima { -fx-background-color: #12B76A; }
-.titik-ditolak  { -fx-background-color: #F04438; }
-.titik-default  { -fx-background-color: #98A2B3; }
-
-.status-teks {
-    -fx-font-size: 12px;
-}
-
-.teks-diproses { -fx-text-fill: #B54708; }
-.teks-ditinjau { -fx-text-fill: #175CD3; }
-.teks-diterima { -fx-text-fill: #027A48; }
-.teks-ditolak  { -fx-text-fill: #B42318; }
-.teks-default  { -fx-text-fill: #344054; }
-
 /* Tombol Lihat lowongan */
 .tombol-lihat-lowongan {
     -fx-background-color: transparent;
@@ -791,12 +762,6 @@
     -fx-underline: true;
 }
 
-.nilai-kecocokan {
-    -fx-font-size: 13px;
-    -fx-font-weight: bold;
-    -fx-text-fill: #12B76A;
-}
-
 .nilai-kecocokan-kosong {
     -fx-font-size: 12px;
     -fx-font-weight: 600;
@@ -804,7 +769,8 @@
 }
 
 /* DASHBOARD PELAMAR: LAMARAN TERAKHIR */
-.rekomendasi-nama {
+.rekomendasi-nama,
+.lamaran-terakhir-nama {
     -fx-font-size: 13px;
     -fx-font-weight: 600;
     -fx-text-fill: #101828;
@@ -832,6 +798,8 @@
 }
 .lamaran-terakhir-baris {
     -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-padding: 10 14;
+    -fx-alignment: center-left;
     -fx-cursor: hand;
 }
 
@@ -846,14 +814,16 @@
     -fx-text-fill: #667085;
 }
 .status-titik {
+    -fx-background-radius: 50%;
+    -fx-background-color: #98A2B3;
     -fx-fill: #98A2B3;
 }
 
-.titik-diproses { -fx-fill: #F79009; }
-.titik-ditinjau { -fx-fill: #2E90FA; }
-.titik-diterima { -fx-fill: #12B76A; }
-.titik-ditolak { -fx-fill: #F04438; }
-.titik-default { -fx-fill: #98A2B3; }
+.titik-diproses { -fx-background-color: #F79009; -fx-fill: #F79009; }
+.titik-ditinjau { -fx-background-color: #2E90FA; -fx-fill: #2E90FA; }
+.titik-diterima { -fx-background-color: #12B76A; -fx-fill: #12B76A; }
+.titik-ditolak { -fx-background-color: #F04438; -fx-fill: #F04438; }
+.titik-default { -fx-background-color: #98A2B3; -fx-fill: #98A2B3; }
 
 .status-teks {
     -fx-font-size: 12px;
@@ -1046,3 +1016,248 @@
     -fx-font-weight: 600;
     -fx-text-fill: #1F4E8C;
 }
+
+/* ---------- Tab filter status ---------- */
+.tab-status-aktif {
+    -fx-background-color: transparent;
+    -fx-border-color: transparent transparent #1F4E8C transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 13px;
+    -fx-font-weight: 600;
+    -fx-padding: 6 12 10 12;
+}
+
+.tab-status-nonaktif {
+    -fx-background-color: transparent;
+    -fx-text-fill: #475467;
+    -fx-font-size: 13px;
+    -fx-padding: 6 12 10 12;
+}
+
+/* ---------- Badge status lamaran ---------- */
+.status-badge {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 10;
+    -fx-padding: 2 10 2 10;
+    -fx-alignment: center;
+}
+.status-badge-diproses { -fx-background-color: #FEF0C7; -fx-text-fill: #B54708; }
+.status-badge-ditinjau { -fx-background-color: #D1E9FF; -fx-text-fill: #175CD3; }
+.status-badge-diterima { -fx-background-color: #D1FADF; -fx-text-fill: #027A48; }
+.status-badge-ditolak  { -fx-background-color: #FEE4E2; -fx-text-fill: #B42318; }
+.status-badge-default  { -fx-background-color: #F2F4F7; -fx-text-fill: #344054; }
+
+/* ---------- Badge status lowongan ---------- */
+.badge-status-tersedia {
+    -fx-font-size: 12px;
+    -fx-padding: 2 8 2 8;
+    -fx-background-radius: 10;
+    -fx-background-color: #D1FADF;
+    -fx-text-fill: #027A48;
+}
+.badge-status-tidak-tersedia {
+    -fx-font-size: 12px;
+    -fx-padding: 2 8 2 8;
+    -fx-background-radius: 10;
+    -fx-background-color: #F2F4F7;
+    -fx-text-fill: #344054;
+}
+
+/* ---------- Tombol aksi tabel lamaran ---------- */
+.tombol-aksi-lamaran {
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 6;
+    -fx-border-radius: 6;
+    -fx-padding: 4 10;
+    -fx-cursor: hand;
+}
+.tombol-aksi-tinjau {
+    -fx-background-color: white;
+    -fx-border-color: #D0D5DD;
+    -fx-text-fill: #344054;
+}
+.tombol-aksi-terima {
+    -fx-background-color: #027A48;
+    -fx-text-fill: white;
+}
+.tombol-aksi-tolak {
+    -fx-background-color: white;
+    -fx-border-color: #D92D20;
+    -fx-text-fill: #D92D20;
+}
+.tombol-hapus-teks {
+    -fx-background-color: transparent;
+    -fx-text-fill: #B42318;
+    -fx-font-size: 12px;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+/* ---------- Pesan sukses / error ---------- */
+.pesan-sukses {
+    -fx-background-color: #ECFDF3;
+    -fx-text-fill: #027A48;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+}
+.pesan-error-box {
+    -fx-background-color: #FEF3F2;
+    -fx-text-fill: #B42318;
+    -fx-font-size: 13px;
+    -fx-background-radius: 8;
+    -fx-padding: 10 14;
+}
+
+/* ---------- Filter checkbox ---------- */
+.checkbox-filter {
+    -fx-text-fill: #344054;
+    -fx-font-size: 13px;
+}
+.teks-jumlah-filter {
+    -fx-text-fill: #98A2B3;
+    -fx-font-size: 12px;
+}
+
+/* ---------- Chip ---------- */
+.chip-disabilitas {
+    -fx-background-color: #EFF4FF;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 16;
+    -fx-padding: 4 10 4 10;
+}
+.chip-keahlian-cocok {
+    -fx-background-color: #D1FADF;
+    -fx-text-fill: #027A48;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 16;
+    -fx-padding: 4 10 4 10;
+}
+.chip-keahlian-tidak-cocok {
+    -fx-background-color: #F2F4F7;
+    -fx-text-fill: #475467;
+    -fx-font-size: 12px;
+    -fx-font-weight: 600;
+    -fx-background-radius: 16;
+    -fx-padding: 4 10 4 10;
+}
+
+/* ---------- Teks kecocokan ---------- */
+.teks-kecocokan { -fx-font-size: 13px; -fx-font-weight: 600; }
+.teks-kecocokan-penuh    { -fx-text-fill: #12B76A; }
+.teks-kecocokan-sebagian { -fx-text-fill: #F79009; }
+.teks-kecocokan-nol      { -fx-text-fill: #F04438; }
+.teks-kecocokan-kosong   { -fx-text-fill: #667085; }
+
+/* ---------- Dashboard admin ---------- */
+.baris-lamaran-terbaru {
+    -fx-border-color: transparent transparent #EAECF0 transparent;
+    -fx-padding: 0 14;
+    -fx-spacing: 12;
+    -fx-alignment: center-left;
+}
+.teks-nama-lamaran {
+    -fx-text-fill: #101828;
+    -fx-font-size: 13px;
+    -fx-font-weight: 500;
+}
+.teks-posisi-lamaran,
+.teks-tanggal-lamaran {
+    -fx-text-fill: #667085;
+    -fx-font-size: 13px;
+}
+
+/* ---------- Tombol Lihat dokumen ---------- */
+.tombol-lihat-dokumen {
+    -fx-background-color: #EFF4FF;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+    -fx-border-color: #B2CCFF;
+    -fx-border-radius: 8;
+    -fx-cursor: hand;
+    -fx-padding: 6 12;
+}
+
+/* ---------- Register step ---------- */
+.step-circle-aktif {
+    -fx-background-color: #1F4E8C;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+}
+.step-circle-nonaktif {
+    -fx-background-color: #D0D5DD;
+    -fx-background-radius: 50;
+    -fx-text-fill: white;
+}
+.step-judul-aktif   { -fx-text-fill: #101828; }
+.step-judul-nonaktif { -fx-text-fill: #667085; }
+
+.menu-admin-aktif {
+    -fx-background-color: #DCE9F5;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+    -fx-background-radius: 8;
+}
+
+.menu-admin-nonaktif {
+    -fx-background-color: transparent;
+    -fx-text-fill: #344054;
+    -fx-background-radius: 8;
+}
+
+.menu-admin-nonaktif:hover {
+    -fx-background-color: #F2F4F7;
+}
+
+.teks-muted {
+    -fx-text-fill: #667085;
+    -fx-font-size: 13px;
+}
+
+.teks-persyaratan {
+    -fx-text-fill: #475467;
+    -fx-font-size: 13px;
+}
+
+/* ---------- Pengaturan layout dinamis dari controller ---------- */
+.rata-kiri-tengah { -fx-alignment: center-left; }
+.rata-kiri-atas { -fx-alignment: top-left; }
+.teks-kanan { -fx-alignment: center-right; }
+.padding-baris-kategori { -fx-padding: 18 20; }
+.sel-aksi-tengah { -fx-alignment: center; }
+
+.kartu-rekomendasi {
+    -fx-padding: 12 14;
+    -fx-alignment: center-left;
+    -fx-cursor: hand;
+}
+
+.tab-filter,
+.tab-filter-utama {
+    -fx-background-color: transparent;
+    -fx-text-fill: #475467;
+    -fx-font-size: 13px;
+    -fx-padding: 6 12 10 12;
+    -fx-background-radius: 0;
+    -fx-border-color: transparent;
+    -fx-border-width: 0 0 2 0;
+    -fx-cursor: hand;
+}
+
+.tab-filter-utama { -fx-padding: 6 4 10 4; }
+
+.tab-filter:selected,
+.tab-filter-utama:selected {
+    -fx-border-color: transparent transparent #1F4E8C transparent;
+    -fx-text-fill: #1F4E8C;
+    -fx-font-weight: 600;
+}
+
+.tombol-hapus-lowongan { -fx-font-weight: normal; }

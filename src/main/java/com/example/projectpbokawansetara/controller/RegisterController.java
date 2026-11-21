@@ -548,14 +548,11 @@ public class RegisterController {
     }
 
     private void aturLingkaran(Label lingkaran, Label judul, boolean aktif) {
-        String warna = aktif ? "#1F4E8C" : "#D0D5DD";
-        lingkaran.setStyle("-fx-background-color: " + warna + "; -fx-background-radius: 50; -fx-text-fill: white;");
+        lingkaran.getStyleClass().removeAll("step-circle-aktif", "step-circle-nonaktif");
+        judul.getStyleClass().removeAll("step-judul-aktif", "step-judul-nonaktif");
 
-        if (aktif) {
-            judul.setStyle("-fx-text-fill: #101828;");
-        } else {
-            judul.setStyle("-fx-text-fill: #667085;");
-        }
+        lingkaran.getStyleClass().add(aktif ? "step-circle-aktif" : "step-circle-nonaktif");
+        judul.getStyleClass().add(aktif ? "step-judul-aktif" : "step-judul-nonaktif");
     }
 
     private void tukarField(TextField disembunyikan, TextField ditampilkan) {
