@@ -123,7 +123,7 @@ public class FormLowonganController {
         int row = 0;
         for (Map.Entry<Integer, String> entry : daftarKeahlian.entrySet()) {
             CheckBox cb = new CheckBox(entry.getValue());
-            cb.setStyle("-fx-font-size: 13px; -fx-text-fill: #344054;");
+            cb.getStyleClass().add("checkbox-filter");
             cb.selectedProperty().addListener((obs, oldVal, newVal) -> updateJumlahDipilih());
 
             keahlianCheckMap.put(cb, entry.getKey());

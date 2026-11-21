@@ -16,8 +16,6 @@ import com.example.projectpbokawansetara.model.User;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
@@ -122,8 +120,8 @@ public class CheckListMinatBakatController {
             List<ItemChecklist> daftarItem = kategori.getValue();
 
             HBox baris = new HBox(16);
-            baris.setAlignment(Pos.TOP_LEFT);
-            baris.setPadding(new Insets(18, 20, 18, 20));
+            baris.getStyleClass().addAll("rata-kiri-atas", "padding-baris-kategori");
+
             baris.setMaxWidth(Double.MAX_VALUE);
 
             VBox kiri = new VBox(3);
@@ -163,7 +161,7 @@ public class CheckListMinatBakatController {
                 idKeahlianKategori.add(item.getIdItem());
 
                 HBox sel = new HBox(8);
-                sel.setAlignment(Pos.CENTER_LEFT);
+                sel.getStyleClass().add("rata-kiri-tengah");
                 sel.setPrefWidth(170);
                 sel.setMinWidth(140);
                 sel.getChildren().add(checkbox);

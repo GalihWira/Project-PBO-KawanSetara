@@ -51,7 +51,7 @@ public class UserDAO {
                     return new Pelamar(
                             rs.getInt("id_pelamar"),
                             rs.getString("nama"),
-                            rs.getString("email"),
+                            rs.getString("email"),  
                             passwordDB,
                             rs.getString("no_telepon"),
                             tanggal != null ? tanggal.toLocalDate() : null,
