@@ -35,11 +35,12 @@ public class Lowongan {
         this.daftarKeahlian = daftarKeahlian;
     }
 
-    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String status) {
-        this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);
-    }
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, 
+        String deskripsi, String lokasi, double gaji, String status) {
+        this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);}
 
-    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, String deskripsi, String lokasi, double gaji, String jenisLowongan, String status) {
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, 
+        String deskripsi, String lokasi, double gaji, String jenisLowongan, String status) {
         this.idLowongan = idLowongan;
         this.perusahaan = perusahaan;
         this.namaPekerjaan = namaPekerjaan;

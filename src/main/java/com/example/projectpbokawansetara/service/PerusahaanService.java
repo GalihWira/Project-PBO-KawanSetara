@@ -39,8 +39,8 @@ public class PerusahaanService {
         if (telepon == null || telepon.isEmpty()) {
             return;
         }
-        if (!ValidasiHelper.teleponKantorValid(telepon)) {
-            throw new ValidationException("telepon", "Nomor telepon harus 8 sampai 15 angka!");
+        if (telepon.matches(".*[a-zA-Z].*")) {
+            throw new ValidationException("telepon", "Nomor telepon tidak boleh mengandung huruf!");
         }
     }
 }

@@ -186,11 +186,17 @@ public class KelolaPerusahaanController {
 
     @FXML
     void handleSimpan(ActionEvent event) {
-        String nama = namaPerusahaanField.getText().trim();
-        String alamat = alamatArea.getText().trim();
-        String email = emailField.getText().trim();
-        String telepon = noTeleponField.getText().trim();
-        String deskripsi = deskripsiArea.getText().trim();
+        String nama = namaPerusahaanField.getText() == null ? "" : namaPerusahaanField.getText().trim();
+        String alamat = alamatArea.getText() == null ? "" : alamatArea.getText().trim();
+        String email = emailField.getText() == null ? "" : emailField.getText().trim();
+        String telepon = noTeleponField.getText() == null ? "" : noTeleponField.getText().trim();
+        String deskripsi = deskripsiArea.getText() == null ? "" : deskripsiArea.getText().trim();
+
+        // Validasi semua field wajib diisi lengkap
+        if (nama.isEmpty() || alamat.isEmpty() || email.isEmpty() || telepon.isEmpty() || deskripsi.isEmpty()) {
+            setError(true, "Data belum lengkap", "Semua kolom (nama, alamat, email, telepon, dan deskripsi) wajib diisi.");
+            return;
+        }
 
         try {
             perusahaanService.validasiPerusahaan(nama, email, telepon);
