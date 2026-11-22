@@ -107,10 +107,19 @@ public class ValidasiHelper {
     }
 
     public static boolean teleponKantorValid(String telepon) {
-        if (telepon == null || telepon.length() < 8 || telepon.length() > 15) {
+        if (telepon == null || telepon.isEmpty()) {
             return false;
         }
-        return semuaAngka(telepon);
+        int jumlahAngka = 0;
+        for (int i = 0; i < telepon.length(); i++) {
+            char c = telepon.charAt(i);
+            if (Character.isDigit(c)) {
+                jumlahAngka++;
+            } else if (c != '+' && c != '-' && c != ' ' && c != '(' && c != ')') {
+                return false;
+            }
+        }
+        return jumlahAngka >= 8 && jumlahAngka <= 15;
     }
 
     public static boolean tanggalLahirValid(LocalDate tanggalLahir) {

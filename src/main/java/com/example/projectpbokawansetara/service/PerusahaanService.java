@@ -8,10 +8,13 @@ public class PerusahaanService {
     private static final int MAKS_NAMA = 150;
     private static final int MAKS_EMAIL = 100;
 
-    public void validasiPerusahaan(String nama, String email, String telepon) throws ValidationException {
+    public void validasiPerusahaan(String nama, String alamat, String email, String telepon, String deskripsi)
+            throws ValidationException {
         validasiNama(nama);
+        validasiAlamat(alamat);
         validasiEmail(email);
         validasiTelepon(telepon);
+        validasiDeskripsi(deskripsi);
     }
 
     private void validasiNama(String nama) throws ValidationException {
@@ -23,9 +26,15 @@ public class PerusahaanService {
         }
     }
 
+    private void validasiAlamat(String alamat) throws ValidationException {
+        if (alamat == null || alamat.isEmpty()) {
+            throw new ValidationException("alamat", "Alamat wajib diisi!");
+        }
+    }
+
     private void validasiEmail(String email) throws ValidationException {
         if (email == null || email.isEmpty()) {
-            return;
+            throw new ValidationException("email", "Email wajib diisi!");
         }
         if (!ValidasiHelper.panjangMaksimal(email, MAKS_EMAIL)) {
             throw new ValidationException("email", "Email maksimal 100 karakter!");
@@ -37,10 +46,16 @@ public class PerusahaanService {
 
     private void validasiTelepon(String telepon) throws ValidationException {
         if (telepon == null || telepon.isEmpty()) {
-            return;
+            throw new ValidationException("telepon", "Nomor telepon wajib diisi!");
         }
         if (!ValidasiHelper.teleponKantorValid(telepon)) {
             throw new ValidationException("telepon", "Nomor telepon harus 8 sampai 15 angka!");
+        }
+    }
+
+    private void validasiDeskripsi(String deskripsi) throws ValidationException {
+        if (deskripsi == null || deskripsi.isEmpty()) {
+            throw new ValidationException("deskripsi", "Deskripsi wajib diisi!");
         }
     }
 }

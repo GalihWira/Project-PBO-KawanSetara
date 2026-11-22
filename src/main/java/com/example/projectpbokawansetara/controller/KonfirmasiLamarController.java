@@ -94,12 +94,10 @@ public class KonfirmasiLamarController {
                 );
                 return;
             }
-
             boolean berhasil = lamaranDAO.simpanLamaran(
                     idPelamar,
                     idLowongan
             );
-
             if (berhasil) {
                 if (aksiBerhasil != null) {
                     aksiBerhasil.run();
@@ -111,7 +109,6 @@ public class KonfirmasiLamarController {
                         "Lamaran tidak berhasil disimpan."
                 );
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
 
