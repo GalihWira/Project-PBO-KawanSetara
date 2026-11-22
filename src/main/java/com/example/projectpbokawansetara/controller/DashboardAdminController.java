@@ -2,6 +2,7 @@ package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.projectpbokawansetara.dao.DashboardDAO;
@@ -33,6 +34,7 @@ import javafx.scene.layout.VBox;
 public class DashboardAdminController {
 
     private Node halamanDashboardAwal;
+    private List<LamaranTerbaru> semuaLamaranTerbaru = new ArrayList<>();
 
     @FXML private ToggleGroup adminMenuGroup;
     @FXML private ToggleButton akunAdminMenu;
@@ -84,6 +86,17 @@ public class DashboardAdminController {
 
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
+
+        // Aktifkan pencarian real-time pada searchbar pojok kanan atas
+        if (cariField != null) {
+            cariField.textProperty().addListener((obs, lama, baru) -> {
+                if (halamanDashboardAwal != null && mainBorderPane.getCenter() != halamanDashboardAwal) {
+                    mainBorderPane.setCenter(halamanDashboardAwal);
+                    aturMenuAktif(dashboardMenu);
+                }
+                filterLamaranTerbaru(baru);
+            });
+        }
     }
 
     private void tampilkanProfil() {
@@ -113,7 +126,35 @@ public class DashboardAdminController {
         jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
         jumlahLamaranMenuLabel.setText(String.valueOf(stat.getLamaranBelumDitinjau()));
 
-        tampilkanDaftarLamaran(dao.getLamaranTerbaru());
+        semuaLamaranTerbaru = dao.getLamaranTerbaru();
+        if (cariField != null && cariField.getText() != null && !cariField.getText().trim().isEmpty()) {
+            filterLamaranTerbaru(cariField.getText());
+        } else {
+            tampilkanDaftarLamaran(semuaLamaranTerbaru);
+        }
+    }
+
+    private void filterLamaranTerbaru(String keyword) {
+        String kunci = keyword == null ? "" : keyword.toLowerCase().trim();
+        if (kunci.isEmpty()) {
+            tampilkanDaftarLamaran(semuaLamaranTerbaru);
+            return;
+        }
+
+        List<LamaranTerbaru> hasilFilter = new ArrayList<>();
+        for (LamaranTerbaru lamaran : semuaLamaranTerbaru) {
+            boolean cocokNama = lamaran.getNamaPelamar() != null
+                    && lamaran.getNamaPelamar().toLowerCase().contains(kunci);
+            boolean cocokPosisi = lamaran.getPosisi() != null
+                    && lamaran.getPosisi().toLowerCase().contains(kunci);
+            boolean cocokStatus = lamaran.getStatus() != null
+                    && lamaran.getStatus().toLowerCase().contains(kunci);
+
+            if (cocokNama || cocokPosisi || cocokStatus) {
+                hasilFilter.add(lamaran);
+            }
+        }
+        tampilkanDaftarLamaran(hasilFilter);
     }
 
     private void tampilkanDaftarLamaran(List<LamaranTerbaru> listLamaran) {

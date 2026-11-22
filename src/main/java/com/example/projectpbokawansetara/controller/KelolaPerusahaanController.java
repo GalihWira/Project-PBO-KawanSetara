@@ -9,6 +9,7 @@ import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.Perusahaan;
 import com.example.projectpbokawansetara.service.PerusahaanService;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -97,6 +98,20 @@ public class KelolaPerusahaanController {
         });
 
         loadDataPerusahaan();
+
+        Platform.runLater(() -> {
+            if (perusahaanTable.getScene() != null) {
+                TextField searchAtas = (TextField) perusahaanTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (perusahaanTable.getScene() != null) {
+                            cariPerusahaanField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void loadDataPerusahaan() {
@@ -192,7 +207,6 @@ public class KelolaPerusahaanController {
         String telepon = noTeleponField.getText() == null ? "" : noTeleponField.getText().trim();
         String deskripsi = deskripsiArea.getText() == null ? "" : deskripsiArea.getText().trim();
 
-        // Validasi semua field wajib diisi lengkap
         if (nama.isEmpty() || alamat.isEmpty() || email.isEmpty() || telepon.isEmpty() || deskripsi.isEmpty()) {
             setError(true, "Data belum lengkap", "Semua kolom (nama, alamat, email, telepon, dan deskripsi) wajib diisi.");
             return;

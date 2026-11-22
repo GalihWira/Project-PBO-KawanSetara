@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.example.projectpbokawansetara.dao.LowonganDAO;
 import com.example.projectpbokawansetara.model.Lowongan;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -101,6 +102,21 @@ public class KelolaLowonganController {
             terapkanFilter();
         });
         loadDataLowongan();
+
+        // Menyambungkan searchbar pojok kanan atas ke searchbar halaman lowongan
+        Platform.runLater(() -> {
+            if (lowonganTable.getScene() != null) {
+                TextField searchAtas = (TextField) lowonganTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (lowonganTable.getScene() != null) {
+                            cariPekerjaanField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void setupKolomTabel() {
@@ -125,7 +141,7 @@ public class KelolaLowonganController {
                     setGraphic(null);
                 } else {
                     Label badge = new Label(status.substring(0, 1).toUpperCase() + status.substring(1));
-                    boolean aktif = status.equalsIgnoreCase("tersedia");
+                    boolean aktif =  status.equalsIgnoreCase("tersedia");
                     badge.getStyleClass().add(aktif ? "badge-status-tersedia" : "badge-status-tidak-tersedia");
                     setGraphic(badge);
                 }

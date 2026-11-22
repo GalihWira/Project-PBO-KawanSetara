@@ -7,6 +7,7 @@ import com.example.projectpbokawansetara.dao.DisabilitasDAO;
 import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.JenisDisabilitas;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -50,6 +51,27 @@ public class KelolaDisabilitasController {
 
         buatTombolHapus();
         loadDataDisabilitas();
+
+        Platform.runLater(() -> {
+            if (disabilitasTable.getScene() != null) {
+                TextField searchAtas = (TextField) disabilitasTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (disabilitasTable.getScene() != null) {
+                            String keyword = baru.toLowerCase().trim();
+                            List<JenisDisabilitas> hasil = new ArrayList<>();
+                            for (JenisDisabilitas d : semuaDisabilitas) {
+                                if (d.getNamaJenis().toLowerCase().contains(keyword)) {
+                                    hasil.add(d);
+                                }
+                            }
+                            disabilitasTable.setItems(FXCollections.observableArrayList(hasil));
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void loadDataDisabilitas() {
