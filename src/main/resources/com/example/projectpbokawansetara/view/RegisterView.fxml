@@ -47,7 +47,7 @@
                     <children>
                         <HBox alignment="TOP_LEFT" spacing="14.0">
                             <children>
-                                <Label fx:id="step1Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-font-size: 12px; -fx-font-weight: 700;" />
+                                <Label fx:id="step1Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-font-size: 12px; -fx-font-weight: 700;" text="1" />
                                 <VBox spacing="2.0">
                                     <children>
                                         <Label fx:id="step1Title" styleClass="label-sm" text="Akun" />
@@ -61,10 +61,10 @@
                         </Region>
                         <HBox alignment="TOP_LEFT" spacing="14.0">
                             <children>
-                                <Label fx:id="step2Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-border-width: 2; -fx-background-radius: 14; -fx-border-radius: 14; -fx-text-fill: #98A2B3; -fx-font-size: 12px; -fx-font-weight: 700;" text="2" />
+                                <Label fx:id="step2Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-font-size: 12px; -fx-font-weight: 700;" text="2" />
                                 <VBox spacing="2.0">
                                     <children>
-                                        <Label fx:id="step2Title" style="-fx-font-size: 12px; -fx-font-weight: 700;" styleClass="label-sm" text="Data diri" />
+                                        <Label fx:id="step2Title" styleClass="label-sm" text="Data diri" />
                                         <Label style="-fx-font-size: 12px;" styleClass="body" text="Kontak, tanggal lahir, pendidikan" />
                                     </children>
                                 </VBox>
@@ -75,10 +75,10 @@
                         </Region>
                         <HBox alignment="TOP_LEFT" spacing="14.0">
                             <children>
-                                <Label fx:id="step3Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-font-size: 12px; -fx-font-weight: 700;"/>
+                                <Label fx:id="step3Circle" alignment="CENTER" maxHeight="28.0" maxWidth="28.0" minHeight="28.0" minWidth="28.0" prefHeight="28.0" prefWidth="28.0" style="-fx-font-size: 12px; -fx-font-weight: 700;" text="3" />
                                 <VBox spacing="2.0">
                                     <children>
-                                        <Label fx:id="step3Title" style="-fx-text-fill: #667085;" styleClass="label-sm" text="Disabilitas &amp; dokumen" />
+                                        <Label fx:id="step3Title" styleClass="label-sm" text="Disabilitas &amp; dokumen" />
                                         <Label style="-fx-font-size: 12px;" styleClass="body" text="Jenis disabilitas, CV, ijazah, SKD" />
                                     </children>
                                 </VBox>
