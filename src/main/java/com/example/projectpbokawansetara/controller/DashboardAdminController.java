@@ -36,40 +36,74 @@ public class DashboardAdminController {
     private Node halamanDashboardAwal;
     private List<LamaranTerbaru> semuaLamaranTerbaru = new ArrayList<>();
 
-    @FXML private ToggleGroup adminMenuGroup;
-    @FXML private ToggleButton akunAdminMenu;
-    @FXML private ImageView avatarImage;
-    @FXML private TextField cariField;
-    @FXML private VBox daftarLamaranBox;
-    @FXML private ToggleButton dashboardMenu;
-    @FXML private ToggleButton itemChecklistMenu;
-    @FXML private ToggleButton jenisDisabilitasMenu;
-    @FXML private Label jumlahAdminMenuLabel;
-    @FXML private Label jumlahChecklistMenuLabel;
-    @FXML private Label jumlahDisabilitasMenuLabel;
-    @FXML private Label jumlahLamaranMenuLabel;
-    @FXML private Label jumlahLowonganMenuLabel;
-    @FXML private Label jumlahPerusahaanMenuLabel;
-    @FXML private Button keluarButton;
-    @FXML private ToggleButton lamaranMenu;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label lamaranMasukInfoLabel;
-    @FXML private Label lamaranMasukLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private ToggleButton lowonganMenu;
-    @FXML private Label lowonganTersediaInfoLabel;
-    @FXML private Label lowonganTersediaLabel;
-    @FXML private BorderPane mainBorderPane;
-    @FXML private Label namaUserLabel;
-    @FXML private Label pelamarTerdaftarInfoLabel;
-    @FXML private Label pelamarTerdaftarLabel;
-    @FXML private Label peranUserLabel;
-    @FXML private ToggleButton perusahaanMenu;
-    @FXML private Label perusahaanMitraInfoLabel;
-    @FXML private Label perusahaanMitraLabel;
-    @FXML private Label tanggalLabel;
-    @FXML private VBox tindakLanjutBox;
-    @FXML private Label tindakLanjutKosongLabel;
+    @FXML
+    private ToggleGroup adminMenuGroup;
+    @FXML
+    private ToggleButton akunAdminMenu;
+    @FXML
+    private ImageView avatarImage;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private VBox daftarLamaranBox;
+    @FXML
+    private ToggleButton dashboardMenu;
+    @FXML
+    private ToggleButton itemChecklistMenu;
+    @FXML
+    private ToggleButton jenisDisabilitasMenu;
+    @FXML
+    private Label jumlahAdminMenuLabel;
+    @FXML
+    private Label jumlahChecklistMenuLabel;
+    @FXML
+    private Label jumlahDisabilitasMenuLabel;
+    @FXML
+    private Label jumlahLamaranMenuLabel;
+    @FXML
+    private Label jumlahLowonganMenuLabel;
+    @FXML
+    private Label jumlahPerusahaanMenuLabel;
+    @FXML
+    private Button keluarButton;
+    @FXML
+    private ToggleButton lamaranMenu;
+    @FXML
+    private Label lamaranKosongLabel;
+    @FXML
+    private Label lamaranMasukInfoLabel;
+    @FXML
+    private Label lamaranMasukLabel;
+    @FXML
+    private Hyperlink lihatSemuaLink;
+    @FXML
+    private ToggleButton lowonganMenu;
+    @FXML
+    private Label lowonganTersediaInfoLabel;
+    @FXML
+    private Label lowonganTersediaLabel;
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private Label namaUserLabel;
+    @FXML
+    private Label pelamarTerdaftarInfoLabel;
+    @FXML
+    private Label pelamarTerdaftarLabel;
+    @FXML
+    private Label peranUserLabel;
+    @FXML
+    private ToggleButton perusahaanMenu;
+    @FXML
+    private Label perusahaanMitraInfoLabel;
+    @FXML
+    private Label perusahaanMitraLabel;
+    @FXML
+    private Label tanggalLabel;
+    @FXML
+    private VBox tindakLanjutBox;
+    @FXML
+    private Label tindakLanjutKosongLabel;
 
     private static final String KELAS_MENU_AKTIF = "menu-admin-aktif";
     private static final String KELAS_MENU_NONAKTIF = "menu-admin-nonaktif";
@@ -87,14 +121,11 @@ public class DashboardAdminController {
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
 
-        // Aktifkan pencarian real-time pada searchbar pojok kanan atas
         if (cariField != null) {
             cariField.textProperty().addListener((obs, lama, baru) -> {
-                if (halamanDashboardAwal != null && mainBorderPane.getCenter() != halamanDashboardAwal) {
-                    mainBorderPane.setCenter(halamanDashboardAwal);
-                    aturMenuAktif(dashboardMenu);
+                if (mainBorderPane.getCenter() == halamanDashboardAwal) {
+                    filterLamaranTerbaru(baru);
                 }
-                filterLamaranTerbaru(baru);
             });
         }
     }
@@ -330,13 +361,13 @@ public class DashboardAdminController {
 
     private void aturMenuAktif(ToggleButton menuAktif) {
         ToggleButton[] semuaMenu = {
-            dashboardMenu,
-            lowonganMenu,
-            lamaranMenu,
-            perusahaanMenu,
-            itemChecklistMenu,
-            jenisDisabilitasMenu,
-            akunAdminMenu
+                dashboardMenu,
+                lowonganMenu,
+                lamaranMenu,
+                perusahaanMenu,
+                itemChecklistMenu,
+                jenisDisabilitasMenu,
+                akunAdminMenu
         };
 
         for (ToggleButton menu : semuaMenu) {
@@ -345,9 +376,8 @@ public class DashboardAdminController {
             }
             menu.setStyle(null);
             menu.getStyleClass().removeAll(
-                KELAS_MENU_AKTIF,
-                KELAS_MENU_NONAKTIF
-            );
+                    KELAS_MENU_AKTIF,
+                    KELAS_MENU_NONAKTIF);
             menu.getStyleClass().add(KELAS_MENU_NONAKTIF);
             menu.setSelected(false);
         }

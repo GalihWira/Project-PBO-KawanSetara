@@ -103,7 +103,6 @@ public class KelolaLowonganController {
         });
         loadDataLowongan();
 
-        // Menyambungkan searchbar pojok kanan atas ke searchbar halaman lowongan
         Platform.runLater(() -> {
             if (lowonganTable.getScene() != null) {
                 TextField searchAtas = (TextField) lowonganTable.getScene().lookup("#cariField");
@@ -141,7 +140,7 @@ public class KelolaLowonganController {
                     setGraphic(null);
                 } else {
                     Label badge = new Label(status.substring(0, 1).toUpperCase() + status.substring(1));
-                    boolean aktif =  status.equalsIgnoreCase("tersedia");
+                    boolean aktif = status.equalsIgnoreCase("tersedia");
                     badge.getStyleClass().add(aktif ? "badge-status-tersedia" : "badge-status-tidak-tersedia");
                     setGraphic(badge);
                 }
