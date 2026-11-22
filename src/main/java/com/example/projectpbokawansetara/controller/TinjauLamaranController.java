@@ -203,8 +203,7 @@ public class TinjauLamaranController {
 
         for (String nama : daftarNama) {
             Label chip = new Label(nama);
-            chip.setStyle(STYLE_CHIP);
-            chip.setPadding(new Insets(4, 10, 4, 10));
+            chip.getStyleClass().add("chip-disabilitas");
             disabilitasChipPane.getChildren().add(chip);
         }
     }

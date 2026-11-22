@@ -18,7 +18,6 @@ import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -127,9 +126,7 @@ public class KelolaLowonganController {
                 } else {
                     Label badge = new Label(status.substring(0, 1).toUpperCase() + status.substring(1));
                     boolean aktif = status.equalsIgnoreCase("tersedia");
-                    badge.setStyle("-fx-font-size: 12px; -fx-padding: 2 8 2 8; -fx-background-radius: 10; " +
-                            (aktif ? "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;"
-                                    : "-fx-background-color: #F2F4F7; -fx-text-fill: #344054;"));
+                    badge.getStyleClass().add(aktif ? "badge-status-tersedia" : "badge-status-tidak-tersedia");
                     setGraphic(badge);
                 }
             }
@@ -138,15 +135,14 @@ public class KelolaLowonganController {
         aksiColumn.setCellFactory(col -> new TableCell<>() {
             private final Button hapusBtn = new Button("Hapus");
             {
-                hapusBtn.setStyle(
-                        "-fx-background-color: transparent; -fx-text-fill: #B42318; -fx-font-size: 12px; -fx-cursor: hand;");
+                hapusBtn.getStyleClass().addAll("tombol-hapus-teks", "tombol-hapus-lowongan");
+                getStyleClass().add("sel-aksi-tengah");
                 hapusBtn.setOnAction(e -> konfirmasiHapus(getTableView().getItems().get(getIndex())));
             }
 
             @Override
             protected void updateItem(Void item, boolean empty) {
                 super.updateItem(item, empty);
-                setAlignment(Pos.CENTER);
                 setGraphic(empty ? null : hapusBtn);
             }
         });
@@ -297,13 +293,6 @@ public class KelolaLowonganController {
 
     @FXML
     void handleFilter(ActionEvent event) {
-        String styleAktif = "-fx-background-color: transparent; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 6 12 10 12;";
-        String styleNonAktif = "-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;";
-
-        semuaTab.setStyle(semuaTab.isSelected() ? styleAktif : styleNonAktif);
-        tersediaTab.setStyle(tersediaTab.isSelected() ? styleAktif : styleNonAktif);
-        tidakTersediaTab.setStyle(tidakTersediaTab.isSelected() ? styleAktif : styleNonAktif);
-
         halamanSekarang = 1;
         terapkanFilter();
     }

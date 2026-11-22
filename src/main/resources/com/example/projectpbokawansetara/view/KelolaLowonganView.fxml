@@ -66,7 +66,7 @@
                         </HBox>
                         <HBox spacing="4.0" style="-fx-border-color: transparent transparent #EAECF0 transparent;">
                             <children>
-                                <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" style="-fx-background-color: transparent; -fx-border-color: transparent transparent #1F4E8C transparent; -fx-border-width: 0 0 2 0; -fx-text-fill: #1F4E8C; -fx-font-size: 13px; -fx-font-weight: 600; -fx-padding: 6 4 10 4;" text="Semua 128">
+                                <ToggleButton fx:id="semuaTab" onAction="#handleFilter" mnemonicParsing="false" selected="true" styleClass="tab-filter-utama" text="Semua 128">
                                     <toggleGroup>
                                         <ToggleGroup fx:id="statusTabGroup" />
                                     </toggleGroup>
@@ -74,12 +74,12 @@
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
                                 </ToggleButton>
-                                <ToggleButton fx:id="tersediaTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tersedia 112" toggleGroup="$statusTabGroup">
+                                <ToggleButton fx:id="tersediaTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-filter" text="Tersedia 112" toggleGroup="$statusTabGroup">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>
                                 </ToggleButton>
-                                <ToggleButton fx:id="tidakTersediaTab" onAction="#handleFilter" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-text-fill: #475467; -fx-font-size: 13px; -fx-padding: 6 12 10 12;" text="Tidak tersedia 16" toggleGroup="$statusTabGroup">
+                                <ToggleButton fx:id="tidakTersediaTab" onAction="#handleFilter" mnemonicParsing="false" styleClass="tab-filter" text="Tidak tersedia 16" toggleGroup="$statusTabGroup">
                                     <cursor>
                                         <Cursor fx:constant="HAND" />
                                     </cursor>

@@ -16,7 +16,6 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,6 +53,8 @@ public class KelolaLamaranController {
 
     private final LamaranDAO lamaranDAO = new LamaranDAO();
     private List<Lamaran> semuaLamaran = new ArrayList<>();
+    private static final String KELAS_TAB_AKTIF = "tab-status-aktif";
+    private static final String KELAS_TAB_NONAKTIF = "tab-status-nonaktif";
 
     private final DateTimeFormatter formatTanggal =
             DateTimeFormatter.ofPattern("d MMM yyyy", Locale.forLanguageTag("id-ID"));
@@ -159,10 +160,15 @@ public class KelolaLamaranController {
 
         ToggleButton[] semuaTabStatus = { semuaTab, diprosesTab, ditinjauTab, diterimaTab, ditolakTab };
         for (ToggleButton tab : semuaTabStatus) {
-            tab.setStyle(tab.isSelected() ? STYLE_TAB_AKTIF : STYLE_TAB_NONAKTIF);
+            aturKelasTab(tab, tab.isSelected());
         }
 
         terapkanFilter();
+    }
+
+    private void aturKelasTab(ToggleButton tab, boolean aktif) {
+        tab.getStyleClass().removeAll(KELAS_TAB_AKTIF, KELAS_TAB_NONAKTIF);
+        tab.getStyleClass().add(aktif ? KELAS_TAB_AKTIF : KELAS_TAB_NONAKTIF);
     }
 
     private void buatLabelStatus() {
@@ -175,13 +181,23 @@ public class KelolaLamaranController {
                     setText(null);
                 } else {
                     Label lblStatus = new Label(hurufBesarAwal(status));
-                    lblStatus.setPadding(new Insets(2, 10, 2, 10));
-                    lblStatus.setStyle("-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 10; " + warnaStatus(status));
+                    lblStatus.getStyleClass().addAll("status-badge", kelasStatus(status));
                     setText(null);
                     setGraphic(lblStatus);
                 }
             }
         });
+    }
+
+    private String kelasStatus(String status) {
+        if (status == null) return "status-badge-default";
+        return switch (status) {
+            case "diproses" -> "status-badge-diproses";
+            case "ditinjau" -> "status-badge-ditinjau";
+            case "diterima" -> "status-badge-diterima";
+            case "ditolak"  -> "status-badge-ditolak";
+            default -> "status-badge-default";
+        };
     }
 
     private void buatTombolAksi() {
@@ -194,9 +210,9 @@ public class KelolaLamaranController {
                 } else {
                     Lamaran data = getTableView().getItems().get(getIndex());
 
-                    Button btnTinjau = buatTombol("Tinjau", "-fx-background-color: white; -fx-border-color: #D0D5DD; -fx-text-fill: #344054;");
-                    Button btnTerima = buatTombol("Terima", "-fx-background-color: #027A48; -fx-text-fill: white;");
-                    Button btnTolak = buatTombol("Tolak", "-fx-background-color: white; -fx-border-color: #D92D20; -fx-text-fill: #D92D20;");
+                    Button btnTinjau = buatTombol("Tinjau", "tombol-aksi-tinjau");
+                    Button btnTerima = buatTombol("Terima", "tombol-aksi-terima");
+                    Button btnTolak  = buatTombol("Tolak",  "tombol-aksi-tolak");
 
                     btnTerima.setDisable(data.getStatus().equals("diterima"));
                     btnTolak.setDisable(data.getStatus().equals("ditolak"));
@@ -206,16 +222,16 @@ public class KelolaLamaranController {
                     btnTolak.setOnAction(event -> prosesUbahStatus(data, "ditolak"));
 
                     HBox kotakTombol = new HBox(6, btnTinjau, btnTerima, btnTolak);
-                    kotakTombol.setAlignment(Pos.CENTER_LEFT);
+                    kotakTombol.getStyleClass().add("rata-kiri-tengah");
                     setGraphic(kotakTombol);
                 }
             }
         });
     }
 
-    private Button buatTombol(String teks, String warna) {
+    private Button buatTombol(String teks, String kelas) {
         Button tombol = new Button(teks);
-        tombol.setStyle("-fx-font-size: 12px; -fx-font-weight: 600; -fx-background-radius: 6; -fx-border-radius: 6; -fx-padding: 4 10; -fx-cursor: hand; " + warna);
+        tombol.getStyleClass().addAll("tombol-aksi-lamaran", kelas);
         return tombol;
     }
 
@@ -275,24 +291,9 @@ public class KelolaLamaranController {
         return teks.substring(0, 1).toUpperCase() + teks.substring(1);
     }
 
-    private String warnaStatus(String status) {
-        if (status.equals("diproses")) {
-            return "-fx-background-color: #FEF0C7; -fx-text-fill: #B54708;";
-        } else if (status.equals("ditinjau")) {
-            return "-fx-background-color: #D1E9FF; -fx-text-fill: #175CD3;";
-        } else if (status.equals("diterima")) {
-            return "-fx-background-color: #D1FADF; -fx-text-fill: #027A48;";
-        } else {
-            return "-fx-background-color: #FEE4E2; -fx-text-fill: #B42318;";
-        }
-    }
-
     private void tampilkanPesan(String pesan, boolean berhasil) {
-        if (berhasil) {
-            pesanLabel.setStyle("-fx-background-color: #ECFDF3; -fx-text-fill: #027A48; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 10 14;");
-        } else {
-            pesanLabel.setStyle("-fx-background-color: #FEF3F2; -fx-text-fill: #B42318; -fx-font-size: 13px; -fx-background-radius: 8; -fx-padding: 10 14;");
-        }
+        pesanLabel.getStyleClass().removeAll("pesan-sukses", "pesan-error-box");
+        pesanLabel.getStyleClass().add(berhasil ? "pesan-sukses" : "pesan-error-box");
         pesanLabel.setText(pesan);
         pesanLabel.setVisible(true);
         pesanLabel.setManaged(true);
