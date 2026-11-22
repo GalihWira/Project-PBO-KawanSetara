@@ -2,6 +2,7 @@ package com.example.projectpbokawansetara.controller;
 
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.example.projectpbokawansetara.dao.DashboardDAO;
@@ -33,41 +34,76 @@ import javafx.scene.layout.VBox;
 public class DashboardAdminController {
 
     private Node halamanDashboardAwal;
+    private List<LamaranTerbaru> semuaLamaranTerbaru = new ArrayList<>();
 
-    @FXML private ToggleGroup adminMenuGroup;
-    @FXML private ToggleButton akunAdminMenu;
-    @FXML private ImageView avatarImage;
-    @FXML private TextField cariField;
-    @FXML private VBox daftarLamaranBox;
-    @FXML private ToggleButton dashboardMenu;
-    @FXML private ToggleButton itemChecklistMenu;
-    @FXML private ToggleButton jenisDisabilitasMenu;
-    @FXML private Label jumlahAdminMenuLabel;
-    @FXML private Label jumlahChecklistMenuLabel;
-    @FXML private Label jumlahDisabilitasMenuLabel;
-    @FXML private Label jumlahLamaranMenuLabel;
-    @FXML private Label jumlahLowonganMenuLabel;
-    @FXML private Label jumlahPerusahaanMenuLabel;
-    @FXML private Button keluarButton;
-    @FXML private ToggleButton lamaranMenu;
-    @FXML private Label lamaranKosongLabel;
-    @FXML private Label lamaranMasukInfoLabel;
-    @FXML private Label lamaranMasukLabel;
-    @FXML private Hyperlink lihatSemuaLink;
-    @FXML private ToggleButton lowonganMenu;
-    @FXML private Label lowonganTersediaInfoLabel;
-    @FXML private Label lowonganTersediaLabel;
-    @FXML private BorderPane mainBorderPane;
-    @FXML private Label namaUserLabel;
-    @FXML private Label pelamarTerdaftarInfoLabel;
-    @FXML private Label pelamarTerdaftarLabel;
-    @FXML private Label peranUserLabel;
-    @FXML private ToggleButton perusahaanMenu;
-    @FXML private Label perusahaanMitraInfoLabel;
-    @FXML private Label perusahaanMitraLabel;
-    @FXML private Label tanggalLabel;
-    @FXML private VBox tindakLanjutBox;
-    @FXML private Label tindakLanjutKosongLabel;
+    @FXML
+    private ToggleGroup adminMenuGroup;
+    @FXML
+    private ToggleButton akunAdminMenu;
+    @FXML
+    private ImageView avatarImage;
+    @FXML
+    private TextField cariField;
+    @FXML
+    private VBox daftarLamaranBox;
+    @FXML
+    private ToggleButton dashboardMenu;
+    @FXML
+    private ToggleButton itemChecklistMenu;
+    @FXML
+    private ToggleButton jenisDisabilitasMenu;
+    @FXML
+    private Label jumlahAdminMenuLabel;
+    @FXML
+    private Label jumlahChecklistMenuLabel;
+    @FXML
+    private Label jumlahDisabilitasMenuLabel;
+    @FXML
+    private Label jumlahLamaranMenuLabel;
+    @FXML
+    private Label jumlahLowonganMenuLabel;
+    @FXML
+    private Label jumlahPerusahaanMenuLabel;
+    @FXML
+    private Button keluarButton;
+    @FXML
+    private ToggleButton lamaranMenu;
+    @FXML
+    private Label lamaranKosongLabel;
+    @FXML
+    private Label lamaranMasukInfoLabel;
+    @FXML
+    private Label lamaranMasukLabel;
+    @FXML
+    private Hyperlink lihatSemuaLink;
+    @FXML
+    private ToggleButton lowonganMenu;
+    @FXML
+    private Label lowonganTersediaInfoLabel;
+    @FXML
+    private Label lowonganTersediaLabel;
+    @FXML
+    private BorderPane mainBorderPane;
+    @FXML
+    private Label namaUserLabel;
+    @FXML
+    private Label pelamarTerdaftarInfoLabel;
+    @FXML
+    private Label pelamarTerdaftarLabel;
+    @FXML
+    private Label peranUserLabel;
+    @FXML
+    private ToggleButton perusahaanMenu;
+    @FXML
+    private Label perusahaanMitraInfoLabel;
+    @FXML
+    private Label perusahaanMitraLabel;
+    @FXML
+    private Label tanggalLabel;
+    @FXML
+    private VBox tindakLanjutBox;
+    @FXML
+    private Label tindakLanjutKosongLabel;
 
     private static final String KELAS_MENU_AKTIF = "menu-admin-aktif";
     private static final String KELAS_MENU_NONAKTIF = "menu-admin-nonaktif";
@@ -84,6 +120,14 @@ public class DashboardAdminController {
 
         halamanDashboardAwal = mainBorderPane.getCenter();
         aturMenuAktif(dashboardMenu);
+
+        if (cariField != null) {
+            cariField.textProperty().addListener((obs, lama, baru) -> {
+                if (mainBorderPane.getCenter() == halamanDashboardAwal) {
+                    filterLamaranTerbaru(baru);
+                }
+            });
+        }
     }
 
     private void tampilkanProfil() {
@@ -113,7 +157,35 @@ public class DashboardAdminController {
         jumlahAdminMenuLabel.setText(String.valueOf(stat.getTotalAdmin()));
         jumlahLamaranMenuLabel.setText(String.valueOf(stat.getLamaranBelumDitinjau()));
 
-        tampilkanDaftarLamaran(dao.getLamaranTerbaru());
+        semuaLamaranTerbaru = dao.getLamaranTerbaru();
+        if (cariField != null && cariField.getText() != null && !cariField.getText().trim().isEmpty()) {
+            filterLamaranTerbaru(cariField.getText());
+        } else {
+            tampilkanDaftarLamaran(semuaLamaranTerbaru);
+        }
+    }
+
+    private void filterLamaranTerbaru(String keyword) {
+        String kunci = keyword == null ? "" : keyword.toLowerCase().trim();
+        if (kunci.isEmpty()) {
+            tampilkanDaftarLamaran(semuaLamaranTerbaru);
+            return;
+        }
+
+        List<LamaranTerbaru> hasilFilter = new ArrayList<>();
+        for (LamaranTerbaru lamaran : semuaLamaranTerbaru) {
+            boolean cocokNama = lamaran.getNamaPelamar() != null
+                    && lamaran.getNamaPelamar().toLowerCase().contains(kunci);
+            boolean cocokPosisi = lamaran.getPosisi() != null
+                    && lamaran.getPosisi().toLowerCase().contains(kunci);
+            boolean cocokStatus = lamaran.getStatus() != null
+                    && lamaran.getStatus().toLowerCase().contains(kunci);
+
+            if (cocokNama || cocokPosisi || cocokStatus) {
+                hasilFilter.add(lamaran);
+            }
+        }
+        tampilkanDaftarLamaran(hasilFilter);
     }
 
     private void tampilkanDaftarLamaran(List<LamaranTerbaru> listLamaran) {
@@ -289,13 +361,13 @@ public class DashboardAdminController {
 
     private void aturMenuAktif(ToggleButton menuAktif) {
         ToggleButton[] semuaMenu = {
-            dashboardMenu,
-            lowonganMenu,
-            lamaranMenu,
-            perusahaanMenu,
-            itemChecklistMenu,
-            jenisDisabilitasMenu,
-            akunAdminMenu
+                dashboardMenu,
+                lowonganMenu,
+                lamaranMenu,
+                perusahaanMenu,
+                itemChecklistMenu,
+                jenisDisabilitasMenu,
+                akunAdminMenu
         };
 
         for (ToggleButton menu : semuaMenu) {
@@ -304,9 +376,8 @@ public class DashboardAdminController {
             }
             menu.setStyle(null);
             menu.getStyleClass().removeAll(
-                KELAS_MENU_AKTIF,
-                KELAS_MENU_NONAKTIF
-            );
+                    KELAS_MENU_AKTIF,
+                    KELAS_MENU_NONAKTIF);
             menu.getStyleClass().add(KELAS_MENU_NONAKTIF);
             menu.setSelected(false);
         }

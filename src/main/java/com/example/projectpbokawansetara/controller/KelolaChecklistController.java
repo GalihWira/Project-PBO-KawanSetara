@@ -7,6 +7,7 @@ import com.example.projectpbokawansetara.dao.ChecklistDAO;
 import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.ItemChecklist;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -90,6 +91,20 @@ public class KelolaChecklistController {
 
         namaItemField.textProperty().addListener((obs, lama, baru) -> updatePreview());
         kategoriComboBox.valueProperty().addListener((obs, lama, baru) -> updatePreview());
+
+        Platform.runLater(() -> {
+            if (itemTable.getScene() != null) {
+                TextField searchAtas = (TextField) itemTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (itemTable.getScene() != null) {
+                            cariItemField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void muatKategori() {

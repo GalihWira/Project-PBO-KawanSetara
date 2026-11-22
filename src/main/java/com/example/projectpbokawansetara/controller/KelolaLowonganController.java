@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import com.example.projectpbokawansetara.dao.LowonganDAO;
 import com.example.projectpbokawansetara.model.Lowongan;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -101,6 +102,20 @@ public class KelolaLowonganController {
             terapkanFilter();
         });
         loadDataLowongan();
+
+        Platform.runLater(() -> {
+            if (lowonganTable.getScene() != null) {
+                TextField searchAtas = (TextField) lowonganTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (lowonganTable.getScene() != null) {
+                            cariPekerjaanField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void setupKolomTabel() {

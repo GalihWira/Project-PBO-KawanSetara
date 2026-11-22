@@ -10,6 +10,7 @@ import java.util.Locale;
 import com.example.projectpbokawansetara.dao.LamaranDAO;
 import com.example.projectpbokawansetara.model.Lamaran;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -79,6 +80,20 @@ public class KelolaLamaranController {
 
         sembunyikanPesan();
         loadDataLamaran();
+
+        Platform.runLater(() -> {
+            if (lamaranTable.getScene() != null) {
+                TextField searchAtas = (TextField) lamaranTable.getScene().lookup("#cariField");
+                if (searchAtas != null && searchAtas != cariField) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (lamaranTable.getScene() != null) {
+                            cariField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void loadDataLamaran() {

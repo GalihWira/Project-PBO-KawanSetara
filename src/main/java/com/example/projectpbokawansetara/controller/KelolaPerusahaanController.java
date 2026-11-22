@@ -9,6 +9,7 @@ import com.example.projectpbokawansetara.helper.DialogHelper;
 import com.example.projectpbokawansetara.model.Perusahaan;
 import com.example.projectpbokawansetara.service.PerusahaanService;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
@@ -97,6 +98,20 @@ public class KelolaPerusahaanController {
         });
 
         loadDataPerusahaan();
+
+        Platform.runLater(() -> {
+            if (perusahaanTable.getScene() != null) {
+                TextField searchAtas = (TextField) perusahaanTable.getScene().lookup("#cariField");
+                if (searchAtas != null) {
+                    searchAtas.clear();
+                    searchAtas.textProperty().addListener((obs, lama, baru) -> {
+                        if (perusahaanTable.getScene() != null) {
+                            cariPerusahaanField.setText(baru);
+                        }
+                    });
+                }
+            }
+        });
     }
 
     private void loadDataPerusahaan() {
