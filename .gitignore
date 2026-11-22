@@ -10,3 +10,11 @@ target/
 # Mengabaikan file sistem operasi
 .DS_Store
 Thumbs.db
+
+# Password MySQL per laptop
+db.properties
+.vscode/
+
+*.session.sql
+
+uploads/

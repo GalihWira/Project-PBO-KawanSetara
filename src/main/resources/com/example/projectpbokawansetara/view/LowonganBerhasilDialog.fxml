@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.TextFlow?>
+
+<VBox prefWidth="440.0" spacing="12.0" styleClass="card" stylesheets="@../../../../css/style.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.projectpbokawansetara.controller.LowonganBerhasilController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
+    </padding>
+    <children>
+        <HBox spacing="14.0">
+            <children>
+                <StackPane maxHeight="36.0" maxWidth="36.0" minHeight="36.0" minWidth="36.0" prefHeight="36.0" prefWidth="36.0" style="-fx-background-color: #DCFAE6; -fx-background-radius: 18;">
+                    <children>
+                        <Label style="-fx-text-fill: #079455; -fx-font-size: 13px; -fx-font-weight: bold;" text="✓"/>
+                    </children>
+                </StackPane>
+                <VBox spacing="6.0" HBox.hgrow="ALWAYS">
+                    <children>
+                        <Label fx:id="judulLabel" style="-fx-font-size: 14px;" styleClass="section-title" text="Lowongan disimpan"/>
+                        <TextFlow fx:id="pesanTextFlow" lineSpacing="3.0">
+                            <children>
+                                <Text fx:id="posisiText" fill="#344054" style="-fx-font-size: 13px; -fx-font-weight: 600;" text="Staf Administrasi Data"/>
+                                <Text fx:id="pesanText" fill="#667085" style="-fx-font-size: 13px;" text=" di PT Arunika Data sekarang tampil di pencarian pelamar."/>
+                            </children>
+                        </TextFlow>
+                    </children>
+                </VBox>
+            </children>
+        </HBox>
+        <HBox alignment="CENTER_RIGHT" spacing="8.0">
+            <children>
+                <Region HBox.hgrow="ALWAYS"/>
+                <Button fx:id="tambahLagiButton" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-secondary" text="Tambah lagi"/>
+                <Button fx:id="lihatDaftarButton" mnemonicParsing="false" prefHeight="32.0" styleClass="btn-primary" text="Lihat daftar lowongan"/>
+            </children>
+        </HBox>
+    </children>
+</VBox>

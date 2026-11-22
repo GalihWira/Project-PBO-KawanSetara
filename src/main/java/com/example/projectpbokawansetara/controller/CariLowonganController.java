@@ -1,0 +1,614 @@
+package com.example.projectpbokawansetara.controller;
+
+import java.sql.SQLException;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.stream.Collectors;
+
+import com.example.projectpbokawansetara.dao.LowonganDAO;
+import com.example.projectpbokawansetara.dao.PelamarDAO;
+import com.example.projectpbokawansetara.model.Keahlian;
+import com.example.projectpbokawansetara.model.Lowongan;
+import com.example.projectpbokawansetara.model.Pelamar;
+import com.example.projectpbokawansetara.model.Session;
+
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.Region;
+import javafx.scene.layout.VBox;
+
+public class CariLowonganController {
+
+    @FXML
+    private CheckBox fullTimeCheckBox;
+
+    @FXML
+    private CheckBox partTimeCheckBox;
+
+    @FXML
+    private Label fullTimeJumlahLabel;
+
+    @FXML
+    private Label partTimeJumlahLabel;
+
+    @FXML
+    private VBox lokasiFilterBox;
+
+    @FXML
+    private TextField gajiMinimumField;
+
+    @FXML
+    private TextField kataKunciField;
+
+    @FXML
+    private ComboBox<String> urutkanComboBox;
+
+    @FXML
+    private Label jumlahLowonganLabel;
+
+    @FXML
+    private Label ringkasanFilterLabel;
+
+    @FXML
+    private VBox daftarLowonganBox;
+
+    @FXML
+    private Label kosongLabel;
+
+    @FXML
+    private Label infoHalamanLabel;
+
+    @FXML
+    private Button sebelumnyaButton;
+
+    @FXML
+    private Button berikutnyaButton;
+
+    @FXML
+    private Button resetFilterButton;
+
+    private DashboardPelamarController dashboardController;
+
+    private final LowonganDAO lowonganDAO = new LowonganDAO();
+
+    private List<Lowongan> semuaLowongan = new ArrayList<>();
+
+    private List<Lowongan> hasilFilterSaatIni = new ArrayList<>();
+
+    private int halamanSekarang = 1;
+    private final int jumlahPerHalaman = 5;
+    private List<Keahlian> keahlianPelamar = new ArrayList<>();
+    private final PelamarDAO pelamarDAO = new PelamarDAO();
+
+    @FXML
+    private void initialize() {
+        urutkanComboBox.getItems().addAll(
+                "Paling cocok",
+                "Gaji tertinggi",
+                "Gaji terendah",
+                "Nama pekerjaan A-Z");
+
+        urutkanComboBox.setValue("Paling cocok");
+        urutkanComboBox.setOnAction(event -> terapkanFilter());
+
+        muatLowongan();
+        terapkanFilter();
+
+        kataKunciField.textProperty().addListener((observable, nilaiLama, nilaiBaru) -> {
+            terapkanFilter();
+        });
+
+        gajiMinimumField.textProperty().addListener((observable, nilaiLama, nilaiBaru) -> {
+            terapkanFilter();
+        });
+    }
+
+    public void setDashboardController(DashboardPelamarController controller) {
+        this.dashboardController = controller;
+    }
+
+    private void muatLowongan() {
+        try {
+            semuaLowongan = lowonganDAO.getSemuaLowongan();
+            if (Session.getCurrentUser() instanceof Pelamar pelamar) {
+                keahlianPelamar = pelamarDAO.getKeahlianByPelamar(pelamar.getIdPengguna());
+            }
+
+            hitungJenisLowongan();
+            buatFilterLokasi();
+            terapkanFilter();
+
+        } catch (SQLException e) {
+            System.err.println("Gagal mengambil data lowongan.");
+            e.printStackTrace();
+        }
+    }
+
+    private void terapkanFilter() {
+        String kataKunci = kataKunciField.getText()
+                .trim()
+                .toLowerCase();
+
+        double gajiMinimum = 0;
+
+        try {
+            if (!gajiMinimumField.getText().isBlank()) {
+                gajiMinimum = Double.parseDouble(ambilAngka(gajiMinimumField.getText()));
+            }
+        } catch (NumberFormatException e) {
+            gajiMinimum = 0;
+        }
+
+        final double batasGaji = gajiMinimum;
+
+        List<String> lokasiDipilih = ambilLokasiDipilih();
+
+        List<Lowongan> hasilFilter = new ArrayList<>(
+                semuaLowongan.stream().filter(lowongan -> {
+                    String namaPekerjaan = lowongan.getNamaPekerjaan() != null
+                            ? lowongan.getNamaPekerjaan().toLowerCase()
+                            : "";
+
+                    String namaPerusahaan = lowongan.getPerusahaan() != null
+                            && lowongan.getPerusahaan().getNamaPerusahaan() != null
+                                    ? lowongan.getPerusahaan().getNamaPerusahaan().toLowerCase()
+                                    : "";
+
+                    boolean cocokKataKunci = namaPekerjaan.contains(kataKunci)
+                            || namaPerusahaan.contains(kataKunci);
+
+                    boolean cocokJenis = false;
+
+                    if (fullTimeCheckBox.isSelected()
+                            && "full time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
+                        cocokJenis = true;
+                    }
+
+                    if (partTimeCheckBox.isSelected()
+                            && "part time".equalsIgnoreCase(lowongan.getJenisLowongan())) {
+                        cocokJenis = true;
+                    }
+
+                    boolean cocokLokasi = lokasiDipilih.isEmpty()
+                            || lokasiDipilih.stream().anyMatch(lokasi -> lokasi.equalsIgnoreCase(lowongan.getLokasi()));
+
+                    boolean cocokGaji = lowongan.getGaji() >= batasGaji;
+                    return cocokKataKunci && cocokJenis && cocokLokasi && cocokGaji;
+                })
+                        .toList());
+
+        String urutan = urutkanComboBox.getValue();
+
+        if (urutan != null) {
+            switch (urutan) {
+                case "Paling cocok":
+                    hasilFilter.sort((a, b) -> {
+                        int[] skorB = hitungSkorKecocokan(b);
+                        int[] skorA = hitungSkorKecocokan(a);
+                        double rasioB = skorB[1] == 0 ? 0.0 : (double) skorB[0] / skorB[1];
+                        double rasioA = skorA[1] == 0 ? 0.0 : (double) skorA[0] / skorA[1];
+                        int bandingRasio = Double.compare(rasioB, rasioA);
+                        if (bandingRasio != 0) {
+                            return bandingRasio;
+                        }
+                        return Integer.compare(skorB[0], skorA[0]);
+                    });
+                    break;
+                case "Gaji tertinggi":
+                    hasilFilter.sort((a, b) -> Double.compare(b.getGaji(), a.getGaji()));
+                    break;
+
+                case "Gaji terendah":
+                    hasilFilter.sort((a, b) -> Double.compare(a.getGaji(), b.getGaji()));
+                    break;
+
+                case "Nama pekerjaan A-Z":
+                    hasilFilter.sort((a, b) -> a.getNamaPekerjaan().compareToIgnoreCase(
+                            b.getNamaPekerjaan()));
+                    break;
+            }
+        }
+
+        hasilFilterSaatIni = new ArrayList<>(hasilFilter);
+        halamanSekarang = 1;
+        tampilkanHalaman();
+    }
+
+    private void hitungJenisLowongan() {
+        long jumlahFullTime = semuaLowongan.stream()
+                .filter(l -> "full time".equalsIgnoreCase(l.getJenisLowongan()))
+                .count();
+
+        long jumlahPartTime = semuaLowongan.stream()
+                .filter(l -> "part time".equalsIgnoreCase(l.getJenisLowongan()))
+                .count();
+
+        fullTimeJumlahLabel.setText(String.valueOf(jumlahFullTime));
+        partTimeJumlahLabel.setText(String.valueOf(jumlahPartTime));
+    }
+
+    private void buatFilterLokasi() {
+        lokasiFilterBox.getChildren().clear();
+
+        Map<String, Long> jumlahPerLokasi = semuaLowongan.stream()
+                .filter(l -> l.getLokasi() != null && !l.getLokasi().isBlank())
+                .collect(Collectors.groupingBy(
+                        l -> l.getLokasi().trim(),
+                        TreeMap::new,
+                        Collectors.counting()));
+
+        for (Map.Entry<String, Long> entry : jumlahPerLokasi.entrySet()) {
+            String lokasi = entry.getKey();
+            long jumlah = entry.getValue();
+
+            CheckBox checkBox = new CheckBox(lokasi);
+            checkBox.getStyleClass().add("checkbox-filter");
+            checkBox.setOnAction(event -> terapkanFilter());
+
+            Label jumlahLabel = new Label(String.valueOf(jumlah));
+            jumlahLabel.getStyleClass().add("teks-jumlah-filter");
+
+            HBox baris = new HBox();
+            baris.getStyleClass().add("rata-kiri-tengah");
+            Region spacer = new Region();
+            HBox.setHgrow(spacer, Priority.ALWAYS);
+            baris.getChildren().addAll(checkBox, spacer, jumlahLabel);
+
+            lokasiFilterBox.getChildren().add(baris);
+        }
+    }
+
+    private void tampilkanLowongan(List<Lowongan> daftar) {
+        daftarLowonganBox.getChildren().clear();
+
+        NumberFormat formatRupiah = NumberFormat.getCurrencyInstance(new Locale("id", "ID"));
+        formatRupiah.setMaximumFractionDigits(0);
+
+        for (Lowongan lowongan : daftar) {
+            String namaPerusahaan = lowongan.getPerusahaan() != null
+                    ? lowongan.getPerusahaan().getNamaPerusahaan()
+                    : "Perusahaan";
+
+            Label avatar = buatAvatar(namaPerusahaan);
+            avatar.setMinWidth(44);
+            avatar.setPrefWidth(44);
+            avatar.setMaxWidth(44);
+
+            Label nama = new Label(lowongan.getNamaPekerjaan() != null
+                    ? lowongan.getNamaPekerjaan()
+                    : "-");
+            nama.getStyleClass().add("nama-lowongan");
+            nama.setMaxWidth(Double.MAX_VALUE);
+            nama.setWrapText(false);
+            nama.setEllipsisString("...");
+
+            String lokasi = (lowongan.getLokasi() != null && !lowongan.getLokasi().isBlank())
+                    ? lowongan.getLokasi()
+                    : "-";
+
+            Label perusahaanLokasi = new Label(namaPerusahaan + " · " + lokasi);
+            perusahaanLokasi.getStyleClass().add("perusahaan-lowongan");
+            perusahaanLokasi.setMaxWidth(Double.MAX_VALUE);
+            perusahaanLokasi.setEllipsisString("...");
+
+            VBox identitas = new VBox(3, nama, perusahaanLokasi);
+            identitas.getStyleClass().add("rata-kiri-tengah");
+            HBox.setHgrow(identitas, Priority.ALWAYS);
+
+            String jenisTeks = kapitalisasi(lowongan.getJenisLowongan());
+            Label jenis = new Label(jenisTeks);
+            jenis.getStyleClass().add("jenis-lowongan");
+
+            String durasiTeks = (lowongan.getDurasiKerja() != null
+                    && !lowongan.getDurasiKerja().isBlank())
+                            ? lowongan.getDurasiKerja()
+                            : "Durasi belum tersedia";
+
+            Label durasi = new Label(durasiTeks);
+            durasi.getStyleClass().add("detail-lowongan");
+
+            VBox kolomJenis = new VBox(4, jenis, durasi);
+            kolomJenis.getStyleClass().add("rata-kiri-tengah");
+            kolomJenis.setMinWidth(110);
+            kolomJenis.setPrefWidth(110);
+            kolomJenis.setMaxWidth(110);
+
+            int[] skor = hitungSkorKecocokan(lowongan);
+
+            Label kecocokan;
+            if (skor[1] == 0) {
+                kecocokan = new Label("Belum dihitung");
+                kecocokan.getStyleClass().add("nilai-kecocokan-kosong");
+            } else {
+                kecocokan = new Label("Cocok " + skor[0] + "/" + skor[1]);
+                kecocokan.getStyleClass().add("nilai-kecocokan");
+            }
+
+            Label ketCocok = new Label("Kecocokan");
+            ketCocok.getStyleClass().add("detail-lowongan");
+
+            VBox kolomCocok = new VBox(4, kecocokan, ketCocok);
+            kolomCocok.getStyleClass().add("rata-kiri-tengah");
+            kolomCocok.setMinWidth(95);
+            kolomCocok.setPrefWidth(95);
+            kolomCocok.setMaxWidth(95);
+
+            Label gaji = new Label(formatRupiah.format(lowongan.getGaji()));
+            gaji.getStyleClass().add("gaji-lowongan");
+            gaji.getStyleClass().add("teks-kanan");
+            gaji.setMaxWidth(Double.MAX_VALUE);
+
+            Label update = new Label("Baru saja");
+            update.getStyleClass().add("detail-lowongan");
+            update.getStyleClass().add("teks-kanan");
+            update.setMaxWidth(Double.MAX_VALUE);
+
+            VBox kolomGaji = new VBox(4, gaji, update);
+            kolomGaji.getStyleClass().add("informasi-gaji");
+            kolomGaji.setMinWidth(120);
+            kolomGaji.setPrefWidth(120);
+            kolomGaji.setMaxWidth(120);
+
+            HBox kartu = new HBox(16);
+            kartu.getStyleClass().add("kartu-lowongan-horizontal");
+            
+
+            kartu.getChildren().addAll(
+                    avatar,
+                    identitas,
+                    kolomJenis,
+                    kolomCocok,
+                    kolomGaji);
+
+            kartu.setOnMouseClicked(e -> {
+                if (dashboardController != null) {
+                    dashboardController.bukaDetailLowongan(lowongan);
+                }
+            });
+
+            daftarLowonganBox.getChildren().add(kartu);
+        }
+
+        boolean kosong = daftar.isEmpty();
+        kosongLabel.setVisible(kosong);
+        kosongLabel.setManaged(kosong);
+    }
+
+    private Label buatAvatar(String namaPerusahaan) {
+        String inisial = buatInisial(namaPerusahaan);
+
+        Label avatar = new Label(inisial);
+        avatar.getStyleClass().add("avatar-lowongan");
+        avatar.getStyleClass().add(tentukanWarnaAvatar(namaPerusahaan));
+        return avatar;
+    }
+
+    private String buatInisial(String nama) {
+        if (nama == null || nama.isBlank())
+            return "?";
+
+        List<String> kata = pecahKata(nama.trim());
+        StringBuilder sb = new StringBuilder();
+
+        for (String k : kata) {
+            if (k.equalsIgnoreCase("PT") || k.equalsIgnoreCase("CV") || k.isBlank())
+                continue;
+            sb.append(Character.toUpperCase(k.charAt(0)));
+            if (sb.length() >= 2)
+                break;
+        }
+
+        if (sb.length() == 0) {
+            sb.append(Character.toUpperCase(nama.charAt(0)));
+        }
+        return sb.toString();
+    }
+
+    private List<String> pecahKata(String teks) {
+        List<String> hasil = new ArrayList<>();
+        if (teks == null || teks.isEmpty()) {
+            return hasil;
+        }
+
+        StringBuilder kata = new StringBuilder();
+        for (int i = 0; i < teks.length(); i++) {
+            char c = teks.charAt(i);
+            if (Character.isWhitespace(c)) {
+                if (kata.length() > 0) {
+                    hasil.add(kata.toString());
+                    kata.setLength(0);
+                }
+            } else {
+                kata.append(c);
+            }
+        }
+        if (kata.length() > 0) {
+            hasil.add(kata.toString());
+        }
+        return hasil;
+    }
+
+    private String tentukanWarnaAvatar(String nama) {
+        if (nama == null)
+            return "avatar-biru";
+        int hash = Math.abs(nama.hashCode() % 6);
+        return switch (hash) {
+            case 0 -> "avatar-biru";
+            case 1 -> "avatar-ungu";
+            case 2 -> "avatar-cyan";
+            case 3 -> "avatar-oranye";
+            case 4 -> "avatar-hijau";
+            default -> "avatar-pink";
+        };
+    }
+
+    private String kapitalisasi(String teks) {
+        if (teks == null || teks.isBlank())
+            return "-";
+        return teks.substring(0, 1).toUpperCase() + teks.substring(1).toLowerCase();
+    }
+
+    private void tampilkanHalaman() {
+        int totalLowongan = hasilFilterSaatIni.size();
+        int totalHalaman = (int) Math.ceil((double) totalLowongan / jumlahPerHalaman);
+
+        int indeksAwal = (halamanSekarang - 1) * jumlahPerHalaman;
+        int indeksAkhir = Math.min(indeksAwal + jumlahPerHalaman, totalLowongan);
+
+        List<Lowongan> lowonganHalaman = hasilFilterSaatIni.subList(indeksAwal, indeksAkhir);
+
+        tampilkanLowongan(lowonganHalaman);
+
+        jumlahLowonganLabel.setText(totalLowongan + " lowongan");
+
+        ringkasanFilterLabel.setText(buatRingkasanFilter());
+
+        if (totalLowongan == 0) {
+            infoHalamanLabel.setText("Menampilkan 0 dari 0");
+        } else {
+            infoHalamanLabel.setText(
+                    "Menampilkan " + (indeksAwal + 1) + "-" + indeksAkhir + " dari " + totalLowongan);
+        }
+
+        sebelumnyaButton.setDisable(halamanSekarang <= 1);
+        berikutnyaButton.setDisable(halamanSekarang >= totalHalaman || totalHalaman == 0);
+    }
+
+    private String buatRingkasanFilter() {
+        List<String> bagian = new ArrayList<>();
+
+        if (fullTimeCheckBox.isSelected() && !partTimeCheckBox.isSelected()) {
+            bagian.add("Full time");
+        } else if (partTimeCheckBox.isSelected() && !fullTimeCheckBox.isSelected()) {
+            bagian.add("Part time");
+        }
+
+        List<String> lokasiDipilih = ambilLokasiDipilih();
+        if (!lokasiDipilih.isEmpty()) {
+            bagian.add(String.join(", ", lokasiDipilih));
+        }
+
+        String gajiTeks = ambilAngka(gajiMinimumField.getText());
+        if (!gajiTeks.isBlank() && !gajiTeks.equals("0")) {
+            try {
+                bagian.add(
+                        "min. Rp" + NumberFormat.getInstance(new Locale("id", "ID")).format(Long.parseLong(gajiTeks)));
+            } catch (NumberFormatException e) {
+                bagian.add("gaji tidak valid");
+            }
+        }
+
+        if (bagian.isEmpty())
+            return "";
+        return " · " + String.join(" · ", bagian);
+    }
+
+    private int[] hitungSkorKecocokan(Lowongan lowongan) {
+        List<Keahlian> dibutuhkan = lowongan.getDaftarKeahlian();
+        if (dibutuhkan == null || dibutuhkan.isEmpty()) {
+            return new int[] { 0, 0 };
+        }
+        if (keahlianPelamar == null || keahlianPelamar.isEmpty()) {
+            return new int[] { 0, dibutuhkan.size() };
+        }
+
+        java.util.Set<Integer> idKeahlianPelamar = new java.util.HashSet<>();
+        for (Keahlian k : keahlianPelamar) {
+            idKeahlianPelamar.add(k.getIdKeahlian());
+        }
+
+        int jumlahCocok = 0;
+        for (Keahlian k : dibutuhkan) {
+            if (idKeahlianPelamar.contains(k.getIdKeahlian())) {
+                jumlahCocok++;
+            }
+        }
+        return new int[] { jumlahCocok, dibutuhkan.size() };
+    }
+
+    @FXML
+    private void handleFilter(ActionEvent event) {
+        terapkanFilter();
+    }
+
+    @FXML
+    private void handleResetFilter(ActionEvent event) {
+        kataKunciField.clear();
+        gajiMinimumField.clear();
+
+        fullTimeCheckBox.setSelected(true);
+        partTimeCheckBox.setSelected(false);
+
+        for (CheckBox checkBox : ambilCheckBoxLokasi()) {
+            checkBox.setSelected(false);
+        }
+
+        urutkanComboBox.setValue("Paling cocok");
+
+        terapkanFilter();
+    }
+
+    @FXML
+    private void handleSebelumnya(ActionEvent event) {
+        if (halamanSekarang > 1) {
+            halamanSekarang--;
+            tampilkanHalaman();
+        }
+    }
+
+    @FXML
+    private void handleBerikutnya(ActionEvent event) {
+        int totalHalaman = (int) Math.ceil(
+                (double) hasilFilterSaatIni.size() / jumlahPerHalaman);
+
+        if (halamanSekarang < totalHalaman) {
+            halamanSekarang++;
+            tampilkanHalaman();
+        }
+    }
+
+    private List<CheckBox> ambilCheckBoxLokasi() {
+        List<CheckBox> daftarCheckBox = new ArrayList<>();
+        for (javafx.scene.Node node : lokasiFilterBox.getChildren()) {
+            if (node instanceof HBox baris) {
+                for (javafx.scene.Node anak : baris.getChildren()) {
+                    if (anak instanceof CheckBox checkBox) {
+                        daftarCheckBox.add(checkBox);
+                    }
+                }
+            }
+        }
+        return daftarCheckBox;
+    }
+
+    private List<String> ambilLokasiDipilih() {
+        List<String> lokasiDipilih = new ArrayList<>();
+        for (CheckBox checkBox : ambilCheckBoxLokasi()) {
+            if (checkBox.isSelected()) {
+                lokasiDipilih.add(checkBox.getText());
+            }
+        }
+        return lokasiDipilih;
+    }
+
+    private String ambilAngka(String teks) {
+        StringBuilder angka = new StringBuilder();
+        for (char c : teks.toCharArray()) {
+            if (Character.isDigit(c)) {
+                angka.append(c);
+            }
+        }
+        return angka.toString();
+    }
+}

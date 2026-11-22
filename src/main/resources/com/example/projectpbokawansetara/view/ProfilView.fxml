@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.SVGPath?>
+
+<BorderPane
+    prefHeight="640.0"
+    prefWidth="1000.0"
+    styleClass="halaman-checklist"
+    stylesheets="@../../../../css/style.css"
+    xmlns="http://javafx.com/javafx/21"
+    xmlns:fx="http://javafx.com/fxml/1"
+    fx:controller="com.example.projectpbokawansetara.controller.ProfilController">
+    <center>
+        <VBox styleClass="halaman-checklist">
+            <HBox alignment="CENTER_LEFT" minHeight="48.0" prefHeight="48.0" maxHeight="48.0" styleClass="topbar">
+                <padding>
+                    <Insets left="24.0" right="24.0"/>
+                </padding>
+                <children>
+                    <Label styleClass="topbar-judul" text="Profil saya"/>
+                </children>
+            </HBox>
+            <ScrollPane fitToWidth="true" hbarPolicy="NEVER" styleClass="scroll-checklist" VBox.vgrow="ALWAYS">
+                <content>
+                    <VBox spacing="16.0" styleClass="halaman-checklist" maxWidth="Infinity">
+                        <padding>
+                            <Insets bottom="24.0" left="24.0" right="24.0" top="20.0"/>
+                        </padding>
+                        <children>
+                            <VBox spacing="4.0">
+                                <children>
+                                    <Label styleClass="judul-halaman" text="Profil saya"/>
+                                    <Label styleClass="subjudul-halaman" text="Periksa dan perbarui data diri kamu. Data ini dilihat admin saat kamu melamar." wrapText="true"/>
+                                </children>
+                            </VBox>
+                            <HBox fx:id="pesanBanner" alignment="CENTER_LEFT" managed="false" visible="false" spacing="10.0" styleClass="banner-error" maxWidth="Infinity">
+                                <padding>
+                                    <Insets bottom="12.0" left="14.0" right="14.0" top="12.0"/>
+                                </padding>
+                                <children>
+                                    <ImageView fitHeight="18.0" fitWidth="18.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../../../../images/icon_alert.png"/>
+                                        </image>
+                                    </ImageView>
+                                    <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                        <children>
+                                            <Label fx:id="pesanJudulLabel" styleClass="banner-judul-profil" text="Profil berhasil disimpan" wrapText="true"/>
+                                            <Label fx:id="pesanDetailLabel" styleClass="banner-detail-profil" text="Data diri kamu sudah diperbarui." wrapText="true"/>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+                            <HBox alignment="CENTER_LEFT" spacing="18.0" styleClass="kartu-profil">
+                                <children>
+                                    <StackPane fx:id="avatarPane" onMouseClicked="#handleKlikAvatar" maxHeight="72.0" maxWidth="72.0" minHeight="72.0" minWidth="72.0" prefHeight="72.0" prefWidth="72.0">
+                                        <cursor>
+                                            <Cursor fx:constant="HAND"/>
+                                        </cursor>
+                                        <children>
+                                            <Label fx:id="inisialLabel" alignment="CENTER" minHeight="72.0" minWidth="72.0" prefHeight="72.0" prefWidth="72.0" styleClass="avatar-profil" text="P"/>
+                                            <ImageView fx:id="fotoImageView" fitHeight="72.0" fitWidth="72.0" pickOnBounds="true" visible="false"/>
+                                            <StackPane maxHeight="26.0" maxWidth="26.0" minHeight="26.0" minWidth="26.0" prefHeight="26.0" prefWidth="26.0" styleClass="badge-kamera" translateX="2.0" translateY="2.0" StackPane.alignment="BOTTOM_RIGHT">
+                                                <children>
+                                                    <SVGPath content="M12 15.2a3.2 3.2 0 1 0 0-6.4 3.2 3.2 0 0 0 0 6.4z M9 2 7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z" fill="#344054" scaleX="0.62" scaleY="0.62"/>
+                                                </children>
+                                            </StackPane>
+                                        </children>
+                                    </StackPane>
+                                    <VBox alignment="CENTER_LEFT" spacing="2.0">
+                                        <children>
+                                            <Label fx:id="namaHeaderLabel" styleClass="nama-profil" text="Nama Pelamar"/>
+                                            <Label fx:id="emailHeaderLabel" styleClass="email-profil" text="email@gmail.com"/>
+                                            <HBox alignment="CENTER_LEFT" spacing="12.0">
+                                                <VBox.margin>
+                                                    <Insets top="10.0"/>
+                                                </VBox.margin>
+                                                <children>
+                                                    <Button fx:id="gantiFotoButton" mnemonicParsing="false" onAction="#handleGantiFoto" prefHeight="36.0" styleClass="tombol-ganti-foto" text="Ganti foto"/>
+                                                    <Label fx:id="fotoInfoLabel" styleClass="info-foto" text="JPG atau PNG, maksimal 2 MB"/>
+                                                    <Label fx:id="fotoBaruLabel" managed="false" styleClass="foto-baru" text="(belum disimpan)" visible="false"/>
+                                                </children>
+                                            </HBox>
+                                            <Label fx:id="fotoErrorLabel" managed="false" styleClass="error-profil" visible="false" wrapText="true">
+                                                <VBox.margin>
+                                                    <Insets top="6.0"/>
+                                                </VBox.margin>
+                                            </Label>
+                                        </children>
+                                    </VBox>
+                                </children>
+                            </HBox>
+                            <VBox spacing="16.0" styleClass="kartu-profil">
+                                <children>
+                                    <VBox spacing="2.0">
+                                        <children>
+                                            <Label styleClass="judul-kartu-profil" text="Data diri"/>
+                                            <Label styleClass="subjudul-kartu-profil" text="Email dipakai untuk masuk, jadi tidak bisa diubah di sini." wrapText="true"/>
+                                        </children>
+                                    </VBox>
+                                    <GridPane hgap="20.0" vgap="14.0">
+                                        <columnConstraints>
+                                            <ColumnConstraints percentWidth="50.0"/>
+                                            <ColumnConstraints percentWidth="50.0"/>
+                                        </columnConstraints>
+                                        <children>
+                                            <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="0">
+                                                <children>
+                                                    <Label styleClass="label-profil" text="Nama lengkap"/>
+                                                    <TextField fx:id="namaField" prefHeight="42.0" promptText="Nama lengkap" styleClass="input-profil"/>
+                                                    <Label fx:id="namaErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="0">
+                                                <children>
+                                                    <Label styleClass="label-profil" text="Email"/>
+                                                    <TextField fx:id="emailField" editable="false" focusTraversable="false" prefHeight="42.0" styleClass="input-profil,input-profil-terkunci"/>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="1">
+                                                <children>
+                                                    <Label styleClass="label-profil" text="Nomor telepon"/>
+                                                    <TextField fx:id="teleponField" prefHeight="42.0" promptText="08xxxxxxxxxx" styleClass="input-profil"/>
+                                                    <Label fx:id="teleponErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="6.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                                                <children>
+                                                    <Label styleClass="label-profil" text="Tanggal lahir"/>
+                                                    <DatePicker fx:id="tanggalLahirPicker" editable="false" maxWidth="Infinity" prefHeight="42.0" promptText="Pilih tanggal" styleClass="input-profil"/>
+                                                    <Label fx:id="usiaLabel" styleClass="info-profil" text="Usia dihitung otomatis dari tanggal lahir"/>
+                                                    <Label fx:id="tanggalLahirErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                                </children>
+                                            </VBox>
+                                            <VBox spacing="6.0" GridPane.columnIndex="0" GridPane.rowIndex="2">
+                                                <children>
+                                                    <Label styleClass="label-profil" text="Pendidikan terakhir"/>
+                                                    <ComboBox fx:id="pendidikanComboBox" maxWidth="Infinity" prefHeight="42.0" promptText="Pilih pendidikan" styleClass="input-profil"/>
+                                                    <Label fx:id="pendidikanErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                                </children>
+                                            </VBox>
+                                        </children>
+                                    </GridPane>
+                                </children>
+                            </VBox>
+                            <VBox spacing="14.0" styleClass="kartu-profil">
+                                <children>
+                                    <VBox spacing="2.0">
+                                        <children>
+                                            <Label styleClass="judul-kartu-profil" text="Jenis disabilitas"/>
+                                            <Label styleClass="subjudul-kartu-profil" text="Centang semua yang sesuai. Boleh lebih dari satu." wrapText="true"/>
+                                        </children>
+                                    </VBox>
+                                    <FlowPane fx:id="disabilitasPane" hgap="24.0" vgap="14.0"/>
+                                    <Label fx:id="disabilitasErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                </children>
+                            </VBox>
+                            <VBox spacing="4.0" styleClass="kartu-profil">
+                                <children>
+                                    <VBox spacing="2.0">
+                                        <VBox.margin>
+                                            <Insets bottom="8.0"/>
+                                        </VBox.margin>
+                                        <children>
+                                            <Label styleClass="judul-kartu-profil" text="Dokumen"/>
+                                            <Label styleClass="subjudul-kartu-profil" text="Format PDF, ukuran maksimal 2 MB per file." wrapText="true"/>
+                                        </children>
+                                    </VBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="14.0">
+                                        <padding>
+                                            <Insets bottom="10.0" top="10.0"/>
+                                        </padding>
+                                        <children>
+                                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../../images/icon_file.png"/>
+                                                </image>
+                                            </ImageView>
+                                            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label styleClass="nama-dokumen" text="CV"/>
+                                                    <Label fx:id="cvFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
+                                                </children>
+                                            </VBox>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatCvButton" mnemonicParsing="false" onAction="#handleLihatCv"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiCv" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
+                                        </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="baris-pemisah">
+                                        <padding>
+                                            <Insets bottom="10.0" top="10.0"/>
+                                        </padding>
+                                        <children>
+                                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../../images/icon_file.png"/>
+                                                </image>
+                                            </ImageView>
+                                            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label styleClass="nama-dokumen" text="Ijazah"/>
+                                                    <Label fx:id="ijazahFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
+                                                </children>
+                                            </VBox>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatIjazahButton" mnemonicParsing="false" onAction="#handleLihatIjazah"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiIjazah" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
+                                        </children>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" spacing="14.0" styleClass="baris-pemisah">
+                                        <padding>
+                                            <Insets bottom="10.0" top="10.0"/>
+                                        </padding>
+                                        <children>
+                                            <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                                <image>
+                                                    <Image url="@../../../../images/icon_file.png"/>
+                                                </image>
+                                            </ImageView>
+                                            <VBox spacing="2.0" HBox.hgrow="ALWAYS">
+                                                <children>
+                                                    <Label styleClass="nama-dokumen" text="Surat keterangan disabilitas"/>
+                                                    <Label fx:id="skdFileLabel" styleClass="file-dokumen" text="Belum ada file"/>
+                                                </children>
+                                            </VBox>
+                                            <HBox spacing="8.0" alignment="CENTER_LEFT">
+                                                <Button fx:id="lihatSkdButton" mnemonicParsing="false" onAction="#handleLihatSkd"
+                                                        prefHeight="38.0" prefWidth="72.0" disable="true"
+                                                        style="-fx-background-color: #EFF4FF; -fx-text-fill: #1F4E8C; -fx-font-weight: 600; -fx-background-radius: 8; -fx-border-color: #B2CCFF; -fx-border-radius: 8; -fx-cursor: hand;"
+                                                        text="Lihat"/>
+                                                <Button mnemonicParsing="false" onAction="#handleGantiSkd" prefHeight="38.0" styleClass="tombol-ganti" text="Ganti"/>
+                                            </HBox>
+                                        </children>
+                                    </HBox>
+                                    <Label fx:id="dokumenErrorLabel" managed="false" visible="false" styleClass="error-profil" wrapText="true"/>
+                                </children>
+                            </VBox>
+                            <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                                <children>
+                                    <Region HBox.hgrow="ALWAYS"/>
+                                    <Button fx:id="batalButton" mnemonicParsing="false" onAction="#handleBatal" prefHeight="42.0" styleClass="tombol-batal,tombol-profil" text="Batal"/>
+                                    <Button fx:id="simpanButton" mnemonicParsing="false" onAction="#handleSimpan" prefHeight="42.0" styleClass="tombol-simpan,tombol-profil" text="Simpan perubahan"/>
+                                </children>
+                            </HBox>
+                        </children>
+                    </VBox>
+                </content>
+            </ScrollPane>
+        </VBox>
+    </center>
+</BorderPane>
