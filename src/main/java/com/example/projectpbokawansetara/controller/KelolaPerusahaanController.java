@@ -207,13 +207,8 @@ public class KelolaPerusahaanController {
         String telepon = noTeleponField.getText() == null ? "" : noTeleponField.getText().trim();
         String deskripsi = deskripsiArea.getText() == null ? "" : deskripsiArea.getText().trim();
 
-        if (nama.isEmpty() || alamat.isEmpty() || email.isEmpty() || telepon.isEmpty() || deskripsi.isEmpty()) {
-            setError(true, "Data belum lengkap", "Semua kolom (nama, alamat, email, telepon, dan deskripsi) wajib diisi.");
-            return;
-        }
-
         try {
-            perusahaanService.validasiPerusahaan(nama, email, telepon);
+            perusahaanService.validasiPerusahaan(nama, alamat, email, telepon, deskripsi);
         } catch (ValidationException e) {
             setError(true, "Data belum valid", e.getMessage());
             return;

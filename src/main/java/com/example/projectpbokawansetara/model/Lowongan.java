@@ -35,12 +35,13 @@ public class Lowongan {
         this.daftarKeahlian = daftarKeahlian;
     }
 
-    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, 
-        String deskripsi, String lokasi, double gaji, String status) {
-        this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);}
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan,
+            String deskripsi, String lokasi, double gaji, String status) {
+        this(idLowongan, perusahaan, namaPekerjaan, deskripsi, lokasi, gaji, null, status);
+    }
 
-    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan, 
-        String deskripsi, String lokasi, double gaji, String jenisLowongan, String status) {
+    public Lowongan(int idLowongan, Perusahaan perusahaan, String namaPekerjaan,
+            String deskripsi, String lokasi, double gaji, String jenisLowongan, String status) {
         this.idLowongan = idLowongan;
         this.perusahaan = perusahaan;
         this.namaPekerjaan = namaPekerjaan;
@@ -115,27 +116,28 @@ public class Lowongan {
         this.status = status;
     }
 
-    public int getIdAdmin() { 
-        return idAdmin; 
+    public int getIdAdmin() {
+        return idAdmin;
     }
 
-    public void setIdAdmin(int idAdmin) { 
-        this.idAdmin = idAdmin; 
+    public void setIdAdmin(int idAdmin) {
+        this.idAdmin = idAdmin;
     }
 
     public String getPersyaratan() {
-        return persyaratan; 
+        return persyaratan;
     }
 
     public void setPersyaratan(String persyaratan) {
-        this.persyaratan = persyaratan; 
+        this.persyaratan = persyaratan;
     }
 
-    public int getJumlahPelamar() { 
-        return jumlahPelamar; 
+    public int getJumlahPelamar() {
+        return jumlahPelamar;
     }
-    public void setJumlahPelamar(int jumlahPelamar) { 
-        this.jumlahPelamar = jumlahPelamar; 
+
+    public void setJumlahPelamar(int jumlahPelamar) {
+        this.jumlahPelamar = jumlahPelamar;
     }
 
     @Override
